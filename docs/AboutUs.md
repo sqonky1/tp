@@ -9,12 +9,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### Zhuoyu
+### Zhang Zhuoyu
 
 <img src="images/wumingxin238.png" width="200px">
 
 [[github](https://github.com/wumingxin238)]
-[[portfolio](team/johndoe.md)]
 
-* Role: Model IC
+* Role: Developer, Model IC
 * Responsibilities: In charge of the Model Folder
