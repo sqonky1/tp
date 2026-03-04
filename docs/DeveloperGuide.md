@@ -329,6 +329,9 @@ Use case ends.
 * 3a. CampusBridge can’t find any contacts matching the search query.
     * 3a1. CampusBridge shows an error message indicating that there are no contacts.
 
+* 3b. CampusBridge detects that the email format is invalid.
+    * 3b1. CampusBridge shows an error message indicating that the email format is invalid.
+  
   Use case ends.
 
 *{More to be added}*
