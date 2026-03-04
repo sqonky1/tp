@@ -288,53 +288,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
-
-**Use case: Delete a person**
-
-**MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
-
-* 3a. The given index is invalid.
-
-    * 3a1. AddressBook shows an error message.
-
-      Use case resumes at step 2.
-
-**Use Case: UC05 - Search contacts**
-
-**Preconditions: Application is running**
-
-**MSS:**
-1. User types a search query containing either a name or email.
-2. User submits search.
-3. CampusBridge shows the list of contacts matching the search query (email or name).
-
-Use case ends.
-
-**Extensions:**
-
-* 3a. CampusBridge can’t find any contacts matching the search query.
-    * 3a1. CampusBridge shows an error message indicating that there are no contacts.
-
-* 3b. CampusBridge detects that the email format is invalid.
-    * 3b1. CampusBridge shows an error message indicating that the email format is invalid.
-  
-  Use case ends.
-
-*{More to be added}*
+(For all use cases below, the **System** is the `CampusBridge` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use Case: UC02 - Edit a contact**
 
@@ -372,6 +326,66 @@ Use case ends.
     * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
 
   Use case resumes at step 2.
+  
+**Use Case: UC05 - Search contacts**
+
+**Preconditions: Application is running**
+
+**MSS:**
+1. User types a search query containing either a name or email.
+2. User submits search.
+3. CampusBridge shows the list of contacts matching the search query (email or name).
+
+Use case ends.
+
+**Extensions:**
+
+* 3a. CampusBridge can’t find any contacts matching the search query.
+    * 3a1. CampusBridge shows an error message indicating that there are no contacts.
+
+* 3b. CampusBridge detects that the email format is invalid.
+    * 3b1. CampusBridge shows an error message indicating that the email format is invalid.
+  
+  Use case ends.
+  
+  
+**Use Case: UC06 - Add a tag to an existing contact**
+
+**Preconditions: Application is running**
+
+**MSS:**
+1. User enters the command tag <contact email / contact index> <tag name>.
+2. CampusBridge validates the command format.
+3. CampusBridge checks that the contact exists.
+4. CampusBridge adds the tag to the specified contact.
+5. Tag is saved in storage
+6. CampusBridge displays a success message showing the updated contact.
+
+Use case ends.
+
+**Extensions:**
+* 2a. Invalid Command Format
+  * 2a1. CampusBridge displays an error message showing the correct command format.
+
+    Use case resumes at step 1.
+  
+
+* 3a. Contact Does Not Exist
+  * 3a1. CampusBridge informs the user that the contact cannot be found.
+
+    Use case ends.
+
+
+* 4a. Tag Already Exists for Contact
+  * 4a1. CampusBridge informs the user that the contact already has this tag.
+
+    Use case resumes at step 1.
+
+
+* 5a. Storage file cannot be written or accessed.
+  * 5a1. CampusBridge shows a failure message indicating that the list could not be saved.
+    
+    Use case ends.
 
 ### Non-Functional Requirements
 
