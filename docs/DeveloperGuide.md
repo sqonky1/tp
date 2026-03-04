@@ -315,6 +315,39 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 *{More to be added}*
 
+**Use Case: UC02 - Edit a contact**
+
+**Preconditions: Application is running and the user has added a contact.**
+
+**MSS:**
+1. User requests to list contacts.
+2. CampusBridge shows a list of contacts.
+3. User requests to edit a contact in the list.
+4. User provides new contact details for that contact.
+5. CampusBridge saves the new contact details.
+6. CampusBridge saves the updated list to storage.
+7. CampusBridge shows a success message.
+
+Use case ends.
+
+**Extension:**
+* 2a. The list is empty.
+    * 2a1. CampusBridge shows a failure message indicating that the contact list is empty.
+
+  Use case ends.
+* 3a. The given index/email is invalid.
+    * 3a1. CampusBridge shows a failure message indicating that the index/email is invalid.
+
+  Use case resumes at step 2.
+* 4a. The given new contact details does not follow the specified format.
+    * 4a1. CampusBridge shows a failure message indicating that input is invalid.
+
+  Use case resumes at step 2.
+* 6a. Storage file cannot be written or accessed.
+    * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
+
+  Use case resumes at step 2.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
