@@ -361,8 +361,43 @@ See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues
     * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
 
   Use case resumes at step 2.
-  
-  
+
+
+**Use Case: UC03 - Delete a contact**
+
+**Preconditions: Application is running and the user has added a contact.**
+
+**MSS:**
+1. User requests to list contacts.
+2. CampusBridge shows a list of contacts.
+3. User requests to delete a contact in the list.
+4. CampusBridge validates the input.
+5. CampusBridge deletes the contact from the list.
+6. CampusBridge saves the updated list in storage.
+7. CampusBridge shows a success message.
+
+
+Use case ends.
+
+**Extensions:**
+* 2a. The list is empty.
+
+  Use case ends.
+
+
+* 4a. The given index/email is invalid.
+    * 4a1. CampusBridge shows an error message indicating the invalid.
+    * 4a2. CampusBridge requests the user to re-enter input.
+
+  Use case resumes at step 3.
+
+
+* 6a. Storage file cannot be written or accessed.
+    * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
+
+  Use case ends.
+
+
 **Use Case: UC05 - Search contacts**
 
 **Preconditions: Application is running**
