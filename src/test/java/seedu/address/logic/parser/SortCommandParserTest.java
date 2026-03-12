@@ -52,7 +52,7 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_invalidOrderValue_address_throwsParseException() {
+    public void parse_invalidOrderAddress_throwsParseException() {
         assertParseFailure(parser, " o/address", SortCommandParser.MESSAGE_INVALID_ORDER);
     }
 

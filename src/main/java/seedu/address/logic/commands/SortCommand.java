@@ -10,6 +10,9 @@ import java.util.Comparator;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Sorts the person list by a specified order.
+ */
 public class SortCommand extends Command {
     public static final String COMMAND_WORD = "sort";
 
