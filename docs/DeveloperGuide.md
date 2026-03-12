@@ -299,104 +299,112 @@ See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues
 **Preconditions: Application is running**
 
 **MSS:**
-1. User provides contact details for contact.
-2. CampusBridge validates the input.
-3. CampusBridge saves the contact details to the contact list.
-4. CampusBridge saves the updated list to storage.
+1. User requests to add a contact.
+2. User provides the contact details.
+3. CampusBridge validates the input.
+4. CampusBridge adds the contact and updates the contact list.
 5. CampusBridge shows a success message.
 
 Use case ends.
 
 **Extension:**
-* 2a. User input is empty.
-  * 2a1. CampusBridge shows a failure message indicating that user input is empty.
-  * 2a2. CampusBridge requests the user to re-enter input.
+* 3a. Input does not follow the specified format.
+  * 3a1. CampusBridge shows an error message indicating the invalid format.
+  * 3a2. CampusBridge requests the user to re-enter input.
+  * 3a3. User enters a new input.
+  
+  Steps 3a1 - 3a3 are repeated until input is valid.\
+  Use case resumes at step 4.
 
-  Use case resumes at step 2.
-
-* 2b. User input does not follow the specified format.
-  * 2b1. CampusBridge shows a failure message indicating that input is invalid.
-  * 2b2. CampusBridge requests the user to re-enter input.
-
-  Use case resumes at step 2.
-
-* 2c. Email provided in contact details already exists in the contact list.
-  * 2c1. CampusBridge shows a failure message indicating that email already exists.
+* 3b. Email already exists in the contact list.
+  * 3b1. CampusBridge shows a failure message indicating that email already exists.
 
   Use case ends.
 
-* 4a. Storage file cannot be written or accessed.
-  * 4a1. CampusBridge shows a failure message indicating that the list could not be saved.
+* 4a. Contact cannot be added.
+    * 4a1. CampusBridge shows an error message indicating the contact could not be added.
+
+  Use case ends.
+
+* 4b. Storage file cannot be written or accessed.
+  * 4b1. CampusBridge shows an error message indicating the contact list could not be saved.
 
   Use case ends.
 
 
 #### Use Case: UC02 - Edit a contact
 
-**Preconditions: Application is running and the user has added a contact.**
+**Preconditions: Application is running and the user has added a contact**
 
 **MSS:**
-1. User requests to list contacts (UC04).
-2. CampusBridge shows a list of contacts.
-3. User requests to edit a contact in the list.
-4. User provides new contact details for that contact.
-5. CampusBridge saves the new contact details.
-6. CampusBridge saves the updated list to storage.
-7. CampusBridge shows a success message.
+1. User <ins>requests to list contacts (UC04)</ins>.
+2. User requests to edit a contact in the list.
+3. User provides new contact details for that contact.
+4. CampusBridge validates the input.
+5. CampusBridge edits the contact and updates the contact list.
+6. CampusBridge shows a success message.
 
 Use case ends.
 
 **Extension:**
-* 2a. The list is empty.
-  * 2a1. CampusBridge shows a failure message indicating that the contact list is empty.
+* 4a. Target contact identifier does not exist.
+  * 4a1. CampusBridge shows an error message indicating the contact does not exist.
 
   Use case ends.
 
-* 3a. The given index/email is invalid.
-  * 3a1. CampusBridge shows a failure message indicating that the index/email is invalid.
+* 4b. Input does not follow the specified format.
+    * 4b1. CampusBridge shows an error message indicating the invalid format.
+    * 4b2. CampusBridge requests the user to re-enter input.
+    * 4b3. User enters a new input.
 
-  Use case resumes at step 2.
+  Steps 4b1 - 4b3 are repeated until input is valid.\
+  Use case resumes at step 5.
 
-* 4a. The given new contact details does not follow the specified format.
-  * 4a1. CampusBridge shows a failure message indicating that input is invalid.
+* 5a. Contact cannot be updated.
+    * 5a1. CampusBridge shows an error message indicating the contact could not be updated.
 
-  Use case resumes at step 2.
+  Use case ends.
 
-* 6a. Storage file cannot be written or accessed.
-  * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
+* 5b. Storage file cannot be written or accessed.
+  * 5b1. CampusBridge shows an error message indicating the contact list could not be saved.
 
-  Use case resumes at step 2.
+  Use case ends.
 
 
 #### Use Case: UC03 - Delete a contact
 
-**Preconditions: Application is running and the user has added a contact.**
+**Preconditions: Application is running and the user has added a contact**
 
 **MSS:**
-1. User requests to list contacts (UC04).
-2. CampusBridge shows a list of contacts.
-3. User requests to delete a contact in the list.
-4. CampusBridge validates the input.
-5. CampusBridge deletes the contact from the list.
-6. CampusBridge saves the updated list in storage.
-7. CampusBridge shows a success message.
+1. User <ins>requests to list contacts (UC04)</ins>.
+2. User requests to delete a contact in the list.
+3. CampusBridge validates the input.
+4. CampusBridge deletes the contact and updates the contact list.
+5. CampusBridge shows a success message.
 
 Use case ends.
 
 **Extensions:**
-* 2a. The list is empty.
-  * 2a1. CampusBridge shows a failure message indicating that the contact list is empty.
+* 3a. Target contact identifier does not exist.
+    * 3a1. CampusBridge shows an error message indicating the contact does not exist.
 
   Use case ends.
 
-* 4a. The given index/email is invalid.
-  * 4a1. CampusBridge shows an error message indicating the invalid.
-  * 4a2. CampusBridge requests the user to re-enter input.
+* 3b. Input does not follow the specified format.
+    * 3b1. CampusBridge shows an error message indicating the invalid format.
+    * 3b2. CampusBridge requests the user to re-enter input.
+    * 3b3. User enters a new input.
 
-  Use case resumes at step 3.
+  Steps 3b1 - 3b3 are repeated until input is valid.\
+  Use case resumes at step 4.
 
-* 6a. Storage file cannot be written or accessed.
-  * 6a1. CampusBridge shows a failure message indicating that the list could not be saved.
+* 4a. Contact cannot be deleted.
+    * 4a1. CampusBridge shows an error message indicating the contact could not be deleted.
+
+  Use case ends.
+
+* 4b. Storage file cannot be written or accessed.
+    * 4b1. CampusBridge shows an error message indicating the contact list could not be saved.
 
   Use case ends.
 
@@ -406,7 +414,6 @@ Use case ends.
 **Preconditions: Application is running**
 
 **MSS:**
-
 1. User requests to list contacts.
 2. CampusBridge shows a list of all contacts.
 3. User can view details of each contact in the list.
@@ -414,12 +421,18 @@ Use case ends.
 Use case ends.
 
 **Extensions:**
+* 1a. Input does not follow the specified format.
+    * 1a1. CampusBridge shows an error message indicating the invalid format.
+    * 1a2. CampusBridge requests the user to re-enter input.
+    * 1a3. User enters a new input.
 
-* 1a. User input does not follow the specified format.
-  * 1a1. CampusBridge shows a failure message indicating that input is invalid.
-  * 1a2. CampusBridge requests the user to re-enter input.
+  Steps 1a1 - 1a3 are repeated until input is valid.\
+  Use case resumes at step 2.
 
-  Use case resumes at step 1.
+* 2a. No contacts exist in the list.
+  * 2a1. CampusBridge informs the user that the contact list is empty.
+
+  Use case ends.
 
 
 #### Use Case: UC05 - Search contacts
@@ -427,56 +440,67 @@ Use case ends.
 **Preconditions: Application is running**
 
 **MSS:**
-1. User types a search query containing either a name or email.
-2. User submits search.
-3. CampusBridge shows the list of contacts matching the search query (email or name).
+1. User requests to search for contacts.
+2. User provides the search details.
+3. CampusBridge validates the input.
+4. CampusBridge shows the contacts matching the search query.
 
 Use case ends.
 
 **Extensions:**
+* 3a. Input does not follow the specified format.
+    * 3a1. CampusBridge shows an error message indicating the invalid format.
+    * 3a2. CampusBridge requests the user to re-enter input.
+    * 3a3. User enters a new input.
 
-* 3a. CampusBridge can’t find any contacts matching the search query.
-  * 3a1. CampusBridge shows an error message indicating that there are no contacts.
+  Steps 3a1 - 3a3 are repeated until input is valid.\
+  Use case resumes at step 4.
+
+* 4a. No contacts exist in the list.
+    * 4a1. CampusBridge informs the user that no contacts match the search query.
 
   Use case ends.
 
-* 3b. CampusBridge detects that the email format is invalid.
-  * 3b1. CampusBridge shows an error message indicating that the email format is invalid.
-
-  Use case ends.
 
 #### Use Case: UC06 - Add a tag to an existing contact
 
 **Preconditions: Application is running**
 
 **MSS:**
-1. User enters the command `tag <contact email / contact index> <tag name>`.
-2. CampusBridge validates the command format.
-3. CampusBridge checks that the contact exists.
-4. CampusBridge adds the tag to the specified contact.
-5. Tag is saved in storage.
-6. CampusBridge displays a success message showing the updated contact.
+1. User requests to tag a contact in the list.
+2. User provides tag details for that contact.
+3. CampusBridge validates the input.
+4. CampusBridge adds the tag and updates the contact list.
+5. CampusBridge shows a success message.
 
 Use case ends.
 
 **Extensions:**
-* 2a. Invalid Command Format
-  * 2a1. CampusBridge displays an error message showing the correct command format.
-
-  Use case resumes at step 1.
-
-* 3a. Contact Does Not Exist
-  * 3a1. CampusBridge informs the user that the contact cannot be found.
+* 3a. Target contact identifier does not exist.
+    * 3a1. CampusBridge shows an error message indicating the contact does not exist.
 
   Use case ends.
 
-* 4a. Tag Already Exists for Contact
-  * 4a1. CampusBridge informs the user that the contact already has this tag.
+* 3b. Input does not follow the specified format.
+    * 3b1. CampusBridge shows an error message indicating the invalid format.
+    * 3b2. CampusBridge requests the user to re-enter input.
+    * 3b3. User enters a new input.
 
-  Use case resumes at step 1.
+  Steps 3b1 - 3b3 are repeated until input is valid.\
+  Use case resumes at step 4.
 
-* 5a. Storage file cannot be written or accessed.
-  * 5a1. CampusBridge shows a failure message indicating that the list could not be saved.
+* 3c. Tag already exists for contact.
+    * 3c1. CampusBridge informs user that the contact already has this tag.
+
+  Use case ends.
+
+* 4a. Tag cannot be added.
+    * 4a1. CampusBridge shows an error message indicating the tag could not be added.
+
+  Use case ends.
+
+* 4b. Storage file cannot be written or accessed.
+    * 4b1. CampusBridge shows an error message indicating the contact list could not be saved.
 
   Use case ends.
 
