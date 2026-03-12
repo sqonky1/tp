@@ -51,12 +51,16 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_invalidOrderValue_throwsParseException() {
-        assertParseFailure(parser, " o/phone", SortCommandParser.MESSAGE_INVALID_ORDER);
+        String expectedMessage = String.format(MESSAGE_INVALID_SORT_ORDER,
+                String.join(", ", SORT_COMPARATORS.keySet()));
+        assertParseFailure(parser, " o/phone", expectedMessage);
     }
 
     @Test
     public void parse_invalidOrderAddress_throwsParseException() {
-        assertParseFailure(parser, " o/address", SortCommandParser.MESSAGE_INVALID_ORDER);
+        String expectedMessage = String.format(MESSAGE_INVALID_SORT_ORDER,
+                String.join(", ", SORT_COMPARATORS.keySet()));
+        assertParseFailure(parser, " o/address", expectedMessage);
     }
 
     @Test

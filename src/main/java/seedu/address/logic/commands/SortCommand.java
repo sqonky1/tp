@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REVERSE;
 
 import java.util.Comparator;
+import java.util.Map;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -24,6 +25,9 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Sorted by name.";
 
+    public static final Map<String, Comparator<Person>> SORT_COMPARATORS = Map.of(
+            "name", Comparator.comparing(p -> p.getName().fullName, String.CASE_INSENSITIVE_ORDER));
+
     private final String order;
     private final boolean reverse;
     private final Comparator<Person> comparator;
@@ -34,8 +38,7 @@ public class SortCommand extends Command {
     public SortCommand(String order, boolean reverse) {
         this.order = order;
         this.reverse = reverse;
-        Comparator<Person> cmp = Comparator.comparing(
-                p -> p.getName().fullName, String.CASE_INSENSITIVE_ORDER);
+        Comparator<Person> cmp = SORT_COMPARATORS.get(order);
         this.comparator = reverse ? cmp.reversed() : cmp;
     }
 

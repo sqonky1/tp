@@ -33,8 +33,9 @@ public class SortCommandParser implements Parser<SortCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
-        if (!order.equalsIgnoreCase("name")) {
-            throw new ParseException(MESSAGE_INVALID_ORDER);
+        if (!SORT_COMPARATORS.containsKey(order.toLowerCase())) {
+            throw new ParseException(String.format(MESSAGE_INVALID_SORT_ORDER,
+                    String.join(", ", SORT_COMPARATORS.keySet())));
         }
 
         boolean reverse = argMultimap.getValue(PREFIX_REVERSE).isPresent();
