@@ -24,19 +24,32 @@ public class FindCommandParser implements Parser<FindCommand> {
     public FindCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
 
-        // Check for empty argument or arguments which does not match the proper format
-        if (trimmedArgs.isEmpty() ||
-                (!trimmedArgs.contains("n/") && !trimmedArgs.contains("e/"))) {
+        if (trimmedArgs.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_EMAIL);
-        List<String> nameKeywords = argumentMultimap.getValue(PREFIX_NAME)
-                .filter(str -> !str.isBlank())
-                .map(s -> Arrays.asList(s.split("\\s+")))
-                .orElseThrow(() -> new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE)));
+        // ArgumentTokenizer requires a space before the first prefix to recognize it.
+        // Add a leading space if input starts with a prefix (e.g., "n/alice" -> " n/alice").
+        // The preamble check below will validate no unprefixed content exists.
+        ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(" " + trimmedArgs,
+                PREFIX_NAME, PREFIX_EMAIL);
+
+        if (!argumentMultimap.getPreamble().trim().isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        List<String> nameKeywords = argumentMultimap.getAllValues(PREFIX_NAME)
+                .stream()
+                .flatMap(keyword -> Arrays.stream(keyword.split("\\s+")))
+                .filter(keyword -> !keyword.isBlank())
+                .toList();
+
+        if (nameKeywords.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
 
         return new FindCommand(new NameContainsKeywordsPredicate(nameKeywords));
     }
