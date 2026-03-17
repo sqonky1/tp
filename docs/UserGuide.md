@@ -93,6 +93,20 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+### Sorting persons : `sort`
+
+Sorts the list of persons by the specified order.
+
+Format: `sort o/ORDER [r/]`
+
+* `ORDER` is case-insensitive. The currently supported value is:
+  * `name` — sorts persons alphabetically by name (A–Z)
+* The `r/` flag is optional. When included, the sort order is reversed (Z–A for `name`).
+
+Examples:
+* `sort o/name` sorts all persons alphabetically by name.
+* `sort o/name r/` sorts all persons in reverse alphabetical order.
+
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
@@ -197,4 +211,5 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
+**Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
 **Help** | `help`
