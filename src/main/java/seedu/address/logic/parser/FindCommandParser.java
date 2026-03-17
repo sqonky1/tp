@@ -6,12 +6,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
 
 /**
  * Parses input arguments and creates a new FindCommand object
