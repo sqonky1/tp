@@ -120,7 +120,7 @@ Examples:
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [h/TELEGRAM HANDLE] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [h/TELEGRAM_HANDLE] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -250,9 +250,10 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE] [t/TAG]…​` <br> e.g., `add n/James Ho e/jamesho@example.com p/22224444 h/james_ho t/friend t/colleague`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete** | `delete INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
+**Find** | `find n/NAME [MORE_NAMES] e/EMAIL [MORE_EMAILS]`<br> e.g., `find n/alex e/doe`
+**Filter** | `filter t/TAG [MORE_TAGS]…`<br> e.g., `filter t/friend t/colleague`
 **List** | `list`
 **Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
 **Help** | `help`
