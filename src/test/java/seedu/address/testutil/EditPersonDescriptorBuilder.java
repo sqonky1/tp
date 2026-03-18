@@ -32,6 +32,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setPhone(person.getPhone());
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
+        descriptor.setTelegramHandle(person.getTelegramHandle());
         descriptor.setTags(person.getTags());
     }
 
