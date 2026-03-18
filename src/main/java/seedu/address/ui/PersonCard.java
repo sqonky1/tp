@@ -85,6 +85,8 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> {
                     Label tagLabel = new Label(tag.tagName);
+                    int hue = Math.floorMod(tag.tagName.hashCode(), 360);
+                    tagLabel.setStyle("-fx-background-color: hsb(" + hue + ", 70%, 50%);");
                     tagLabel.setOnMouseClicked(e -> copyToClipboard(tag.tagName));
                     tags.getChildren().add(tagLabel);
                 });
