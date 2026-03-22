@@ -13,16 +13,26 @@ public class Tag {
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String tagName;
+    public final TagType type;
 
     /**
      * Constructs a {@code Tag}.
      *
      * @param tagName A valid tag name.
+     * @param type    A valid tag type.
      */
-    public Tag(String tagName) {
+    public Tag(String tagName, TagType type) {
         requireNonNull(tagName);
+        requireNonNull(type);
+
         checkArgument(isValidTagName(tagName), MESSAGE_CONSTRAINTS);
+
         this.tagName = tagName;
+        this.type = type;
+    }
+
+    public TagType getType() {
+        return type;
     }
 
     /**
@@ -44,19 +54,19 @@ public class Tag {
         }
 
         Tag otherTag = (Tag) other;
-        return tagName.equals(otherTag.tagName);
+        return tagName.equals(otherTag.tagName)
+                && type.equals(otherTag.type);
     }
 
     @Override
     public int hashCode() {
-        return tagName.hashCode();
+        return tagName.hashCode() + type.hashCode();
     }
 
     /**
      * Format state as text for viewing.
      */
     public String toString() {
-        return '[' + tagName + ']';
+        return type + ": " + tagName;
     }
-
 }
