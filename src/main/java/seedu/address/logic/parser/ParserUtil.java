@@ -15,6 +15,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.TelegramHandle;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -26,6 +27,7 @@ public class ParserUtil {
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -112,28 +114,35 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String tag} into a {@code Tag}.
+     * Parses a {@code String tag} into a {@code Tag} of the specified {@code TagType}.
      * Leading and trailing whitespaces will be trimmed.
      *
+     * @param tag  The tag name to be parsed.
+     * @param type The type of the tag (e.g., ROLE, COURSE, GENERAL).
+     * @return A {@code Tag} object containing the trimmed tag name and its type.
      * @throws ParseException if the given {@code tag} is invalid.
      */
-    public static Tag parseTag(String tag) throws ParseException {
+    public static Tag parseTag(String tag, TagType type) throws ParseException {
         requireNonNull(tag);
+        requireNonNull(type);
+
         String trimmedTag = tag.trim();
         if (!Tag.isValidTagName(trimmedTag)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
-        return new Tag(trimmedTag);
+        return new Tag(trimmedTag, type);
     }
 
     /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     * Parses a {@code Collection<String>} of tag names into a {@code Set<Tag>} of the specified {@code TagType}.
      */
-    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
+    public static Set<Tag> parseTags(Collection<String> tags, TagType type) throws ParseException {
         requireNonNull(tags);
+        requireNonNull(type);
+
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
+            tagSet.add(parseTag(tagName, type));
         }
         return tagSet;
     }
