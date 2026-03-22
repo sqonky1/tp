@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * Container for user visible messages.
@@ -48,7 +49,13 @@ public class Messages {
             builder.append("; Telegram: ").append(person.getTelegramHandle());
         }
         builder.append("; Tags: ");
-        person.getTags().forEach(builder::append);
+
+        String tags = person.getTags().stream()
+                .map(Tag::toString)
+                .collect(Collectors.joining(", ", "[", "]"));
+
+        builder.append(tags);
+
         return builder.toString();
     }
 
