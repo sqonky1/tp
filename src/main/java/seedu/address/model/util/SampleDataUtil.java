@@ -12,6 +12,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -48,12 +49,14 @@ public class SampleDataUtil {
         return sampleAb;
     }
 
+    // TODO: Change to the corresponding tag types
+    // Hard code to general tag type first
     /**
      * Returns a tag set containing the list of strings given.
      */
     public static Set<Tag> getTagSet(String... strings) {
         return Arrays.stream(strings)
-                .map(Tag::new)
+                .map(s -> new Tag(s, TagType.GENERAL))
                 .collect(Collectors.toSet());
     }
 
