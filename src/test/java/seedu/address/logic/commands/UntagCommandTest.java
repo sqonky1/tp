@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
@@ -53,7 +54,7 @@ public class UntagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_removeOneTag_success() {
+    public void execute_validIndexRemoveOneTag_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         // remove ONE existing tag
@@ -81,7 +82,7 @@ public class UntagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_removeAllTags_success() {
+    public void execute_validIndexRemoveAllTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Set<Tag> tagsToRemove = new HashSet<>(personToEdit.getTags());
@@ -104,7 +105,7 @@ public class UntagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_removePartialTag_success() {
+    public void execute_validIndexRemovePartialTag_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Tag existingTag = personToEdit.getTags().iterator().next();
@@ -139,7 +140,7 @@ public class UntagCommandTest {
     }
 
     @Test
-    public void execute_TagNotFound_throwsCommandException() {
+    public void execute_tagNotFound_throwsCommandException() {
         Set<Tag> tagsToRemove = new HashSet<>();
         tagsToRemove.add(new Tag("notfound", TagType.GENERAL));
 

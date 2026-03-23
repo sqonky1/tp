@@ -47,7 +47,7 @@ public class TagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_addSingleTag_success() {
+    public void execute_validIndexAddSingleTag_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Tag newTag = new Tag("mentor", TagType.ROLE);
@@ -75,7 +75,7 @@ public class TagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_addMultipleTags_success() {
+    public void execute_validIndexAddMultipleTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Set<Tag> tagsToAdd = new HashSet<>();
@@ -104,7 +104,7 @@ public class TagCommandTest {
     }
 
     @Test
-    public void execute_validIndex_addTagToPersonWithNoTags_success() {
+    public void execute_validIndexAddTagToPersonWithNoTags_success() {
         // INDEX_THIRD_PERSON: a person with no tags
         Person personWithoutTags = model.getFilteredPersonList().get(INDEX_THIRD_PERSON.getZeroBased());
 
