@@ -22,7 +22,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameEmailTagPredicate;
-import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
@@ -127,7 +126,7 @@ public class FindCommandTest {
     public void execute_nameMatchesTagFails_returnsEmptyList() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(List.of("Alice"), List.of(),
-                Set.of(new Tag("nonexistent",  TagType.GENERAL)));
+                Set.of(new Tag("nonexistent", TagType.GENERAL)));
 
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);

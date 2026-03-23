@@ -40,7 +40,8 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_emptyNameEmailTagArgs_throwsParseException() {
-        assertParseFailure(parser, "n/ e/ t/", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "n/ e/ t/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
