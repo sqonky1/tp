@@ -30,6 +30,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagCommand;
+import seedu.address.logic.commands.UntagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -128,9 +129,27 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_untag() throws Exception {
+        String input = UntagCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " "
+                + PREFIX_ROLE_TAG + "tutor "
+                + PREFIX_COURSE_TAG + "CS2103 "
+                + PREFIX_GENERAL_TAG + "friends";
+
+        UntagCommand command = (UntagCommand) parser.parseCommand(input);
+
+        Set<Tag> expectedTags = new HashSet<>();
+        expectedTags.add(new Tag("tutor", TagType.ROLE));
+        expectedTags.add(new Tag("CS2103", TagType.COURSE));
+        expectedTags.add(new Tag("friends", TagType.GENERAL));
+
+        assertEquals(new UntagCommand(INDEX_FIRST_PERSON, expectedTags), command);
+    }
+
+    @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
-            -> parser.parseCommand(""));
+                -> parser.parseCommand(""));
     }
 
     @Test
