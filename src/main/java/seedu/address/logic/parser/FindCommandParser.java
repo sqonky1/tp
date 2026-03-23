@@ -11,7 +11,7 @@ import java.util.Set;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameOrEmailContainsKeywordsPredicate;
+import seedu.address.model.person.NameEmailTagPredicate;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
@@ -35,7 +35,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         List<String> emailKeywords = parseKeywords(argumentMultimap, PREFIX_EMAIL);
 
-        Set<Tag> tags = ParserUtil.parseTags(argumentMultimap.getAllValues(PREFIX_TAG), TagType.GENERAL);
+        Set<Tag> tags = ParserUtil.parseTags(parseKeywords(argumentMultimap, PREFIX_TAG), TagType.GENERAL);
 
         // Throw exception if preamble is not empty, eg "find alice n/bob"
         // If no name or email or tag keywords are specified
@@ -45,7 +45,8 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        return new FindCommand(new NameOrEmailContainsKeywordsPredicate(nameKeywords, emailKeywords));
+        return new FindCommand(
+                new NameEmailTagPredicate(nameKeywords, emailKeywords, tags));
     }
 
     /**
