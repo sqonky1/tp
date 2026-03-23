@@ -153,6 +153,15 @@
     -fx-text-fill: white;
 }
 
+.result-display .scroll-bar:vertical,
+.result-display .scroll-bar:horizontal {
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-opacity: 0;
+}
+
 .result-display .label {
     -fx-text-fill: black !important;
 }
