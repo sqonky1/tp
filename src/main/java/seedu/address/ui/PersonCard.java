@@ -18,6 +18,7 @@ import seedu.address.model.person.Person;
  * An UI component that displays information of a {@code Person}.
  */
 public class PersonCard extends UiPart<Region> {
+    private static final double PAUSE_TIME = 0.5;
 
     private static final String FXML = "PersonListCard.fxml";
 
@@ -103,7 +104,7 @@ public class PersonCard extends UiPart<Region> {
 
         String original = label.getText();
         label.setText("✓ Copied!");
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(PAUSE_TIME));
         pause.setOnFinished(e -> label.setText(original));
         pause.play();
     }
