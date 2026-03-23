@@ -16,7 +16,7 @@ public class MessagesTest {
                 .withName("Amy Bee")
                 .withEmail("amy@gmail.com")
                 .withAddress(Address.DEFAULT_ADDRESS)
-                .withTags("friend")
+                .withGeneralTags("friend")
                 .build();
         person = new Person(person.getName(), null, person.getEmail(),
                 person.getAddress(), null, person.getTags());
@@ -32,7 +32,7 @@ public class MessagesTest {
                 .withEmail("amy@gmail.com")
                 .withAddress(Address.DEFAULT_ADDRESS)
                 .withTelegramHandle("amybee")
-                .withTags("friend")
+                .withGeneralTags("friend")
                 .build();
 
         assertEquals("Amy Bee; Phone: 85355255; Email: amy@gmail.com; Telegram: amybee; Tags: [GENERAL: friend]",

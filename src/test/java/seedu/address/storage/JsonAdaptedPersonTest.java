@@ -17,6 +17,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -139,10 +141,34 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_invalidTags_throwsIllegalValueException() {
         List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
-        invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
+        invalidTags.add(new JsonAdaptedTag(INVALID_TAG, TagType.GENERAL.name()));
+
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null, invalidTags);
+
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 
+    @Test
+    public void toModelType_invalidTagType_throwsIllegalValueException() {
+        List<JsonAdaptedTag> invalidTags = new ArrayList<>();
+        invalidTags.add(new JsonAdaptedTag("friend", "INVALID_TYPE"));
+
+        JsonAdaptedPerson person =
+                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null, invalidTags);
+
+        String expectedMessage = String.format(Tag.MESSAGE_CONSTRAINTS_TAG_TYPE, "INVALID_TYPE");
+        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullTagType_throwsIllegalValueException() {
+        List<JsonAdaptedTag> invalidTags = new ArrayList<>();
+        invalidTags.add(new JsonAdaptedTag("friend", null));
+
+        JsonAdaptedPerson person =
+                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null, invalidTags);
+
+        assertThrows(IllegalValueException.class, person::toModelType);
+    }
 }
