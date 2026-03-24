@@ -149,7 +149,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_tagOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of(), List.of("friends"));
+                List.of(), List.of(), List.of("nonexistent"));
 
         assertFalse(predicate.test(BENSON));
     }

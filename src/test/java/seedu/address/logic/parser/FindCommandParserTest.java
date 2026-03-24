@@ -116,7 +116,7 @@ public class FindCommandParserTest {
 
         assertParseSuccess(parser, "t/friends cs2103", expectedFindCommand);
         assertParseSuccess(parser, "t/friends t/cs2103", expectedFindCommand);
-        assertParseSuccess(parser, "t/cs2103 \t \t \t friends", expectedFindCommand);
+        assertParseSuccess(parser, "t/friends \t \t \t cs2103", expectedFindCommand);
     }
 
     @Test
