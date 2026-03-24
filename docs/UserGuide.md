@@ -144,22 +144,6 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower h/betsyy t/` Edits the name of the 2nd person to be `Betsy Crower`, the telegram handle to be `betsyy` and clears all existing tags.
 
-### Filtering persons by tags: `filter`
-
-Filters the list of persons by one or more tags.
-
-Format: `filter t/TAG [MORE_TAGS]…`
-
-* At least one `t/` prefix with a tag must be provided.
-* Persons with **any** of the specified tags will be shown.
-* The search with tags is case-insensitive. For example, `friend` matches `Friend`.
-* Tags can be combined in a single command to filter more broadly.
-
-Examples:
-* `filter t/friend` — shows all persons tagged as `friend`.
-* `filter t/friend t/colleague` — shows all persons who are tagged as either `friend` **or** `colleague`.
-* `filter t/family t/friend t/neighbor` — shows all persons who have **at least one** of the tags: `family`, `friend`, or `neighbor`.
-
 ### Locating persons by name/email: `find`
 
 Finds persons whose names or emails contain any of the given keywords.
