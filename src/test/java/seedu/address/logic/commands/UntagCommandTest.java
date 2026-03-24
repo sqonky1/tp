@@ -68,13 +68,7 @@ public class UntagCommandTest {
         Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
         expectedTags.remove(tagToRemove);
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personToEdit.withTags(expectedTags);
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(UntagCommand.MESSAGE_SUCCESS, tagsToRemove);
@@ -91,13 +85,7 @@ public class UntagCommandTest {
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                new HashSet<>() // empty
-        );
+        Person editedPerson = personToEdit.withTags(new HashSet<>());
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(UntagCommand.MESSAGE_SUCCESS, tagsToRemove);
@@ -122,13 +110,7 @@ public class UntagCommandTest {
         Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
         expectedTags.remove(existingTag);
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personToEdit.withTags(expectedTags);
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(

@@ -61,13 +61,7 @@ public class TagCommandTest {
         Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
         expectedTags.add(newTag);
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personToEdit.withTags(expectedTags);
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
@@ -90,13 +84,7 @@ public class TagCommandTest {
         Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
         expectedTags.addAll(tagsToAdd);
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personToEdit.withTags(expectedTags);
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
@@ -118,13 +106,7 @@ public class TagCommandTest {
         Set<Tag> expectedTags = new HashSet<>();
         expectedTags.add(newTag);
 
-        Person editedPerson = new Person(
-                personWithoutTags.getName(),
-                personWithoutTags.getPhone(),
-                personWithoutTags.getEmail(),
-                personWithoutTags.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personWithoutTags.withTags(expectedTags);
 
         expectedModel.setPerson(personWithoutTags, editedPerson);
         String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
@@ -174,13 +156,7 @@ public class TagCommandTest {
         Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
         expectedTags.add(newTag); // only new tag added
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getTelegramHandle(),
-                expectedTags
-        );
+        Person editedPerson = personToEdit.withTags(expectedTags);
 
         expectedModel.setPerson(personToEdit, editedPerson);
         String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
