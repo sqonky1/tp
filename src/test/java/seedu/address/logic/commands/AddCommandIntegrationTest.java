@@ -39,10 +39,28 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
+    public void execute_duplicateEmail_throwsCommandException() {
         Person personInList = model.getAddressBook().getPersonList().get(0);
         assertCommandFailure(new AddCommand(personInList), model,
                 AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
+    @Test
+    public void execute_duplicateTelegramHandle_throwsCommandException() {
+        Person existingPerson = new PersonBuilder()
+                .withName("Telegram Existing")
+                .withEmail("telegramexisting@example.com")
+                .withTelegramHandle("alice123")
+                .build();
+        model.addPerson(existingPerson);
+
+        Person personWithSameTelegramHandle = new PersonBuilder()
+                .withName("Telegram Duplicate")
+                .withEmail("different@example.com")
+                .withTelegramHandle("alice123")
+                .build();
+
+        assertCommandFailure(new AddCommand(personWithSameTelegramHandle), model,
+                AddCommand.MESSAGE_DUPLICATE_PERSON);
+    }
 }

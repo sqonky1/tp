@@ -1,0 +1,15 @@
+{
+  "persons" : [ {
+    "name" : "Alice Pauline",
+    "phone" : "94351253",
+    "email" : "alice@example.com",
+    "tags" : [
+      { "tagName" : "friends", "tagType" : "GENERAL" },
+      { "tagName" : "student", "tagType" : "ROLE" }
+    ]
+  }, {
+    "name" : "Alice Pauline",
+    "phone" : "94351253",
+    "email" : "alice@example.com"
+  } ]
+}

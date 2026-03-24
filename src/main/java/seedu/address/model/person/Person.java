@@ -23,21 +23,19 @@ public class Person {
     private final TelegramHandle telegramHandle;
 
     // Data fields
-    private final Address address;
     private final Set<Tag> tags;
 
     /**
      * Full constructor
      */
-    public Person(Name name, Phone phone, Email email, Address address,
+    public Person(Name name, Phone phone, Email email,
                   TelegramHandle telegramHandle, Set<Tag> tags) {
 
-        requireAllNonNull(name, email, address, tags);
+        requireAllNonNull(name, email, tags);
 
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
         this.telegramHandle = telegramHandle;
 
         // defensive copy
@@ -47,15 +45,15 @@ public class Person {
     /**
      * Without telegram handle
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, null, tags);
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+        this(name, phone, email, null, tags);
     }
 
     /**
      * Without tags (default empty set)
      */
-    public Person(Name name, Phone phone, Email email, Address address, TelegramHandle telegramHandle) {
-        this(name, phone, email, address, telegramHandle, new HashSet<>());
+    public Person(Name name, Phone phone, Email email, TelegramHandle telegramHandle) {
+        this(name, phone, email, telegramHandle, new HashSet<>());
     }
 
     public Name getName() {
@@ -68,10 +66,6 @@ public class Person {
 
     public Email getEmail() {
         return email;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     public TelegramHandle getTelegramHandle() {
@@ -87,7 +81,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same email.
+     * Returns true if both persons have the same email or the same non-null telegram handle.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
@@ -95,8 +89,16 @@ public class Person {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getEmail().equals(getEmail());
+        if (otherPerson == null) {
+            return false;
+        }
+
+        boolean sameEmail = otherPerson.getEmail().equals(getEmail());
+        boolean sameTelegramHandle = getTelegramHandle() != null
+                && otherPerson.getTelegramHandle() != null
+                && otherPerson.getTelegramHandle().equals(getTelegramHandle());
+
+        return sameEmail || sameTelegramHandle;
     }
 
     /**
@@ -118,7 +120,6 @@ public class Person {
         return name.equals(otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
                 && Objects.equals(telegramHandle, otherPerson.telegramHandle)
                 && tags.equals(otherPerson.tags);
     }
@@ -126,7 +127,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, telegramHandle, tags);
+        return Objects.hash(name, phone, email, telegramHandle, tags);
     }
 
     @Override
@@ -135,7 +136,6 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
                 .add("telegramHandle", telegramHandle)
                 .add("tags", tags)
                 .toString();

@@ -3,7 +3,6 @@ package seedu.address.model.person;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
@@ -40,10 +39,31 @@ public class PersonTest {
         Person editedAlice = new PersonBuilder(ALICE)
                 .withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB)
-                .withAddress(VALID_ADDRESS_BOB)
                 .withRoleTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(ALICE.isSamePerson(editedAlice));
+
+        // same telegram handle, different email -> returns true
+        Person aliceWithTelegram = new PersonBuilder(ALICE).withTelegramHandle("alice123").build();
+        Person editedTelegramAlice = new PersonBuilder(aliceWithTelegram)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertTrue(aliceWithTelegram.isSamePerson(editedTelegramAlice));
+
+        // different email and different telegram handle -> returns false
+        Person differentAlice = new PersonBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB)
+                .withTelegramHandle("alice123")
+                .build();
+        assertFalse(ALICE.isSamePerson(differentAlice));
+
+        // different email, telegram handle missing on one side -> returns false
+        Person noTelegram = new PersonBuilder(ALICE).build();
+        Person withTelegram = new PersonBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB)
+                .withTelegramHandle("alice123")
+                .build();
+        assertFalse(noTelegram.isSamePerson(withTelegram));
 
         // different email, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
@@ -80,10 +100,6 @@ public class PersonTest {
         editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different address -> returns false
-        editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
-
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withRoleTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
@@ -104,7 +120,7 @@ public class PersonTest {
     @Test
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
+                + ", email=" + ALICE.getEmail()
                 + ", telegramHandle=" + ALICE.getTelegramHandle() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
@@ -113,7 +129,7 @@ public class PersonTest {
     public void toStringMethod_withTelegramHandle() {
         Person person = new PersonBuilder(ALICE).withTelegramHandle("alice123").build();
         String expected = Person.class.getCanonicalName() + "{name=" + person.getName() + ", phone=" + person.getPhone()
-                + ", email=" + person.getEmail() + ", address=" + person.getAddress()
+                + ", email=" + person.getEmail()
                 + ", telegramHandle=" + person.getTelegramHandle() + ", tags=" + person.getTags() + "}";
         assertEquals(expected, person.toString());
     }
@@ -124,14 +140,12 @@ public class PersonTest {
                 ALICE.getName(),
                 ALICE.getPhone(),
                 ALICE.getEmail(),
-                ALICE.getAddress(),
                 ALICE.getTags()
         );
 
         assertEquals(ALICE.getName(), person.getName());
         assertEquals(ALICE.getPhone(), person.getPhone());
         assertEquals(ALICE.getEmail(), person.getEmail());
-        assertEquals(ALICE.getAddress(), person.getAddress());
         assertEquals(ALICE.getTags(), person.getTags());
 
         // telegram should be null
@@ -144,14 +158,12 @@ public class PersonTest {
                 ALICE.getName(),
                 ALICE.getPhone(),
                 ALICE.getEmail(),
-                ALICE.getAddress(),
                 ALICE.getTelegramHandle()
         );
 
         assertEquals(ALICE.getName(), person.getName());
         assertEquals(ALICE.getPhone(), person.getPhone());
         assertEquals(ALICE.getEmail(), person.getEmail());
-        assertEquals(ALICE.getAddress(), person.getAddress());
         assertEquals(ALICE.getTelegramHandle(), person.getTelegramHandle());
 
         // tags should be empty
@@ -166,7 +178,6 @@ public class PersonTest {
                 ALICE.getName(),
                 ALICE.getPhone(),
                 ALICE.getEmail(),
-                ALICE.getAddress(),
                 ALICE.getTelegramHandle(),
                 originalTags
         );

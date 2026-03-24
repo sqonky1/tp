@@ -46,10 +46,23 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
+    public void execute_duplicateEmail_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
+
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicateTelegramHandle_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().withTelegramHandle("alice123").build();
+        Person personWithSameTelegramHandle = new PersonBuilder(existingPerson)
+                .withEmail("different@example.com")
+                .build();
+
+        AddCommand addCommand = new AddCommand(personWithSameTelegramHandle);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
