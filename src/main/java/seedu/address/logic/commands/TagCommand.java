@@ -62,11 +62,11 @@ public class TagCommand extends Command {
 
         Person personToAddTag = lastShownList.get(index.getZeroBased());
 
-        // Merge existing tags with new tags
+        // merge existing tags with new tags
         Set<Tag> updatedTags = new HashSet<>(personToAddTag.getTags());
         updatedTags.addAll(tagsToAdd);
 
-        Person editedPerson = createEditedPerson(personToAddTag, updatedTags);
+        Person editedPerson = personToAddTag.withTags(updatedTags);
 
         model.setPerson(personToAddTag, editedPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
@@ -95,18 +95,5 @@ public class TagCommand extends Command {
         return new ToStringBuilder(this)
                 .add("tagsToAdd", tagsToAdd)
                 .toString();
-    }
-
-    /**
-     * Creates a new {@code Person} with updated tags while preserving other fields.
-     */
-    private Person createEditedPerson(Person original, Set<Tag> updatedTags) {
-        return new Person(
-                original.getName(),
-                original.getPhone(),
-                original.getEmail(),
-                original.getTelegramHandle(),
-                updatedTags
-        );
     }
 }

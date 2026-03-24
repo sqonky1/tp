@@ -69,7 +69,7 @@ public class UntagCommand extends Command {
             throw new CommandException(MESSAGE_NO_TAGS_FOUND);
         }
 
-        Person editedPerson = createEditedPerson(personToRemoveTag, result.updatedTags);
+        Person editedPerson = personToRemoveTag.withTags(result.updatedTags);
 
         model.setPerson(personToRemoveTag, editedPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
@@ -104,19 +104,6 @@ public class UntagCommand extends Command {
         return new ToStringBuilder(this)
                 .add("tagsToRemove", tagsToRemove)
                 .toString();
-    }
-
-    /**
-     * Creates a new {@code Person} with updated tags while preserving other fields.
-     */
-    private Person createEditedPerson(Person original, Set<Tag> updatedTags) {
-        return new Person(
-                original.getName(),
-                original.getPhone(),
-                original.getEmail(),
-                original.getTelegramHandle(),
-                updatedTags
-        );
     }
 
     /**
