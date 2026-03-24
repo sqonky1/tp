@@ -18,20 +18,32 @@ public class NameEmailTagPredicateTest {
     @Test
     public void equals() {
         List<String> firstNameKeywordList = List.of("first");
-        List<String> firstEmailKeywordList = List.of("first@u.nus.edu");
+        List<String> firstEmailKeywordList = List.of("u.nus.edu");
         Set<Tag> firstTagSet = Set.of(new Tag("friends", TagType.GENERAL));
 
+        // different name keywords
         List<String> secondNameKeywordList = List.of("first", "second");
-        List<String> secondEmailKeywordList = List.of("first@u.nus.edu", "second@u.nus.edu");
+        List<String> secondEmailKeywordList = List.of("u.nus.edu");
         Set<Tag> secondTagSet = Set.of(new Tag("friends", TagType.GENERAL));
 
-        List<String> thirdNameKeywordList = List.of("third");
-        List<String> thirdEmailKeywordList = List.of("third@u.nus.edu");
+        // differemt email keywords
+        List<String> thirdNameKeywordList = List.of("first");
+        List<String> thirdEmailKeywordList = List.of("gmail.com");
+        Set<Tag> thirdTagSet = Set.of(new Tag("friends", TagType.GENERAL));
+
+        // different tags
+        List<String> fourthNameKeywordList = List.of("first");
+        List<String> fourthEmailKeywordList = List.of("u.nus.edu");
+        Set<Tag> fourthTagSet = Set.of(new Tag("cs2103", TagType.GENERAL));
 
         NameEmailTagPredicate firstPredicate = new NameEmailTagPredicate(
                 firstNameKeywordList, firstEmailKeywordList, firstTagSet);
         NameEmailTagPredicate secondPredicate = new NameEmailTagPredicate(
                 secondNameKeywordList, secondEmailKeywordList, secondTagSet);
+        NameEmailTagPredicate thirdPredicate = new NameEmailTagPredicate(
+                thirdNameKeywordList, thirdEmailKeywordList, thirdTagSet);
+        NameEmailTagPredicate fourthPredicate = new NameEmailTagPredicate(
+                fourthNameKeywordList, fourthEmailKeywordList, fourthTagSet);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
@@ -47,8 +59,14 @@ public class NameEmailTagPredicateTest {
         // null -> returns false
         assertFalse(firstPredicate.equals(null));
 
-        // different persons and emails -> returns false
+        // different persons -> returns false
         assertFalse(firstPredicate.equals(secondPredicate));
+
+        // different emails -> returns false
+        assertFalse(firstPredicate.equals(thirdPredicate));
+
+        // different tags -> returns false
+        assertFalse(firstPredicate.equals(fourthPredicate));
     }
 
     @Test
