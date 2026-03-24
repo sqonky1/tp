@@ -227,4 +227,11 @@ public class AddCommandParserTest {
                 " n/Chloe e/chloe@example.com gibberish",
                 Email.MESSAGE_CONSTRAINTS);
     }
+
+    @Test
+    public void parse_multipleKnownNonAddPrefixes_reportsEarliestPrefix() {
+        assertParseFailure(parser,
+                NAME_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_INDEX + "3 " + PREFIX_ROLE_TAG + "tutor",
+                "Invalid command format: unexpected extra input in add command: 'i/3'.");
+    }
 }
