@@ -7,50 +7,46 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
-
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 public class NameEmailTagPredicateTest {
     @Test
     public void equals() {
         List<String> firstNameKeywordList = List.of("first");
         List<String> firstEmailKeywordList = List.of("u.nus.edu");
-        Set<Tag> firstTagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> firstTagList = List.of("friends");
 
         // different name keywords
         List<String> secondNameKeywordList = List.of("first", "second");
         List<String> secondEmailKeywordList = List.of("u.nus.edu");
-        Set<Tag> secondTagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> secondTagList = List.of("friends");
 
-        // differemt email keywords
+        // different email keywords
         List<String> thirdNameKeywordList = List.of("first");
         List<String> thirdEmailKeywordList = List.of("gmail.com");
-        Set<Tag> thirdTagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> thirdTagList = List.of("friends");
 
         // different tags
         List<String> fourthNameKeywordList = List.of("first");
         List<String> fourthEmailKeywordList = List.of("u.nus.edu");
-        Set<Tag> fourthTagSet = Set.of(new Tag("cs2103", TagType.GENERAL));
+        List<String> fourthTagList = List.of("cs2103");
 
         NameEmailTagPredicate firstPredicate = new NameEmailTagPredicate(
-                firstNameKeywordList, firstEmailKeywordList, firstTagSet);
+                firstNameKeywordList, firstEmailKeywordList, firstTagList);
         NameEmailTagPredicate secondPredicate = new NameEmailTagPredicate(
-                secondNameKeywordList, secondEmailKeywordList, secondTagSet);
+                secondNameKeywordList, secondEmailKeywordList, secondTagList);
         NameEmailTagPredicate thirdPredicate = new NameEmailTagPredicate(
-                thirdNameKeywordList, thirdEmailKeywordList, thirdTagSet);
+                thirdNameKeywordList, thirdEmailKeywordList, thirdTagList);
         NameEmailTagPredicate fourthPredicate = new NameEmailTagPredicate(
-                fourthNameKeywordList, fourthEmailKeywordList, fourthTagSet);
+                fourthNameKeywordList, fourthEmailKeywordList, fourthTagList);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
         NameEmailTagPredicate firstPredicateCopy = new NameEmailTagPredicate(
-                firstNameKeywordList, firstEmailKeywordList, firstTagSet);
+                firstNameKeywordList, firstEmailKeywordList, firstTagList);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -74,21 +70,21 @@ public class NameEmailTagPredicateTest {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"),
                 List.of("example.com"),
-                Set.of(new Tag("friends", TagType.GENERAL)));
+                List.of("friends"));
 
         assertTrue(predicate.test(ALICE)); // matches all
 
         predicate = new NameEmailTagPredicate(
                 List.of("Benson"),
                 List.of("example.com"),
-                Set.of(new Tag("owesMoney", TagType.GENERAL)));
+                List.of("owesMoney"));
         assertTrue(predicate.test(BENSON));
     }
 
     @Test
     public void test_nameOnlyMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of(), Set.of());
+                List.of("Alice"), List.of(), List.of());
 
         assertTrue(predicate.test(ALICE));
     }
@@ -96,7 +92,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_emailOnlyMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of("example.com"), Set.of());
+                List.of(), List.of("example.com"), List.of());
 
         assertTrue(predicate.test(ALICE));
     }
@@ -104,7 +100,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_tagOnlyMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of(), Set.of(new Tag("friends", TagType.GENERAL)));
+                List.of(), List.of(), List.of("friends"));
 
         assertTrue(predicate.test(ALICE));
     }
@@ -112,7 +108,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_multipleNameKeywordsMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice", "Benson"), List.of(), Set.of());
+                List.of("Alice", "Benson"), List.of(), List.of());
 
         assertTrue(predicate.test(ALICE));
         assertTrue(predicate.test(BENSON));
@@ -121,7 +117,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_emptyNameKeywords_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of("example.com"), Set.of(new Tag("friends", TagType.GENERAL)));
+                List.of(), List.of("example.com"), List.of("friends"));
 
         assertTrue(predicate.test(ALICE));
     }
@@ -129,7 +125,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_emptyEmailKeywords_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of(), Set.of(new Tag("friends", TagType.GENERAL)));
+                List.of("Alice"), List.of(), List.of("friends"));
 
         assertTrue(predicate.test(ALICE));
     }
@@ -137,7 +133,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_emptyTags_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of("example.com"), Set.of());
+                List.of("Alice"), List.of("example.com"), List.of());
 
         assertTrue(predicate.test(ALICE));
     }
@@ -145,7 +141,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_nameOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of(), Set.of());
+                List.of("Alice"), List.of(), List.of());
 
         assertFalse(predicate.test(BENSON));
     }
@@ -153,7 +149,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_tagOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of(), Set.of(new Tag("student", TagType.GENERAL)));
+                List.of(), List.of(), List.of("friends"));
 
         assertFalse(predicate.test(BENSON));
     }
@@ -163,7 +159,7 @@ public class NameEmailTagPredicateTest {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"),
                 List.of("nonexistent"),
-                Set.of(new Tag("friends", TagType.GENERAL)));
+                List.of("friends"));
 
         assertFalse(predicate.test(ALICE));
     }
@@ -171,7 +167,7 @@ public class NameEmailTagPredicateTest {
     @Test
     public void test_emailOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of("alice"), Set.of());
+                List.of(), List.of("alice"), List.of());
 
         assertFalse(predicate.test(BENSON));
     }
@@ -180,15 +176,15 @@ public class NameEmailTagPredicateTest {
     public void toStringMethod() {
         List<String> nameKeywords = List.of("person1", "person2");
         List<String> emailKeywords = List.of("email1", "email2");
-        Set<Tag> tagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> tagList = List.of("friends");
 
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                nameKeywords, emailKeywords, tagSet);
+                nameKeywords, emailKeywords, tagList);
 
         String expected = NameEmailTagPredicate.class.getCanonicalName()
                 + "{nameKeywords=" + nameKeywords
                 + ", emailKeywords=" + emailKeywords
-                + ", tags=" + tagSet + "}";
+                + ", tags=" + tagList + "}";
 
         assertEquals(expected, predicate.toString());
     }
