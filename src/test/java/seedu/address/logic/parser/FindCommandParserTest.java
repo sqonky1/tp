@@ -5,14 +5,11 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.NameEmailTagPredicate;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 public class FindCommandParserTest {
 
@@ -61,7 +58,7 @@ public class FindCommandParserTest {
         List<String> names = List.of("Alice");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(names, List.of(), Set.of()));
+                new FindCommand(new NameEmailTagPredicate(names, List.of(), List.of()));
 
         assertParseSuccess(parser, "n/Alice", expectedFindCommand);
     }
@@ -71,7 +68,7 @@ public class FindCommandParserTest {
         List<String> names = List.of("Alice", "Bob");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(names, List.of(), Set.of()));
+                new FindCommand(new NameEmailTagPredicate(names, List.of(), List.of()));
 
         assertParseSuccess(parser, "n/Alice Bob", expectedFindCommand);
         assertParseSuccess(parser, "n/Alice n/Bob", expectedFindCommand);
@@ -83,7 +80,7 @@ public class FindCommandParserTest {
         List<String> emails = List.of("gmail");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(List.of(), emails, Set.of()));
+                new FindCommand(new NameEmailTagPredicate(List.of(), emails, List.of()));
 
         assertParseSuccess(parser, "e/gmail", expectedFindCommand);
     }
@@ -93,7 +90,7 @@ public class FindCommandParserTest {
         List<String> emails = List.of("gmail", "yahoo");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(List.of(), emails, Set.of()));
+                new FindCommand(new NameEmailTagPredicate(List.of(), emails, List.of()));
 
         assertParseSuccess(parser, "e/gmail yahoo", expectedFindCommand);
         assertParseSuccess(parser, "e/gmail e/yahoo", expectedFindCommand);
@@ -102,21 +99,20 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_validSingleTagPrefix_returnsFindCommand() {
-        Set<Tag> tagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> tagList = List.of("friends");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(List.of(), List.of(), tagSet));
+                new FindCommand(new NameEmailTagPredicate(List.of(), List.of(), tagList));
 
         assertParseSuccess(parser, "t/friends", expectedFindCommand);
     }
 
     @Test
     public void parse_validMultipleTagsPrefix_returnsFindCommand() {
-        Set<Tag> tagSet = Set.of(new Tag("friends", TagType.GENERAL),
-                new Tag("cs2103", TagType.GENERAL));
+        List<String> tagList = List.of("friends", "cs2103");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(List.of(), List.of(), tagSet));
+                new FindCommand(new NameEmailTagPredicate(List.of(), List.of(), tagList));
 
         assertParseSuccess(parser, "t/friends cs2103", expectedFindCommand);
         assertParseSuccess(parser, "t/friends t/cs2103", expectedFindCommand);
@@ -129,7 +125,7 @@ public class FindCommandParserTest {
         List<String> emails = List.of("gmail");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(names, emails, Set.of()));
+                new FindCommand(new NameEmailTagPredicate(names, emails, List.of()));
 
         assertParseSuccess(parser, "n/Alice e/gmail", expectedFindCommand);
         assertParseSuccess(parser, "e/gmail n/Alice", expectedFindCommand);
@@ -140,10 +136,10 @@ public class FindCommandParserTest {
     public void parse_validSingleNameEmailTagPrefix_returnsFindCommand() {
         List<String> names = List.of("Alice");
         List<String> emails = List.of("gmail");
-        Set<Tag> tagSet = Set.of(new Tag("friends", TagType.GENERAL));
+        List<String> tagList = List.of("friends");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(names, emails, tagSet));
+                new FindCommand(new NameEmailTagPredicate(names, emails, tagList));
 
         assertParseSuccess(parser, "n/Alice e/gmail t/friends", expectedFindCommand);
         assertParseSuccess(parser, "e/gmail t/friends n/Alice", expectedFindCommand);
@@ -154,11 +150,10 @@ public class FindCommandParserTest {
     public void parse_validMultipleNameEmailTagPrefix_returnsFindCommand() {
         List<String> names = List.of("Alice", "Bob");
         List<String> emails = List.of("gmail", "nus");
-        Set<Tag> tagSet = Set.of(new Tag("friends", TagType.GENERAL),
-                new Tag("cs2103", TagType.GENERAL));
+        List<String> tagList = List.of("friends", "cs2103");
 
         FindCommand expectedFindCommand =
-                new FindCommand(new NameEmailTagPredicate(names, emails, tagSet));
+                new FindCommand(new NameEmailTagPredicate(names, emails, tagList));
 
         assertParseSuccess(parser, "n/Alice Bob e/gmail nus t/friends cs2103", expectedFindCommand);
         assertParseSuccess(parser, "e/gmail nus t/friends cs2103 n/Alice Bob", expectedFindCommand);

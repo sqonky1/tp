@@ -7,13 +7,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameEmailTagPredicate;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -45,8 +42,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        return new FindCommand(
-                new NameEmailTagPredicate(nameKeywords, emailKeywords, tags));
+        return new FindCommand(new NameEmailTagPredicate(nameKeywords, emailKeywords, tags));
     }
 
     /**
