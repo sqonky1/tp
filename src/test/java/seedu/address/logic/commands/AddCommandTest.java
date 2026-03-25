@@ -40,8 +40,9 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson))
+                + "\n" + AddCommand.MESSAGE_NON_NUS_EMAIL;
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -96,6 +97,40 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(AMY_NO_TAGS);
         String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + AMY_NO_TAGS + "}";
         assertEquals(expected, addCommand.toString());
+    }
+
+    @Test
+    public void execute_nonNusEmail_addsWithWarning() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person personWithNonNusEmail = new PersonBuilder().withEmail("john@example.com").build();
+
+        CommandResult commandResult = new AddCommand(personWithNonNusEmail).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(personWithNonNusEmail))
+                + "\n" + AddCommand.MESSAGE_NON_NUS_EMAIL;
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_nusStudentEmail_addsWithoutWarning() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person personWithNusEmail = new PersonBuilder().withEmail("john@u.nus.edu").build();
+
+        CommandResult commandResult = new AddCommand(personWithNusEmail).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(personWithNusEmail));
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_nusStaffEmail_addsWithoutWarning() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person personWithNusEmail = new PersonBuilder().withEmail("john@nus.edu.sg").build();
+
+        CommandResult commandResult = new AddCommand(personWithNusEmail).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(personWithNusEmail));
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
     }
 
     /**
@@ -177,6 +212,7 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
     }
+
 
     /**
      * A Model stub that contains a single person.
