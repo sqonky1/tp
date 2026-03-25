@@ -21,21 +21,27 @@ public class HelpCommand extends Command {
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
     public static final String SHOWING_HELP_COMMAND_MESSAGE = "Opening user guide for '%s' command.";
 
-    /** Maps each command word to its user guide URL fragment. */
+    /**
+     * Maps each command word to its user guide URL fragment.
+     */
     public static final Map<String, String> COMMAND_URL_FRAGMENTS = Map.ofEntries(
             Map.entry("help", "#viewing-help--help"),
-            Map.entry("add", "#adding-a-person-add"),
+            Map.entry("add", "#adding-a-person--add"),
             Map.entry("list", "#listing-all-persons--list"),
             Map.entry("sort", "#sorting-persons--sort"),
             Map.entry("edit", "#editing-a-person--edit"),
-            Map.entry("find", "#locating-persons-by-nameemail-find"),
+            Map.entry("find", "#locating-persons-by-nameemail--find"),
             Map.entry("delete", "#deleting-a-person--delete"),
             Map.entry("clear", "#clearing-all-entries--clear"),
             Map.entry("exit", "#exiting-the-program--exit"),
-            Map.entry("tag", "")
-    );
+            Map.entry("tag", "#tagging-a-person--tag"),
+            Map.entry("untag", "#untagging-a-person--untag"),
+            Map.entry("cleartag", "#clearing-tags-from-a-person--cleartag")
+            );
 
-    /** The set of valid command names that can be used with {@code help <command>}. */
+    /**
+     * The set of valid command names that can be used with {@code help <command>}.
+     */
     public static final Set<String> VALID_COMMAND_NAMES = COMMAND_URL_FRAGMENTS.keySet();
 
     private final String targetCommand;
