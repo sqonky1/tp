@@ -143,8 +143,9 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private TelegramHandle telegramHandle;
-        private Set<Tag> tags;
-
+        private Set<Tag> roleTags;    // null = not specified (preserve existing)
+        private Set<Tag> courseTags;  // null = not specified (preserve existing)
+        private Set<Tag> generalTags; // null = not specified (preserve existi
         public EditPersonDescriptor() {}
 
         /**
