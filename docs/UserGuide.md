@@ -128,9 +128,7 @@ Constraints:
 * At least one of the optional fields must be provided.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Obtain the index by using:
-* the `list` command to display all persons, or 
-* the `find` command to filter the persons.
+Obtain the index by using: `list` command to display all persons or `find` command to filter the persons.
 </div>
 
 Examples:
@@ -152,12 +150,12 @@ Format: `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]�
 * Removes the specified tags from the person at the given `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * Multiple tags (of different or same types) can be removed in a single command. 
-* Only tags currently assigned to the person will be removed. Non-existing tags will be flagged.
+* Only tags currently assigned to the person will be removed.
 * Existing tags that are not specified will remain unchanged.
 * Tag matching is **case-insensitive**. e.g. `friends` and `FRIENDS` are considered the same.
 * Duplicate tags in the command will be ignored.
 
-Partial Removal Behavior:
+Partial removal behavior:
 * If some tags exist and others don't, the existing ones will be removed and a message will show which tags were not found.
 * If none of the specified tags exist, an error message will be shown and no changes will be made.
 
@@ -167,9 +165,7 @@ Constraints:
 * At least one of the optional fields must be provided.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Obtain the index by using:
-* the `list` command to display all persons, or 
-* the `find` command to filter the persons.
+Obtain the index by using: `list` command to display all persons or `find` command to filter the persons.
 </div>
 
 Examples:
@@ -181,6 +177,32 @@ Removes the `tutor` role tag, `cs2103` course tag and `classmates` general tag f
 
 * `untag 3 tc/cs2103 tc/cs2109`  
 Removes both `cs2103` and `cs2109` course tags from the 3rd person in the list.
+
+## Clearing tags from a person: `cleartag`
+
+Clears all tags of a specific type from an existing person in the address book.
+
+Format: `cleartag INDEX [tr/] or [tc/] or [tg/]`
+
+* Clears all tags of the specified type from the person at the given `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* Only one tag type can be cleared at a time.
+* Only tags of the specified type will be removed. Tags of other types remain unchanged.
+
+Constraints:
+* The index **must be a positive integer** 1, 2, 3, …​
+* **Exactly one tag type prefix** must be provided.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Obtain the index by using: `list` command to display all persons or `find` command to filter the persons.
+</div>
+
+Examples:
+* `cleartag 1 tg/`  
+Clears all general tags from the 1st person in the displayed list.
+
+* `cleartag 2 tr/`  
+Clears all role tags from the 2nd person in the displayed list.
 
 ### Listing all persons : `list`
 
@@ -341,6 +363,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]` <br> e.g., `add n/James Ho e/jamesho@example.com p/22224444 h/james_ho`
 **Clear** | `clear`
+**Cleartag** | `cleartag INDEX [tr/] or [tc/] or [tg/]` <br> e.g., `cleartag 1 tg/`
 **Delete** | `delete i/INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
 **Find** | `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`<br> e.g., `find n/alex e/gmail t/friends`
