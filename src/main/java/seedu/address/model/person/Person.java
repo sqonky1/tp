@@ -56,6 +56,22 @@ public class Person {
         this(name, phone, email, telegramHandle, new HashSet<>());
     }
 
+    /**
+     * Returns a new {@code Person} with the given tags.
+     * Other fields remain unchanged.
+     */
+    public Person withTags(Set<Tag> newTags) {
+        requireAllNonNull(newTags);
+
+        return new Person(
+                this.name,
+                this.phone,
+                this.email,
+                this.telegramHandle,
+                newTags
+        );
+    }
+
     public Name getName() {
         return name;
     }

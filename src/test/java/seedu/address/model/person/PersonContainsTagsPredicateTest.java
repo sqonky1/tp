@@ -5,28 +5,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 public class PersonContainsTagsPredicateTest {
 
     @Test
     public void equals() {
         PersonContainsTagsPredicate firstPredicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("friends", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("friends"));
         PersonContainsTagsPredicate secondPredicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("colleagues", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("colleagues"));
 
         // same object -> true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> true
         PersonContainsTagsPredicate firstPredicateCopy =
-                new PersonContainsTagsPredicate(Set.of(new Tag("friends", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("friends"));
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> false
@@ -42,7 +39,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void test_singleMatchingTag_returnsTrue() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("friends", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("friends"));
 
         assertTrue(predicate.test(ALICE));
     }
@@ -50,8 +47,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void test_multipleTagsPersonMatchesOne_returnsTrue() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of(
-                        new Tag("friends", TagType.GENERAL), new Tag("colleagues", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("friends", "colleagues"));
 
         assertTrue(predicate.test(ALICE));
         assertTrue(predicate.test(BENSON));
@@ -60,7 +56,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void test_noMatchingTags_returnsFalse() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("unknown", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("unknown"));
 
         assertFalse(predicate.test(ALICE));
     }
@@ -68,7 +64,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void test_caseInsensitiveMatching_returnsTrue() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("FrIeNdS", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("FRIENDS"));
 
         // 你的实现用了 toLowerCase → 应该匹配成功
         assertTrue(predicate.test(ALICE));
@@ -77,7 +73,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void test_emptyTagSet_returnsFalse() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of());
+                new PersonContainsTagsPredicate(List.of());
 
         // anyMatch over empty set → 永远 false
         assertFalse(predicate.test(ALICE));
@@ -86,7 +82,7 @@ public class PersonContainsTagsPredicateTest {
     @Test
     public void toStringMethod() {
         PersonContainsTagsPredicate predicate =
-                new PersonContainsTagsPredicate(Set.of(new Tag("friends", TagType.GENERAL)));
+                new PersonContainsTagsPredicate(List.of("friends"));
 
         String expected = PersonContainsTagsPredicate.class.getCanonicalName()
                 + "{tags=" + predicate.toString().split("tags=")[1];

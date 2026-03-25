@@ -1,5 +1,7 @@
 package seedu.address.model.person;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -11,8 +13,15 @@ import seedu.address.commons.util.ToStringBuilder;
 public class EmailContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
+    /**
+     * Creates a {@code EmailContainsKeywordsPredicate} using a list of email keywords.
+     *
+     * @param keywords The list of email keywords
+     */
     public EmailContainsKeywordsPredicate(List<String> keywords) {
-        this.keywords = keywords;
+        requireAllNonNull(keywords);
+
+        this.keywords = List.copyOf(keywords);
     }
 
     @Override

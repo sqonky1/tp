@@ -137,14 +137,35 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
+    public void tokenize_caseInsensitivePrefixes() {
+        // Uppercase prefix in input should match lowercase Prefix object
+        String argsString = "Some preamble P/ Argument value";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash);
+        assertPreamblePresent(argMultimap, "Some preamble");
+        assertArgumentPresent(argMultimap, pSlash, "Argument value");
+
+        // Mixed case
+        argsString = "preamble -T dashT-Value";
+        argMultimap = ArgumentTokenizer.tokenize(argsString, dashT);
+        assertPreamblePresent(argMultimap, "preamble");
+        assertArgumentPresent(argMultimap, dashT, "dashT-Value");
+    }
+
+
+    @Test
     public void equalsMethod() {
         Prefix aaa = new Prefix("aaa");
 
         assertEquals(aaa, aaa);
         assertEquals(aaa, new Prefix("aaa"));
 
-        assertNotEquals(aaa, "aaa");
+        assertEquals(aaa, new Prefix("AAA"));
+        assertEquals(aaa, new Prefix("Aaa"));
+        assertEquals(new Prefix("p/"), new Prefix("P/"));
+
+        assertNotEquals("aaa", aaa);
         assertNotEquals(aaa, new Prefix("aab"));
+
     }
 
 }

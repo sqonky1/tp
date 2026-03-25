@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.function.Predicate;
 
@@ -19,14 +20,25 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: " + PREFIX_NAME + "NAME [MORE_NAMES] " + PREFIX_EMAIL + "EMAIL [MORE_EMAILS] \n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alice Bob Charlie " + PREFIX_EMAIL + "gmail";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names, emails, or tags "
+            + "match the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+            + "The search uses OR logic within the same field (e.g. multiple name keywords) as well as AND logic "
+            + "across different fields (name, email, tags).\n"
+            + "Parameters: [" + PREFIX_NAME + "NAME [MORE_NAMES]] [" + PREFIX_EMAIL + "EMAIL [MORE_EMAILS]] ["
+            + PREFIX_TAG + "TAGS [MORE_TAGS]].\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alice Bob " + PREFIX_EMAIL + "nus "
+            + PREFIX_TAG + "friends";
 
     private final Predicate<Person> predicate;
 
+    /**
+     * Creates a FindCommand to find matching {@code Person} using the given {@code Predicate}.
+     *
+     * @param predicate The predicate to determine which persons match the search criteria
+     */
     public FindCommand(Predicate<Person>predicate) {
+        requireNonNull(predicate);
+
         this.predicate = predicate;
     }
 

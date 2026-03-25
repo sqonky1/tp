@@ -30,6 +30,8 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
    * `add n/John Doe e/johnd@example.com p/98765432 h/johndoe123 t/friend` : Adds a contact named `John Doe` to CampusBridge.
 
+   * `find n/John` : Finds all contacts whose names contain `John`.
+
    * `delete i/3` : Deletes the 3rd contact shown in the current list.
 
    * `clear` : Deletes all contacts.
@@ -60,6 +62,9 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+
+* Prefixes are case-insensitive.<br>
+  e.g. n/NAME and N/NAME are treated the same way.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -142,41 +147,47 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower h/betsyy t/` Edits the name of the 2nd person to be `Betsy Crower`, the telegram handle to be `betsyy` and clears all existing tags.
 
-### Filtering persons by tags: `filter`
+### Locating persons by name/email/tag: `find`
 
-Filters the list of persons by one or more tags.
+Finds persons whose names, emails, or tags match the given keywords.
 
-Format: `filter t/TAG [MORE_TAGS]…`
+Format: `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`
 
-* At least one `t/` prefix with a tag must be provided.
-* Persons with **any** of the specified tags will be shown.
-* The search with tags is case-insensitive. For example, `friend` matches `Friend`.
-* Tags can be combined in a single command to filter more broadly.
+* At least one of `n/`, `e/`, or `t/` must be present.
+* The search is case-insensitive for all fields. e.g. `hans` will match `Hans`
+* The order of keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 
-Examples:
-* `filter t/friend` — shows all persons tagged as `friend`.
-* `filter t/friend t/colleague` — shows all persons who are tagged as either `friend` **or** `colleague`.
-* `filter t/family t/friend t/neighbor` — shows all persons who have **at least one** of the tags: `family`, `friend`, or `neighbor`.
-
-### Locating persons by name/email: `find`
-
-Finds persons whose names or emails contain any of the given keywords.
-
-Format: `find n/NAME [MORE_NAMES] e/EMAIL [MORE_EMAILS]`
-
-* Both `n/` and `e/` are optional, but at least one must be present.
-* The search is case-insensitive for both name and email. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* For name, only full words will be matched e.g. `Han` will not match `Hans`
-* For email, partial substrings will be matched e.g. `gmail` will match `alice@gmail.com`
-* Persons matching at least one name/email keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+**Matching behavior:**
+* **Name** and **email** use substring matching.  
+  e.g. `Jo` will match `John` and `Alice Johnson`
+* **Tags** use exact matching.  
+  e.g. `cs2103` will match tag `cs2103` but not `cs210`
+* Multiple keywords within the same field are combined using **OR**.  
+  e.g. `n/Alex David` will match `Alex Yeoh` or `David Li`
+* Different fields are combined using **AND**.  
+  e.g. `n/Alex e/gmail` will match persons whose name contains `Alex` **and** email contains `gmail`
 
 Examples:
-* `find n/John` returns `john` and `John Doe`
-* `find n/alex david` returns `Alex Yeoh`, `David Li`<br>
-* `find e/david` returns `Alex Yeoh`, `David Li`<br>
-* `find n/alex e/doe` returns `Alex Yeoh`, `John Doe`<br>
+* `find n/John`  
+  Returns all persons whose names contain `John`
+
+* `find e/gmail`  
+  Returns all persons whose emails contain `gmail`
+
+* `find t/friends`  
+  Returns all persons tagged with `friends`
+
+* `find n/alex e/u.nus.edu`  
+  Returns persons whose name contains `alex` **and** email contains `u.nus.edu`
+
+* `find n/alex t/friends`  
+  Returns persons whose name contains `alex` **and** are tagged with `friends` 
+
+* `find n/alex e/nus t/friends`  
+  Returns persons whose name contains `alex` **and** email contains `nus` **and** are tagged with `friends`
+
+* `find n/alex david`  
+  Returns persons whose name contains `alex` **or** `david`
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person : `delete`
@@ -261,8 +272,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete i/INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
-**Find** | `find n/NAME [MORE_NAMES] e/EMAIL [MORE_EMAILS]`<br> e.g., `find n/alex e/doe`
-**Filter** | `filter t/TAG [MORE_TAGS]…`<br> e.g., `filter t/friend t/colleague`
+**Find** | `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`<br> e.g., `find n/alex e/gmail t/friends`
 **List** | `list`
 **Sort** | `sort o/ORDER [r/]`<br> e.g., `sort o/name`, `sort o/name r/`
 **Help** | `help [COMMAND]`<br> e.g., `help`, `help add`, `help sort`
