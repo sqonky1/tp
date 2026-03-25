@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Model;
-import seedu.address.ui.HelpWindow;
 
 /**
  * Format full help instructions for every command for display.
@@ -13,6 +12,7 @@ import seedu.address.ui.HelpWindow;
 public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
+    public static final String USERGUIDE_URL = "https://ay2526s2-cs2103-f11-2.github.io/tp/UserGuide.html";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD + "\n"
@@ -80,7 +80,7 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         String fragment = targetCommand == null ? "" : COMMAND_URL_FRAGMENTS.get(targetCommand);
-        String url = HelpWindow.USERGUIDE_URL + fragment;
+        String url = USERGUIDE_URL + fragment;
         String message = targetCommand == null
                 ? SHOWING_HELP_MESSAGE
                 : String.format(SHOWING_HELP_COMMAND_MESSAGE, targetCommand);
