@@ -31,6 +31,11 @@ public class FindCommand extends Command {
 
     private final Predicate<Person> predicate;
 
+    /**
+     * Creates a FindCommand to find matching {@code Person} using the given {@code Predicate}.
+     *
+     * @param predicate The predicate to determine which persons match the search criteria
+     */
     public FindCommand(Predicate<Person>predicate) {
         requireNonNull(predicate);
 

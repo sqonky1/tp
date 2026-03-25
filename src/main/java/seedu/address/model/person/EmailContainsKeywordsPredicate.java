@@ -13,6 +13,11 @@ import seedu.address.commons.util.ToStringBuilder;
 public class EmailContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
+    /**
+     * Creates a {@code EmailContainsKeywordsPredicate} using a list of email keywords.
+     *
+     * @param keywords The list of email keywords
+     */
     public EmailContainsKeywordsPredicate(List<String> keywords) {
         requireAllNonNull(keywords);
 

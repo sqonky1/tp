@@ -15,8 +15,10 @@ public class PersonContainsTagsPredicate implements Predicate<Person> {
     private final List<String> tagNames;
 
     /**
-     * Extract all the tag names
-     * @param tagNames The input tags by user
+     * Creates a {@code PersonContainsTagPredicate} using a list of tag names.
+     * The tag names are converted to lowercase for case-insensitive comparison.
+     *
+     * @param tagNames The list of tag names
      */
     public PersonContainsTagsPredicate(List<String> tagNames) {
         requireAllNonNull(tagNames);

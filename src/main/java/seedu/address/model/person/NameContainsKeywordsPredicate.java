@@ -13,6 +13,11 @@ import seedu.address.commons.util.ToStringBuilder;
 public class NameContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
+    /**
+     * Constructs a {@code NameContainsKeywordsPredicate} using a list of name keywords.
+     *
+     * @param keywords The list of name keywords.
+     */
     public NameContainsKeywordsPredicate(List<String> keywords) {
         requireAllNonNull(keywords);
 
