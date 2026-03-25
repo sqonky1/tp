@@ -18,9 +18,11 @@ public class UntagCommandParserTest {
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_ROLE_TAG = "tutor";
+    private static final String VALID_ROLE_TAG_MIXED = "TuToR";
     private static final String VALID_COURSE_TAG = "cs2103";
     private static final String VALID_COURSE_TAG_2 = "cs2109s";
     private static final String VALID_GENERAL_TAG = "friends";
+    private static final String VALID_GENERAL_TAG_UPPER = "FRIENDS";
 
     private UntagCommandParser parser = new UntagCommandParser();
 
@@ -77,6 +79,22 @@ public class UntagCommandParserTest {
     }
 
     @Test
+    public void parse_duplicateTagsCaseInsensitive_success() {
+        Index index = Index.fromOneBased(1);
+        Set<Tag> expectedTags = Set.of(new Tag(VALID_GENERAL_TAG, TagType.GENERAL));
+
+        assertParseSuccess(parser,
+                "1 tg/" + VALID_GENERAL_TAG + " tg/" + VALID_GENERAL_TAG_UPPER,
+                new UntagCommand(index, expectedTags));
+
+        // duplicate with mixed case role
+        expectedTags = Set.of(new Tag(VALID_ROLE_TAG, TagType.ROLE));
+        assertParseSuccess(parser,
+                "1 tr/" + VALID_ROLE_TAG + " tr/" + VALID_ROLE_TAG_MIXED,
+                new UntagCommand(index, expectedTags));
+    }
+
+    @Test
     public void parse_missingIndex_failure() {
         assertParseFailure(parser,
                 " tg/" + VALID_GENERAL_TAG,
@@ -102,12 +120,20 @@ public class UntagCommandParserTest {
         assertParseFailure(parser,
                 "1 tg/" + INVALID_TAG,
                 Tag.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser,
+                "1 tg/",
+                Tag.MESSAGE_CONSTRAINTS);
     }
 
     @Test
     public void parse_invalidPrefix_failure() {
         assertParseFailure(parser,
                 "1 to/" + VALID_ROLE_TAG,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, UntagCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser,
+                "1 n/" + VALID_ROLE_TAG,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, UntagCommand.MESSAGE_USAGE));
     }
 

@@ -69,6 +69,28 @@ public class TagCommandTest {
     }
 
     @Test
+    public void execute_validIndexAddSingleTagCaseInsensitive_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Tag newTag = new Tag("mentor", TagType.ROLE);
+        Set<Tag> tagsToAdd = new HashSet<>();
+        tagsToAdd.add(new Tag("MeNtoR", TagType.ROLE));
+
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.add(newTag);
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+
+        expectedModel.setPerson(personToEdit, editedPerson);
+        String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
+        assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_validIndexAddMultipleTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
@@ -111,6 +133,31 @@ public class TagCommandTest {
         expectedModel.setPerson(personWithoutTags, editedPerson);
         String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
         assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_sameTagNameDifferentTypes_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Tag roleTag = new Tag("mentor", TagType.ROLE);
+        Tag generalTag = new Tag("mentor", TagType.GENERAL);
+
+        Set<Tag> tagsToAdd = Set.of(roleTag, generalTag);
+
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.add(roleTag);
+        expectedTags.add(generalTag); // both should be added as they're different types
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(tagCommand, model,
+                String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd),
+                expectedModel);
     }
 
     @Test
@@ -196,7 +243,7 @@ public class TagCommandTest {
     }
 
     @Test
-    public void toStringMethod_containsFields() {
+    public void toStringMethod() {
         Set<Tag> tagsToAdd = Set.of(
                 new Tag("cs2103", TagType.COURSE),
                 new Tag("tutor", TagType.ROLE)
@@ -205,7 +252,7 @@ public class TagCommandTest {
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
 
         String expected = TagCommand.class.getCanonicalName()
-                + "{tagsToAdd=" + tagsToAdd + "}";
+                + "{index=" + INDEX_FIRST_PERSON + ", tagsToAdd=" + tagsToAdd + "}";
 
         assertEquals(expected, tagCommand.toString());
     }

@@ -76,6 +76,30 @@ public class UntagCommandTest {
     }
 
     @Test
+    public void execute_validIndexRemoveOneTagCaseInsensitive_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // remove ONE existing tag lowercase
+        Tag tagToRemove = personToEdit.getTags().iterator().next();
+
+        Set<Tag> tagsToRemove = new HashSet<>();
+        tagsToRemove.add(new Tag(tagToRemove.tagName.toUpperCase(), tagToRemove.type));
+
+        UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, tagsToRemove);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.remove(tagToRemove);
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+
+        expectedModel.setPerson(personToEdit, editedPerson);
+        String expectedMessage = String.format(UntagCommand.MESSAGE_SUCCESS, tagsToRemove);
+        assertCommandSuccess(untagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_validIndexRemoveAllTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
@@ -154,6 +178,31 @@ public class UntagCommandTest {
     }
 
     @Test
+    public void execute_duplicateTagsInRemoveSet_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Tag existingTag = personToEdit.getTags().iterator().next();
+
+        Set<Tag> tagsToRemove = new HashSet<>();
+        tagsToRemove.add(existingTag);
+        tagsToRemove.add(existingTag); // duplicate won't be added due to Set
+
+        UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, tagsToRemove);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.remove(existingTag);
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(untagCommand, model,
+                String.format(UntagCommand.MESSAGE_SUCCESS, tagsToRemove),
+                expectedModel);
+    }
+
+    @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
 
@@ -197,7 +246,7 @@ public class UntagCommandTest {
     }
 
     @Test
-    public void toStringMethod_containsFields() {
+    public void toStringMethod() {
         Set<Tag> tagsToRemove = Set.of(
                 new Tag("friend", TagType.GENERAL),
                 new Tag("tutor", TagType.ROLE)
@@ -206,7 +255,7 @@ public class UntagCommandTest {
         UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, tagsToRemove);
 
         String expected = UntagCommand.class.getCanonicalName()
-                + "{tagsToRemove=" + tagsToRemove + "}";
+                + "{index=" + INDEX_FIRST_PERSON + ", tagsToRemove=" + tagsToRemove + "}";
 
         assertEquals(expected, untagCommand.toString());
     }

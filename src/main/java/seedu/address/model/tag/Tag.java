@@ -3,6 +3,7 @@ package seedu.address.model.tag;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -30,7 +31,7 @@ public class Tag {
 
         checkArgument(isValidTagName(tagName), MESSAGE_CONSTRAINTS);
 
-        this.tagName = tagName;
+        this.tagName = tagName.toLowerCase(Locale.ROOT);
         this.type = type;
     }
 
