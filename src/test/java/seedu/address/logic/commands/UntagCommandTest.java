@@ -76,6 +76,30 @@ public class UntagCommandTest {
     }
 
     @Test
+    public void execute_validIndexRemoveOneTagCaseInsensitive_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // remove ONE existing tag lowercase
+        Tag tagToRemove = personToEdit.getTags().iterator().next();
+
+        Set<Tag> tagsToRemove = new HashSet<>();
+        tagsToRemove.add(new Tag(tagToRemove.tagName.toUpperCase(), tagToRemove.type));
+
+        UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, tagsToRemove);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.remove(tagToRemove);
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+
+        expectedModel.setPerson(personToEdit, editedPerson);
+        String expectedMessage = String.format(UntagCommand.MESSAGE_SUCCESS, tagsToRemove);
+        assertCommandSuccess(untagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_validIndexRemoveAllTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 

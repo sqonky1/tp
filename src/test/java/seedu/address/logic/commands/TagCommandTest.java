@@ -69,6 +69,28 @@ public class TagCommandTest {
     }
 
     @Test
+    public void execute_validIndexAddSingleTagCaseInsensitive_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Tag newTag = new Tag("mentor", TagType.ROLE);
+        Set<Tag> tagsToAdd = new HashSet<>();
+        tagsToAdd.add(new Tag("MeNtoR", TagType.ROLE));
+
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, tagsToAdd);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        Set<Tag> expectedTags = new HashSet<>(personToEdit.getTags());
+        expectedTags.add(newTag);
+
+        Person editedPerson = personToEdit.withTags(expectedTags);
+
+        expectedModel.setPerson(personToEdit, editedPerson);
+        String expectedMessage = String.format(TagCommand.MESSAGE_SUCCESS, tagsToAdd);
+        assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_validIndexAddMultipleTags_success() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 

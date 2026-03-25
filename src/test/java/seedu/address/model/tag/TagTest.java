@@ -14,6 +14,10 @@ public class TagTest {
         Tag tag = new Tag("friend", TagType.GENERAL);
         assertEquals("friend", tag.tagName);
         assertEquals(TagType.GENERAL, tag.getType());
+
+        Tag tagUpper = new Tag("FRIEND", TagType.GENERAL);
+        assertEquals("friend", tagUpper.tagName);
+        assertEquals(TagType.GENERAL, tagUpper.getType());
     }
 
     @Test
@@ -35,6 +39,7 @@ public class TagTest {
     public void constructor_invalidTagName_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new Tag(" ", TagType.GENERAL));
         assertThrows(IllegalArgumentException.class, () -> new Tag("#friends", TagType.GENERAL));
+        assertThrows(IllegalArgumentException.class, () -> new Tag("test 123", TagType.GENERAL));
     }
 
 
@@ -55,6 +60,8 @@ public class TagTest {
         assertTrue(Tag.isValidTagName("friends"));
         assertTrue(Tag.isValidTagName("cs2103"));
         assertTrue(Tag.isValidTagName("MA1522"));
+        assertTrue(Tag.isValidTagName("Friends"));
+        assertTrue(Tag.isValidTagName("CS2103"));
     }
 
     @Test
@@ -63,12 +70,16 @@ public class TagTest {
         Tag tag2 = new Tag("friends", TagType.GENERAL);
         Tag tag3 = new Tag("friends", TagType.ROLE);
         Tag tag4 = new Tag("family", TagType.GENERAL);
+        Tag tag5 = new Tag("FRIENDS", TagType.GENERAL);
 
         // same object
         assertTrue(tag1.equals(tag1));
 
         // same values
         assertTrue(tag1.equals(tag2));
+
+        // same name different case -> equal
+        assertTrue(tag1.equals(tag5));
 
         // different type
         assertFalse(tag1.equals(tag3));
@@ -93,9 +104,22 @@ public class TagTest {
     }
 
     @Test
+    public void hashCode_consistentWithEquals_caseInsensitive() {
+        Tag tagLower = new Tag("friends", TagType.GENERAL);
+        Tag tagUpper = new Tag("FRIENDS", TagType.GENERAL);
+
+        assertTrue(tagLower.equals(tagUpper));
+        assertEquals(tagLower.hashCode(), tagUpper.hashCode());
+    }
+
+    @Test
     public void toString_formatCorrect() {
         Tag tag = new Tag("friends", TagType.GENERAL);
         String expected = TagType.GENERAL + ": friends";
         assertTrue(tag.toString().equals(expected));
+
+        // mixed case input
+        Tag tagUpper = new Tag("FRIENDS", TagType.GENERAL);
+        assertEquals(expected, tagUpper.toString());
     }
 }
