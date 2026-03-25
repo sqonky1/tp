@@ -69,6 +69,21 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+### Tag types
+
+CampusBridge supports three tag types, each displayed in a distinct colour:
+
+| Tag type | Colour | Purpose | Example |
+|----------|--------|---------|---------|
+| **Role** | Green | Academic role of the contact | `Professor`, `TeachingAssistant` |
+| **Course** | Blue | NUS course code associated with the contact | `CS2103T`, `CS2101` |
+| **General** | Red | Any other label | `ProjectMate`, `StudyGroup` |
+
+When adding or editing tags, prefix the tag name with the type:
+* `tr/TAG` — creates a Role tag
+* `tc/TAG` — creates a Course tag
+* `t/TAG` — creates a General tag
+
 ### Viewing help : `help`
 
 Opens the help window with a link to this user guide, or opens the user guide directly to the section for a specific command.
