@@ -333,6 +333,48 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Undoing the last action : `undo`
+
+Reverts the most recent **undoable command** executed.
+
+Format: `undo`
+
+* Undoes the last executed command that supports undo.
+* Multiple undo operations can be performed consecutively, up to the number of undoable commands previously executed.
+* If there are no commands to undo, an error message will be shown.
+
+**Undoable commands:**
+* `add`
+* `delete`
+* `edit`
+* `clear`
+
+Commands that are not listed above **cannot be undone**.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can repeatedly use `undo` to step backwards through your previous changes.
+</div>
+
+Examples:
+* `add n/John Doe e/john@example.com`  
+  `undo`  
+  Reverts the addition of John Doe.
+
+* `delete i/2`  
+  `undo`  
+  Restores the previously deleted person.
+
+* `edit 1 n/Alex Tan`  
+  `undo`  
+  Restores the original details of the 1st person.
+
+* `clear`  
+  `undo`  
+  Restores all previously deleted contacts.
+
+* `undo` (when no more commands to undo)  
+  Shows an error message indicating that there are no actions to undo.
+
 ### Exiting the program : `exit`
 
 Exits the program.
