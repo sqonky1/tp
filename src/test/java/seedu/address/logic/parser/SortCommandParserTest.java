@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_REVERSE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.TreeMap;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
@@ -53,20 +55,50 @@ public class SortCommandParserTest {
     @Test
     public void parse_invalidOrderValue_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_SORT_ORDER,
-                String.join(", ", SORT_COMPARATORS.keySet()));
-        assertParseFailure(parser, " o/phone", expectedMessage);
+                String.join(", ", new TreeMap<>(SORT_COMPARATORS).keySet()) + ", none");
+        assertParseFailure(parser, " o/invalid", expectedMessage);
     }
 
     @Test
     public void parse_invalidOrderAddress_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_SORT_ORDER,
-                String.join(", ", SORT_COMPARATORS.keySet()));
+                String.join(", ", new TreeMap<>(SORT_COMPARATORS).keySet()) + ", none");
         assertParseFailure(parser, " o/address", expectedMessage);
     }
 
     @Test
     public void parse_reverseFlagWithValue_throwsParseException() {
         assertParseFailure(parser, " o/name r/sometext", MESSAGE_INVALID_REVERSE_FLAG);
+    }
+
+    @Test
+    public void parse_validArgs_sortByEmail() {
+        assertParseSuccess(parser, " o/email", new SortCommand("email", false));
+    }
+
+    @Test
+    public void parse_validArgs_sortByEmailReversed() {
+        assertParseSuccess(parser, " o/email r/", new SortCommand("email", true));
+    }
+
+    @Test
+    public void parse_validArgs_sortByPhone() {
+        assertParseSuccess(parser, " o/phone", new SortCommand("phone", false));
+    }
+
+    @Test
+    public void parse_validArgs_sortByPhoneReversed() {
+        assertParseSuccess(parser, " o/phone r/", new SortCommand("phone", true));
+    }
+
+    @Test
+    public void parse_validArgs_sortNone() {
+        assertParseSuccess(parser, " o/none", new SortCommand("none", false));
+    }
+
+    @Test
+    public void parse_noneWithReverseFlag_throwsParseException() {
+        assertParseFailure(parser, " o/none r/", MESSAGE_INVALID_REVERSE_FLAG);
     }
 
     @Test
