@@ -14,6 +14,8 @@ import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +23,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 
 public class SortCommandTest {
 
@@ -128,6 +133,19 @@ public class SortCommandTest {
         // Insertion order restored
         assertEquals(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE),
                 model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_sortByPhone_nullPhoneLast() throws CommandException {
+        Model freshModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Person noPhone = new Person(new Name("Zara Zara"), null, new Email("zara@example.com"), new HashSet<>());
+        freshModel.addPerson(noPhone);
+
+        new SortCommand("phone", false).execute(freshModel);
+
+        // null phone sorts last (Comparator.nullsLast)
+        List<Person> sorted = (List<Person>) freshModel.getFilteredPersonList();
+        assertEquals(noPhone, sorted.get(sorted.size() - 1));
     }
 
     @Test
