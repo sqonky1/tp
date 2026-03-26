@@ -17,7 +17,7 @@ State2 -[hidden]right-> State3
 
 hide State3
 
-class Pointer as "Current State" #FFFFFF
+class Pointer as "Current" #FFFFFF
 
 Pointer -up-> State2
 @end
