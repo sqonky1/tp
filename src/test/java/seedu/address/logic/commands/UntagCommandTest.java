@@ -288,4 +288,10 @@ public class UntagCommandTest {
         UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, Set.of(new Tag("friends", TagType.GENERAL)));
         assertUndoFailure(untagCommand, model, UntagCommand.MESSAGE_UNDO_FAILURE);
     }
+
+    @Test
+    public void isUndoable_returnsTrue() {
+        UntagCommand untagCommand = new UntagCommand(INDEX_FIRST_PERSON, Set.of(new Tag("friends", TagType.GENERAL)));
+        assertTrue(untagCommand.isUndoable());
+    }
 }

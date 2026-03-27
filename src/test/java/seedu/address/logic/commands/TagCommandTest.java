@@ -284,4 +284,10 @@ public class TagCommandTest {
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, Set.of(new Tag("mentor", TagType.ROLE)));
         assertUndoFailure(tagCommand, model, TagCommand.MESSAGE_UNDO_FAILURE);
     }
+
+    @Test
+    public void isUndoable_returnsTrue() {
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, Set.of(new Tag("mentor", TagType.ROLE)));
+        assertTrue(tagCommand.isUndoable());
+    }
 }

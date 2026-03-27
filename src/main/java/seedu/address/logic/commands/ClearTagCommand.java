@@ -36,9 +36,13 @@ public class ClearTagCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "All %1$s tags removed: %2$s";
     public static final String MESSAGE_NO_TAGS_FOUND = "No %1$s tags found to clear";
+    public static final String MESSAGE_UNDO_SUCCESS = "Undo clear %1$s tags for: %2$s";
+    public static final String MESSAGE_UNDO_FAILURE = "Cannot undo clear tag before command execution.";
 
     private final Index index;
     private final TagType typeToClear;
+    private Person originalPerson;
+    private Person updatedPerson;
 
     /**
      * @param index       of the person in the filtered person list to clear tags.
@@ -62,6 +66,7 @@ public class ClearTagCommand extends Command {
         }
 
         Person personToClearTag = lastShownList.get(index.getZeroBased());
+        originalPerson = personToClearTag;
 
         // collect all tags of the type to remove
         Set<Tag> removedTags = personToClearTag.getTags().stream()
@@ -77,11 +82,29 @@ public class ClearTagCommand extends Command {
                 .collect(Collectors.toSet());
 
         Person editedPerson = personToClearTag.withTags(updatedTags);
+        updatedPerson = editedPerson;
 
         model.setPerson(personToClearTag, editedPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, typeToClear, removedTags));
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        requireNonNull(model);
+        if (originalPerson == null || updatedPerson == null) {
+            throw new CommandException(MESSAGE_UNDO_FAILURE);
+        }
+
+        model.setPerson(updatedPerson, originalPerson);
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(String.format(MESSAGE_UNDO_SUCCESS, typeToClear, Messages.format(originalPerson)));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.assertUndoFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertUndoSuccess;
@@ -49,6 +50,12 @@ public class ClearCommandTest {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         ClearCommand clearCommand = new ClearCommand();
         assertUndoFailure(clearCommand, model, ClearCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void isUndoable_returnsTrue() {
+        ClearCommand clearCommand = new ClearCommand();
+        assertTrue(clearCommand.isUndoable());
     }
 
 }

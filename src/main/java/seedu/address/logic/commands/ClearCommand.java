@@ -24,6 +24,7 @@ public class ClearCommand extends Command {
         requireNonNull(model);
         previousAddressBook = new AddressBook(model.getAddressBook());
         model.setAddressBook(new AddressBook());
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
@@ -39,6 +40,7 @@ public class ClearCommand extends Command {
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
         model.setAddressBook(previousAddressBook);
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(MESSAGE_UNDO_SUCCESS);
     }
 }

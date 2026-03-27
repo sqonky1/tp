@@ -15,7 +15,6 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -38,7 +37,6 @@ public class UntagCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Tags removed: %1$s";
     public static final String MESSAGE_PARTIAL_SUCCESS = "Tags removed: %1$s\nTags not found: %2$s";
     public static final String MESSAGE_NO_TAGS_FOUND = "None of the specified tags were found";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo untag operation for: %1$s";
     public static final String MESSAGE_UNDO_FAILURE = "Cannot undo untag before command execution.";
 
@@ -104,11 +102,7 @@ public class UntagCommand extends Command {
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
 
-        try {
-            model.setPerson(updatedPerson, originalPerson);
-        } catch (DuplicatePersonException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        }
+        model.setPerson(updatedPerson, originalPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_UNDO_SUCCESS, Messages.format(originalPerson)));
     }
