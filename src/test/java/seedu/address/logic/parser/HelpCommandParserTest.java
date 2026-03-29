@@ -35,10 +35,18 @@ public class HelpCommandParserTest {
 
 
     @Test
+    public void parse_multipleWords_throwsParseException() {
+        assertParseFailure(parser, "add clear",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "notexist another",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_invalidCommand_throwsParseException() {
         assertParseFailure(parser, "unknown",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+                String.format(HelpCommand.MESSAGE_UNKNOWN_COMMAND, "unknown"));
         assertParseFailure(parser, "ADD",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+                String.format(HelpCommand.MESSAGE_UNKNOWN_COMMAND, "ADD"));
     }
 }

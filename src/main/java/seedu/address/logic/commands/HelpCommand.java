@@ -1,8 +1,10 @@
 package seedu.address.logic.commands;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.model.Model;
 
@@ -43,6 +45,16 @@ public class HelpCommand extends Command {
      * The set of valid command names that can be used with {@code help <command>}.
      */
     public static final Set<String> VALID_COMMAND_NAMES = COMMAND_URL_FRAGMENTS.keySet();
+
+    /**
+     * Sorted list of valid command names, for display in error messages.
+     */
+    public static final List<String> VALID_COMMAND_NAMES_SORTED = VALID_COMMAND_NAMES.stream()
+            .sorted().collect(Collectors.toList());
+
+    public static final String MESSAGE_UNKNOWN_COMMAND =
+            "Command \"%s\" does not exist.\nValid commands: "
+            + String.join(", ", VALID_COMMAND_NAMES_SORTED);
 
     private final String targetCommand;
 
