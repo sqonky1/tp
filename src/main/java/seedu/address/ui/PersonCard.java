@@ -20,6 +20,7 @@ import seedu.address.model.tag.TagType;
  */
 public class PersonCard extends UiPart<Region> {
     private static final double PAUSE_TIME = 0.5;
+    private static final String COPIED_TEXT = "✓ Copied!";
 
     private static final String FXML = "PersonListCard.fxml";
 
@@ -106,14 +107,17 @@ public class PersonCard extends UiPart<Region> {
     }
 
     private void copyToClipboard(Label label, String text) {
+        if (COPIED_TEXT.equals(label.getText())) {
+            return;
+        }
+
         ClipboardContent content = new ClipboardContent();
         content.putString(text);
         Clipboard.getSystemClipboard().setContent(content);
 
-        String original = label.getText();
-        label.setText("✓ Copied!");
+        label.setText(COPIED_TEXT);
         PauseTransition pause = new PauseTransition(Duration.seconds(PAUSE_TIME));
-        pause.setOnFinished(e -> label.setText(original));
+        pause.setOnFinished(e -> label.setText(text));
         pause.play();
     }
 }

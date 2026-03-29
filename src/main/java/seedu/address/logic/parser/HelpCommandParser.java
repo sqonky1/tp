@@ -21,8 +21,11 @@ public class HelpCommandParser implements Parser<HelpCommand> {
         if (trimmed.isEmpty()) {
             return new HelpCommand();
         }
-        if (!HelpCommand.VALID_COMMAND_NAMES.contains(trimmed)) {
+        if (trimmed.contains(" ")) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        }
+        if (!HelpCommand.VALID_COMMAND_NAMES.contains(trimmed)) {
+            throw new ParseException(String.format(HelpCommand.MESSAGE_UNKNOWN_COMMAND, trimmed));
         }
         return new HelpCommand(trimmed);
     }

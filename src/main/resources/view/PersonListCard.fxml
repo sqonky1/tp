@@ -25,12 +25,12 @@
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+        <Label fx:id="name" text="\$first" styleClass="cell_big_label" HBox.hgrow="ALWAYS" minWidth="0" />
       </HBox>
       <FlowPane fx:id="tags" />
-      <Label fx:id="email" styleClass="cell_small_label" text="$email" />
-      <Label fx:id="phone" styleClass="cell_small_label" text="$phone" />
-      <Label fx:id="telegramHandle" styleClass="cell_small_label" text="$telegramHandle" />
+      <Label fx:id="email" styleClass="cell_small_label" text="$email" maxWidth="Infinity" minWidth="0" />
+      <Label fx:id="phone" styleClass="cell_small_label" text="$phone" maxWidth="Infinity" minWidth="0" />
+      <Label fx:id="telegramHandle" styleClass="cell_small_label" text="$telegramHandle" maxWidth="Infinity" minWidth="0" />
     </VBox>
   </GridPane>
 </HBox>
