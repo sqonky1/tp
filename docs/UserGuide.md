@@ -62,8 +62,8 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
 
 * Prefixes are case-insensitive.<br>
   e.g. n/NAME and N/NAME are treated the same way.
@@ -133,8 +133,10 @@ Format: `help [COMMAND]`
 
 Alternatively, press `F1` to open the user guide.
 
-* `COMMAND` is optional. When provided, it must be a valid command name (e.g. `add`, `edit`).
+* `COMMAND` is optional. When provided, it must be a single valid command name (e.g. `add`, `edit`).
 * If `COMMAND` is provided, the user guide is opened at the section for that command.
+* If `COMMAND` is not a recognised command name, an error is shown listing all valid commands.
+* If more than one word is provided (e.g. `help add clear`), an invalid command format error is shown.
 
 Examples:
 * `help` — opens the help window.
