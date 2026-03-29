@@ -557,25 +557,23 @@ testers are expected to do more *exploratory* testing.
 1. Opening general help
 
    1. Test case: `help`<br>
-      Expected: Help window opens. Status message shows `Opened help window.`
+      Expected: The User Guide opens in the system default browser. Status message shows `Opened user guide in browser.`
 
    1. Alternative: Press <kbd>F1</kbd>.<br>
       Expected: Same as above.
 
-   1. Known issue — minimized help window: If the help window is already open but minimized, running `help` or pressing <kbd>F1</kbd> again does not bring it back up. The minimized window must be restored manually.
-
 1. Opening command-specific help
 
    1. Test case: `help add`<br>
-      Expected: Help window opens to the `add` command section of the User Guide. Status message shows `Opening user guide for 'add' command.`
+      Expected: The User Guide opens in the system default browser at the `add` command section. Status message shows `Opening user guide for 'add' command.`
 
    1. Other valid command names to try: `help list`, `help edit`, `help delete`, `help find`, `help sort`, `help tag`, `help untag`, `help cleartag`, `help clear`, `help exit`<br>
-      Expected: Help window opens to the respective command section. Status message names the command.
+      Expected: The User Guide opens at the respective command section. Status message names the command.
 
 1. Invalid help arguments
 
    1. Test case: `help INVALID`<br>
-      Expected: Help window does not open. Error details shown in the status message.
+      Expected: The User Guide does not open. Error details shown in the status message.
 
    1. Test case: `help ADD` (uppercase)<br>
       Expected: Same as above. Command names are case-sensitive and must be lowercase.
