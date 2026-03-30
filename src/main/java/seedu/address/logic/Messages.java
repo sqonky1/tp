@@ -31,7 +31,7 @@ public class Messages {
                 "Invalid command format! \nThe prefix should not be followed by any values. \n%1$s";
     public static final String MESSAGE_NON_NUS_EMAIL = "Warning: Email is not an NUS domain.";
     public static final String MESSAGE_UNEXPECTED_EXTRA_INPUT =
-            "Unexpected extra inputs detected: '%s'\n%s";
+            "Invalid command format! \nUnexpected extra input detected: '%s'.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

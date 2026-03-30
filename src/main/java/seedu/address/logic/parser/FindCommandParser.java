@@ -30,7 +30,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         Optional<String> unexpectedInput = Parser.findUnexpectedExtraInput(args, NON_FIND_COMMAND_PREFIXES);
         if (unexpectedInput.isPresent()) {
             throw new ParseException(String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT,
-                    unexpectedInput.get(), FindCommand.MESSAGE_USAGE));
+                    unexpectedInput.get()));
         }
 
         // ArgumentTokenizer recognizes prefixes only when preceded by whitespace.
