@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_EXTRA_INPUT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -51,6 +52,12 @@ public class FindCommandParserTest {
     public void parse_preambleNotEmpty_throwsParseException() {
         assertParseFailure(parser, "alice n/bob",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_disallowedPrefix_throwsParseException() {
+        assertParseFailure(parser, "n/alice tc/cs2103",
+                String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT, "tc/cs2103", FindCommand.MESSAGE_USAGE));
     }
 
     @Test
