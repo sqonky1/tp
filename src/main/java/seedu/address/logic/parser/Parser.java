@@ -1,7 +1,5 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.NON_ADD_COMMAND_PREFIXES;
-
 import java.util.Optional;
 
 import seedu.address.logic.commands.Command;
@@ -37,12 +35,12 @@ public interface Parser<T extends Command> {
         return Optional.ofNullable(unexpectedToken);
     }
 
-    static int findPrefixPosition(String args, Prefix prefix) {
+    private static int findPrefixPosition(String args, Prefix prefix) {
         int prefixIndex = args.indexOf(" " + prefix.getPrefix());
         return prefixIndex == -1 ? -1 : prefixIndex + 1;
     }
 
-    static String extractToken(String args, int startPosition) {
+    private static String extractToken(String args, int startPosition) {
         int endPosition = args.indexOf(' ', startPosition);
         if (endPosition == -1) {
             return args.substring(startPosition);
