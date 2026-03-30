@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -129,5 +131,38 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName, type));
         }
         return tagSet;
+    }
+
+    /**
+     * Returns the first disallowed prefixed token in input order, if any.
+     * A prefix is only recognized when preceded by whitespace, matching ArgumentTokenizer behavior.
+     */
+    static Optional<String> findUnexpectedExtraInput(String args, Prefix[] disallowedPrefixes) {
+        int earliestPosition = -1;
+        String unexpectedToken = null;
+
+        for (Prefix prefix : disallowedPrefixes) {
+            int position = findPrefixPosition(args, prefix);
+            if (position != -1 && (earliestPosition == -1 || position < earliestPosition)) {
+                earliestPosition = position;
+                unexpectedToken = extractToken(args, position);
+            }
+        }
+
+        return Optional.ofNullable(unexpectedToken);
+    }
+
+    private static int findPrefixPosition(String args, Prefix prefix) {
+        int prefixIndex = args.toLowerCase(Locale.ROOT)
+                .indexOf(" " + prefix.getPrefix().toLowerCase(Locale.ROOT));
+        return prefixIndex == -1 ? -1 : prefixIndex + 1;
+    }
+
+    private static String extractToken(String args, int startPosition) {
+        int endPosition = args.indexOf(' ', startPosition);
+        if (endPosition == -1) {
+            return args.substring(startPosition);
+        }
+        return args.substring(startPosition, endPosition);
     }
 }
