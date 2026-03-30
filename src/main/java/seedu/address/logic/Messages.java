@@ -16,6 +16,8 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
+    public static final String MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX =
+            "No person exists at index %1$s.\nTip: Use 'list' to see the current person list.";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
@@ -26,7 +28,8 @@ public class Messages {
                 "The r/ flag does not accept a value. Use r/ alone to reverse sort order.";
     public static final String MESSAGE_REVERSE_FLAG_WITH_NONE =
                 "The r/ flag cannot be used with o/none. To reset sort order, use: sort o/none";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_EMAIL = "The person email provided is invalid";
+    public static final String MESSAGE_PERSON_NOT_FOUND_DISPLAYED_EMAIL =
+                "No person found with email: %1$s.\nTip: Use 'list' to view all persons or 'find' to find the persons.";
     public static final String MESSAGE_INVALID_PREFIX_WITH_EXTRA_INPUT =
                 "Invalid command format! \nThe prefix should not be followed by any values. \n%1$s";
     public static final String MESSAGE_NON_NUS_EMAIL = "Warning: Email is not an NUS domain.";

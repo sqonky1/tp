@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_EMAIL;
+import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
 
@@ -27,7 +27,7 @@ public class DeleteCommand extends Command {
             + ": Deletes the person identified by the index number or email used in the displayed person list.\n"
             + "Parameters: " + PREFIX_INDEX + "INDEX (must be a positive integer) or " + PREFIX_EMAIL + "EMAIL.\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_INDEX + "1, "
-            + COMMAND_WORD + " " + PREFIX_EMAIL + "johnd@exampl.com";
+            + COMMAND_WORD + " " + PREFIX_EMAIL + "johnd@example.com";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo delete person: %1$s";
@@ -65,7 +65,9 @@ public class DeleteCommand extends Command {
 
         if (targetIndex != null) {
             if (targetIndex.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+                throw new CommandException(
+                        String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, targetIndex.getOneBased())
+                );
             }
 
             personToDelete = lastShownList.get(targetIndex.getZeroBased());
@@ -129,6 +131,9 @@ public class DeleteCommand extends Command {
         return personList.stream()
                 .filter(person -> person.getEmail().equals(targetEmail))
                 .findFirst()
-                .orElseThrow(() -> new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_EMAIL));
+                .orElseThrow(() -> new CommandException(
+                                String.format(MESSAGE_PERSON_NOT_FOUND_DISPLAYED_EMAIL, targetEmail)
+                        )
+                );
     }
 }
