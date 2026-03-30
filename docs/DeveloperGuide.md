@@ -585,35 +585,6 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `sort o/name o/email` (duplicate `o/` prefix)<br>
       Expected: Error message indicating duplicate prefixes are not allowed.
 
-### Viewing help
-
-1. Opening the general help window
-
-   1. Test case: `help`<br>
-      Expected: Help window opens showing the user guide URL. Informational message shown in the result display.
-
-1. Opening command-specific help
-
-   1. Test case: `help add`<br>
-      Expected: Help window opens at the `add` section of the user guide. Message indicates which section was opened.
-
-   1. Test case: `help sort`<br>
-      Expected: Help window opens at the `sort` section of the user guide.
-
-   1. Test case: `help help`<br>
-      Expected: Help window opens at the `help` section of the user guide.
-
-1. Invalid help commands (each tested individually)
-
-   1. Test case: `help unknown` (unrecognised command name)<br>
-      Expected: Error message listing all valid command names.
-
-   1. Test case: `help ADD` (uppercase command name)<br>
-      Expected: Error message listing all valid command names (command names are case-sensitive).
-
-   1. Test case: `help add clear` (multiple words)<br>
-      Expected: Error message with command usage shown.
-
 ### Navigating command history
 
 1. Cycling through past commands
