@@ -379,8 +379,8 @@ Finds persons whose names, emails, or tags match the given keywords.
 **Format:** `find [n/NAME [MORE_NAMES]] [e/EMAIL [MORE_EMAILS]] [t/TAG [MORE_TAGS]]`
 
 * At least one of `n/`, `e/`, or `t/` must be present.
-* The search is case-insensitive for all fields. e.g. `hans` will match `Hans`
-* The order of keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive for all fields. e.g. `alex` will match `Alex`
+* The order of keywords does not matter. e.g. `Yeoh Alex` will match `Alex Yeoh`
 
 **Matching behavior:**
 * **Name** and **email** use substring matching.
