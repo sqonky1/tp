@@ -26,11 +26,11 @@ public class UntagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Removes tags from the person identified by the index number used in the displayed person list.\n"
+            + "At least one tag must be provided.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_ROLE_TAG + "ROLE_TAG]... "
             + "[" + PREFIX_COURSE_TAG + "COURSE_TAG]... "
             + "[" + PREFIX_GENERAL_TAG + "GENERAL_TAG]... \n"
-            + "At least one tag must be provided.\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ROLE_TAG + "tutor "
             + PREFIX_COURSE_TAG + "cs2103 " + PREFIX_GENERAL_TAG + "friends";
 
@@ -63,7 +63,9 @@ public class UntagCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(
+                    String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index.getOneBased())
+            );
         }
 
         Person personToRemoveTag = lastShownList.get(index.getZeroBased());
