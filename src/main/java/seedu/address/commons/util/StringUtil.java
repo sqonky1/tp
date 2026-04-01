@@ -39,8 +39,31 @@ public class StringUtil {
     }
 
     /**
-     * Normalizes the input string by converting it to lowercase and removing all non-alphanumeric characters
-     * except for whitespace.
+     * Normalizes the input string by converting it to lowercase and removing special characters such as punctuation.
+     *
+     * <p>This method standardizes strings for comparison and storage by:
+     * <ul>
+     *   <li>Converting all characters to lowercase for case-insensitive operations</li>
+     *   <li>Removing all special characters (punctuation, symbols, etc.)</li>
+     *   <li>Preserving alphanumeric characters (a-z, 0-9) and whitespace</li>
+     * </ul>
+     * </p>
+     *
+     * <p>Examples:
+     * <pre>
+     *   normalize("John Doe") = "john doe"
+     *   normalize("Test@123#") = "test123"
+     *   normalize("Hello-World!") = "helloworld"
+     *   normalize("abc 123 XYZ") = "abc 123 xyz"
+     * </pre>
+     * </p>
+     *
+     * <p>This is useful for fuzzy matching, search preprocessing, or comparing names
+     * that may contain special characters or inconsistent casing.</p>
+     *
+     * @param s the string to normalize (cannot be null)
+     * @return the normalized string with lowercase letters, digits, and spaces only
+     * @throws NullPointerException if {@code s} is {@code null}
      */
     public static String normalize(String s) {
         requireNonNull(s);
