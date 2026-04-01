@@ -409,6 +409,7 @@ Returns all persons whose names **match** `John` (with fuzzy matching support).
 
 * `find n/jon`<br/>
 Returns all persons whose names **match** `jon` (with fuzzy matching support).
+![result for 'find jon'](images/findJonResult.png)
 
 * `find n/alice david`<br/>
 Returns persons whose name **matches** `alice` **or** `david` (with fuzzy matching support).
