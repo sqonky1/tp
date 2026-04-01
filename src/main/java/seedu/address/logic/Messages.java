@@ -74,10 +74,10 @@ public class Messages {
      */
     public static String getDuplicateConflictMessage(DuplicateConflict conflict) {
         return switch (conflict) {
-            case EMAIL_AND_TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
-            case EMAIL -> MESSAGE_DUPLICATE_EMAIL;
-            case TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
-            case NONE -> null;
+        case EMAIL_AND_TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
+        case EMAIL -> MESSAGE_DUPLICATE_EMAIL;
+        case TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
+        case NONE -> null;
         };
     }
 
