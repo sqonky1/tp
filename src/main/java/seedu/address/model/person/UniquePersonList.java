@@ -37,6 +37,44 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Returns true if the list contains a person with the same email as {@code toCheck}.
+     */
+    public boolean hasEmailConflict(Person toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(existingPerson -> existingPerson.hasSameEmail(toCheck));
+    }
+
+    /**
+     * Returns true if the list contains a person with the same telegram handle as {@code toCheck}.
+     */
+    public boolean hasTelegramHandleConflict(Person toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(existingPerson -> existingPerson.hasSameTelegramHandle(toCheck));
+    }
+
+    /**
+     * Returns true if the list contains another person, excluding {@code target},
+     * with the same email as {@code toCheck}.
+     */
+    public boolean hasEmailConflictExcluding(Person target, Person toCheck) {
+        requireAllNonNull(target, toCheck);
+        return internalList.stream()
+                .filter(existingPerson -> !existingPerson.equals(target))
+                .anyMatch(existingPerson -> existingPerson.hasSameEmail(toCheck));
+    }
+
+    /**
+     * Returns true if the list contains another person, excluding {@code target},
+     * with the same telegram handle as {@code toCheck}.
+     */
+    public boolean hasTelegramHandleConflictExcluding(Person target, Person toCheck) {
+        requireAllNonNull(target, toCheck);
+        return internalList.stream()
+                .filter(existingPerson -> !existingPerson.equals(target))
+                .anyMatch(existingPerson -> existingPerson.hasSameTelegramHandle(toCheck));
+    }
+
+    /**
      * Adds a person to the list.
      * The person must not already exist in the list.
      */

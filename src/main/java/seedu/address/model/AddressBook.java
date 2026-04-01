@@ -68,6 +68,40 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if a person with the same email as {@code person} exists in the address book.
+     */
+    public boolean hasEmailConflict(Person person) {
+        requireNonNull(person);
+        return persons.hasEmailConflict(person);
+    }
+
+    /**
+     * Returns true if a person with the same telegram handle as {@code person} exists in the address book.
+     */
+    public boolean hasTelegramHandleConflict(Person person) {
+        requireNonNull(person);
+        return persons.hasTelegramHandleConflict(person);
+    }
+
+    /**
+     * Returns true if another person, excluding {@code target}, has the same email as {@code person}.
+     */
+    public boolean hasEmailConflictExcluding(Person target, Person person) {
+        requireNonNull(target);
+        requireNonNull(person);
+        return persons.hasEmailConflictExcluding(target, person);
+    }
+
+    /**
+     * Returns true if another person, excluding {@code target}, has the same telegram handle as {@code person}.
+     */
+    public boolean hasTelegramHandleConflictExcluding(Person target, Person person) {
+        requireNonNull(target);
+        requireNonNull(person);
+        return persons.hasTelegramHandleConflictExcluding(target, person);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
