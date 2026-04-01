@@ -334,7 +334,7 @@ public class EditCommandTest {
         Person editedAlice = new PersonBuilder(aliceWithTelegram).withTelegramHandle("temp123").build();
 
         String executeMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedAlice)) + "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+                Messages.format(editedAlice));
 
         Model expectedAfterEdit = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedAfterEdit.setPerson(aliceWithTelegram, editedAlice);
