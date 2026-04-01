@@ -58,12 +58,16 @@ public class NameContainsKeywordsPredicateTest {
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
         // Partial match across words should still work
-        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("lice B"));
+        predicate = new NameContainsKeywordsPredicate(List.of("Alice", "B"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
         // Mixed-case keywords
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Test fuzzy match
+        predicate = new NameContainsKeywordsPredicate(List.of("Olivero"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Oliviero").build()));
     }
 
     @Test
