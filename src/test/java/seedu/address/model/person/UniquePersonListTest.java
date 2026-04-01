@@ -126,14 +126,14 @@ public class UniquePersonListTest {
 
     @Test
     public void hasTelegramHandleConflictExcluding_nullTarget_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> uniquePersonList.hasTelegramHandleConflictExcluding(null, ALICE));
+        assertThrows(NullPointerException.class, () ->
+                uniquePersonList.hasTelegramHandleConflictExcluding(null, ALICE));
     }
 
     @Test
     public void hasTelegramHandleConflictExcluding_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> uniquePersonList.hasTelegramHandleConflictExcluding(ALICE, null));
+        assertThrows(NullPointerException.class, () ->
+                uniquePersonList.hasTelegramHandleConflictExcluding(ALICE, null));
     }
 
     @Test

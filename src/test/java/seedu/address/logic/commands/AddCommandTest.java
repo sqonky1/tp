@@ -59,8 +59,7 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_EMAIL,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_EMAIL, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -73,8 +72,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(personWithSameTelegramHandle);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -88,8 +87,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(personWithSameTelegramHandle);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -100,8 +99,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(duplicatePerson);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE, () -> addCommand.execute(modelStub));
     }
 
     @Test

@@ -153,14 +153,13 @@ public class AddressBookTest {
 
     @Test
     public void hasTelegramHandleConflictExcluding_nullTarget_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> addressBook.hasTelegramHandleConflictExcluding(null, ALICE));
+        assertThrows(NullPointerException.class, () -> addressBook.hasTelegramHandleConflictExcluding(null, ALICE));
     }
 
     @Test
     public void hasTelegramHandleConflictExcluding_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> addressBook.hasTelegramHandleConflictExcluding(ALICE, null));
+        assertThrows(NullPointerException.class, () ->
+                addressBook.hasTelegramHandleConflictExcluding(ALICE, null));
     }
 
     @Test
