@@ -57,18 +57,25 @@ class JsonSerializableAddressBook {
             Person person = jsonAdaptedPerson.toModelType();
             DuplicateConflict duplicateConflict = addressBook.getDuplicateConflict(person);
 
-            if (duplicateConflict == DuplicateConflict.EMAIL_AND_TELEGRAM_HANDLE) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
-            }
-            if (duplicateConflict == DuplicateConflict.EMAIL) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_EMAIL);
-            }
-            if (duplicateConflict == DuplicateConflict.TELEGRAM_HANDLE) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+            String duplicateMessage = getDuplicateConflictMessage(duplicateConflict);
+            if (duplicateMessage != null) {
+                throw new IllegalValueException(duplicateMessage);
             }
             addressBook.addPerson(person);
         }
         return addressBook;
     }
 
+    /**
+     * Returns the storage error message for the given duplicate conflict type,
+     * or {@code null} if there is no conflict.
+     */
+    private static String getDuplicateConflictMessage(DuplicateConflict conflict) {
+        return switch (conflict) {
+            case EMAIL_AND_TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
+            case EMAIL -> MESSAGE_DUPLICATE_EMAIL;
+            case TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
+            case NONE -> null;
+        };
+    }
 }

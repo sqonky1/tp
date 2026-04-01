@@ -56,14 +56,9 @@ public class AddCommand extends Command {
 
         DuplicateConflict duplicateConflict = model.getDuplicateConflict(toAdd);
 
-        if (duplicateConflict == DuplicateConflict.EMAIL_AND_TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
-        }
-        if (duplicateConflict == DuplicateConflict.EMAIL) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL);
-        }
-        if (duplicateConflict == DuplicateConflict.TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        String duplicateMessage = Messages.getDuplicateConflictMessage(duplicateConflict);
+        if (duplicateMessage != null) {
+            throw new CommandException(duplicateMessage);
         }
 
         model.addPerson(toAdd);

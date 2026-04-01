@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.person.DuplicateConflict;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -65,6 +66,19 @@ public class Messages {
                 Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
         return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
+    }
+
+    /**
+     * Returns the user-facing error message for the given duplicate conflict type,
+     * or {@code null} if there is no conflict.
+     */
+    public static String getDuplicateConflictMessage(DuplicateConflict conflict) {
+        return switch (conflict) {
+            case EMAIL_AND_TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
+            case EMAIL -> MESSAGE_DUPLICATE_EMAIL;
+            case TELEGRAM_HANDLE -> MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
+            case NONE -> null;
+        };
     }
 
     /**

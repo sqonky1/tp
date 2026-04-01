@@ -46,10 +46,10 @@ public class EditCommand extends Command {
             + PREFIX_TELEGRAM_HANDLE + "johndoe123";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
-    public static final String MESSAGE_DUPLICATE_EMAIL = Messages.MESSAGE_DUPLICATE_EMAIL + ".";
-    public static final String MESSAGE_DUPLICATE_TELEGRAM_HANDLE = Messages.MESSAGE_DUPLICATE_TELEGRAM_HANDLE + ".";
+    public static final String MESSAGE_DUPLICATE_EMAIL = Messages.MESSAGE_DUPLICATE_EMAIL;
+    public static final String MESSAGE_DUPLICATE_TELEGRAM_HANDLE = Messages.MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
     public static final String MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE =
-            Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE + ".";
+            Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_UNDO_FAILURE = "Cannot undo edit before command execution.";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo edit person: %1$s";
@@ -86,14 +86,9 @@ public class EditCommand extends Command {
 
         DuplicateConflict duplicateConflict = model.getDuplicateConflictExcluding(personToEdit, editedPerson);
 
-        if (duplicateConflict == DuplicateConflict.EMAIL_AND_TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
-        }
-        if (duplicateConflict == DuplicateConflict.EMAIL) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL);
-        }
-        if (duplicateConflict == DuplicateConflict.TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        String duplicateMessage = Messages.getDuplicateConflictMessage(duplicateConflict);
+        if (duplicateMessage != null) {
+            throw new CommandException(duplicateMessage);
         }
 
         model.setPerson(personToEdit, editedPerson);
@@ -123,14 +118,9 @@ public class EditCommand extends Command {
 
         DuplicateConflict duplicateConflict = model.getDuplicateConflictExcluding(updatedPerson, originalPerson);
 
-        if (duplicateConflict == DuplicateConflict.EMAIL_AND_TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
-        }
-        if (duplicateConflict == DuplicateConflict.EMAIL) {
-            throw new CommandException(MESSAGE_DUPLICATE_EMAIL);
-        }
-        if (duplicateConflict == DuplicateConflict.TELEGRAM_HANDLE) {
-            throw new CommandException(MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        String duplicateMessage = Messages.getDuplicateConflictMessage(duplicateConflict);
+        if (duplicateMessage != null) {
+            throw new CommandException(duplicateMessage);
         }
 
         model.setPerson(updatedPerson, originalPerson);
