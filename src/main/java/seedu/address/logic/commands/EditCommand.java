@@ -94,7 +94,7 @@ public class EditCommand extends Command {
         logger.info("Edited person: " + personToEdit.getName() + " -> " + editedPerson.getName());
 
         String resultMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
-        if (!editedPerson.getEmail().isNusDomain()) {
+        if (editPersonDescriptor.getEmail().isPresent() && !editedPerson.getEmail().isNusDomain()) {
             resultMessage += "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
         }
         return new CommandResult(resultMessage);
