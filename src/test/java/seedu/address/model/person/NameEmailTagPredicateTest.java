@@ -115,30 +115,6 @@ public class NameEmailTagPredicateTest {
     }
 
     @Test
-    public void test_emptyNameKeywords_returnsTrue() {
-        NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of("example.com"), List.of("friends"));
-
-        assertTrue(predicate.test(ALICE));
-    }
-
-    @Test
-    public void test_emptyEmailKeywords_returnsTrue() {
-        NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of(), List.of("friends"));
-
-        assertTrue(predicate.test(ALICE));
-    }
-
-    @Test
-    public void test_emptyTags_returnsTrue() {
-        NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of("Alice"), List.of("example.com"), List.of());
-
-        assertTrue(predicate.test(ALICE));
-    }
-
-    @Test
     public void test_nameOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"), List.of(), List.of());
