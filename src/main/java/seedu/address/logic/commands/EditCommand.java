@@ -48,7 +48,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_EMAIL = Messages.MESSAGE_DUPLICATE_EMAIL + ".";
     public static final String MESSAGE_DUPLICATE_TELEGRAM_HANDLE = Messages.MESSAGE_DUPLICATE_TELEGRAM_HANDLE + ".";
     public static final String MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE =
-            Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE + ".";public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+            Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE + ".";
+    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_UNDO_FAILURE = "Cannot undo edit before command execution.";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo edit person: %1$s";
 
