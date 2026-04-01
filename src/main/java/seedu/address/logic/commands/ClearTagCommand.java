@@ -28,10 +28,10 @@ public class ClearTagCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Clears all tags of the specified type from the person identified by the index number "
             + "used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_ROLE_TAG + "] or "
-            + "[" + PREFIX_COURSE_TAG + "] or "
-            + "[" + PREFIX_GENERAL_TAG + "]\n"
+            + "Parameters: INDEX " + PREFIX_ROLE_TAG + " or "
+            + "INDEX " + PREFIX_COURSE_TAG + " or "
+            + "INDEX " + PREFIX_GENERAL_TAG + "\n"
+            + "Note: INDEX (must be a positive integer).\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ROLE_TAG;
 
     public static final String MESSAGE_SUCCESS = "All %1$s tags removed: %2$s";
