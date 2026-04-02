@@ -266,7 +266,11 @@ The following class diagram shows the structure of the undo feature:
 
 ![UndoClassDiagram](../images/UndoClassDiagram.png)
 
-Note: Undo methods in commands directly interact with the `Model` to revert changes. UI and Storage components are omitted from the diagrams as they are not directly involved in the undo mechanism.
+The following Activity diagram illustrates the control flow of command execution in the undo feature.
+
+![UndoActivityDiagram.png](../images/UndoActivityDiagram.png)
+
+Note: Undo methods in commands directly interact with the `Model` to revert changes. Hence, we are not having an object diagram here. UI and Storage components are omitted from the diagrams as they are not directly involved in the undo mechanism.
 
 #### Design considerations:
 
