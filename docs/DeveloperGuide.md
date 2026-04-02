@@ -106,7 +106,7 @@ How the `Logic` component works:
 1. `AddressBookParser` identifies the command word and delegates to the corresponding parser (e.g., `DeleteCommandParser`) to construct a `Command` object.
 1. `LogicManager` executes the command against the `Model`.
 1. If the command is undoable (`command.isUndoable()`), `LogicManager` pushes it to an internal undo history stack.
-1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack.
+1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack. More details on the undo feature are provided in the [Current Undo feature](#current-undo-feature) section under Implementation.
 1. After command execution, `LogicManager` persists changes through `Storage`, then returns a `CommandResult` to the caller.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
