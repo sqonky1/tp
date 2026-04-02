@@ -359,7 +359,29 @@ See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues
 
 (For all use cases below, the **System** is the `CampusBridge` and the **Actor** is the `user`, unless specified otherwise)
 
-#### Use Case: UC01 - Add a contact
+#### Use Case: UC01 - Getting Help
+**Preconditions: Application is running**
+
+**MSS:**
+1. User requests for help.
+2. CampusBridge provides access to the user guide.
+
+**Extension:**
+1a. User provides a valid command name.
+    1a1. CampusBridge displays the relevant section of the user guide.
+Use case ends.
+
+1b. User provides an unrecognised command name.
+    1b1. CampusBridge shows an error listing all valid commands.
+Use case ends.
+
+1c. User provides more than one word.
+    1c1. CampusBridge shows an invalid command format error.
+Use case ends.
+
+Use case ends.
+
+#### Use Case: UC02 - Add a contact
 
 **Preconditions: Application is running**
 
@@ -397,7 +419,7 @@ Use case ends.
   Use case ends.
 
 
-#### Use Case: UC02 - Edit a contact
+#### Use Case: UC03 - Edit a contact
 
 **Preconditions: Application is running and the user has added a contact.**
 
@@ -436,7 +458,7 @@ Use case ends.
   Use case ends.
 
 
-#### Use Case: UC03 - Delete a contact
+#### Use Case: UC04 - Delete a contact
 
 **Preconditions: Application is running and the user has added a contact.**
 
@@ -473,9 +495,9 @@ Use case ends.
 
   Use case ends.
 
-#### Use Case: UC04 - Add a tag to an existing contact
+#### Use Case: UC05 - Add a tag to an existing contact
 
-**Preconditions: Application is running**
+**Preconditions: Application is running and the user has added a contact.**
 
 **MSS:**
 1. User requests to tag a contact in the list.
@@ -515,11 +537,19 @@ Use case ends.
 
   Use case ends.
 
-### Use Case: UC05 - Remove a tag from a contact
+### Use Case: UC06 - Remove a tag from a contact
+**Preconditions: Application is running and the user has added a contact.**
 
-### Use Case: UC06 - Clearing a specific tag from a contact
 
-#### Use Case: UC07 - View all contacts
+**MSS:**
+1. 
+
+### Use Case: UC07 - Clearing a specific tag from a contact
+**Preconditions: Application is running**
+
+**MSS:**
+
+#### Use Case: UC08 - View all contacts
 
 **Preconditions: Application is running**
 
@@ -545,9 +575,12 @@ Use case ends.
   Use case ends.
 
 
-#### Use Case: UC08 - Sorting contacts
+#### Use Case: UC09 - Sorting contacts
+**Preconditions: Application is running**
 
-#### Use Case: UC05 - Search contacts
+**MSS:**
+
+#### Use Case: UC10 - Search contacts
 
 **Preconditions: Application is running**
 
@@ -574,7 +607,7 @@ Use case ends.
   Use case ends.
 
 
-#### Use Case: UC07 - Undo previous action
+#### Use Case: UC11 - Undo previous action
 
 **Preconditions: Application is running**
 
@@ -603,6 +636,18 @@ Use case ends.
     * 5a1. CampusBridge shows an error message indicating the state could not be saved.
 
   Use case ends.
+
+#### Use Case: UC12 - Navigating Command History
+**Preconditions: Application is running**
+
+**MSS:**
+
+#### Use Case: UC13 - Clearing all contacts
+**Preconditions: Application is running**
+
+**MSS:**
+#### Use Case: UC14 - Exiting
+**Preconditions: Application is running**
 
 
 ### Non-Functional Requirements
