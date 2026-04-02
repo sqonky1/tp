@@ -892,10 +892,10 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person have existing general and role tags.
 
    1. Test case: `cleartag 1 tg/`<br>
-      Expected: All the general tags are cleared from the 1st person in the list. Status message shows the details of the general tags removed.
+      Expected: All the general tags are cleared from the 1st person in the list. Status message shows the details of the general tags cleared.
 
    1. Test case: `cleartag 2 tr/`<br>
-      Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags removed.
+      Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags cleared.
 
 1. Clearing all tags from a person where no tags of specified type exist
 
