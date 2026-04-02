@@ -327,7 +327,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | expert user                | undo my last action                                                     | instantly revert an accidental deletion without stress                            |
 | `* *`    | expert user                | have keyboard shortcuts                                                 | operate the system efficiently                                                    |
 | `* *`    | expert user                | quickly copy an email address                                           | paste it into Outlook or Gmail                                                    |
-| `* *`    | expert user                | see colour coded for tags                                               | visually prioritize my attention                                                  |
+| `* *`    | expert user                | view colour-coded tags                                                  | quickly identify and prioritize important information.                            |
 | `* *`    | regular user               | navigate command history using keyboard                                 | execute or modify past commands without retyping them                             |
 | `* *`    | user                       | export contact data to be in a human-readable format like json          | can edit it easily                                                                |
 
