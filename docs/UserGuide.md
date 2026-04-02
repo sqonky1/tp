@@ -251,7 +251,7 @@ Adds one or more tags to an existing person in the address book.
 **Format:** `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be added in a single command.
@@ -287,7 +287,7 @@ Removes one or more tags from an existing person in the address book.
 **Format:** `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be removed in a single command.
@@ -316,7 +316,7 @@ Removes the `tutor` role tag, `cs2103` course tag and `classmates` general tag f
 * `untag 3 tc/cs2103 tc/cs2109`<br/>
 Removes both `cs2103` and `cs2109` course tags from the 3rd person in the list.
 
-### Clearing tags of a specific type from a person : `cleartag`
+### Clearing all tags of a specific type : `cleartag`
 
 Clears all tags of a specific type from an existing person in the address book.
 
@@ -324,11 +324,11 @@ Clears all tags of a specific type from an existing person in the address book.
 
 * The index **must be a positive integer** 1, 2, 3, …​
 * **Exactly one tag type prefix** must be provided (without any tag names).
-* Only one tag type can be cleared at a time.
 
 **Behavior:**
 * Clears all tags of the specified type from the person at the given `INDEX`.
 * The index refers to the index number shown in the displayed person list.
+* Only one tag type can be cleared at a time.
 * Only tags of the specified type will be removed. Tags of other types remain unchanged.
 * If the person has no tags of the specified type, an error message will be shown.
 
@@ -537,7 +537,7 @@ If your changes to the data file makes its format invalid, CampusBridge will dis
 Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Clearing tags of multiple types from a person [coming in v2.0]
+### Clearing all tags of multiple types [coming in v2.0]
 
 _Details coming soon …_
 
@@ -565,7 +565,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]` <br> e.g., `add n/James Ho e/jamesho@example.com p/22224444 h/james_ho`
 **Clear** | `clear`
-**Cleartag** | `cleartag INDEX [tr/] or [tc/] or [tg/]` <br> e.g., `cleartag 1 tg/`
+**Cleartag** | `cleartag INDEX tr/ or cleartag INDEX tc/ or cleartag INDEX tg/` <br> e.g., `cleartag 1 tg/`
 **Delete** | `delete i/INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
 **Exit** | `exit`

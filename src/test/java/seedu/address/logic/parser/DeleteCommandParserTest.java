@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_EXTRA_INPUT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -87,6 +88,24 @@ public class DeleteCommandParserTest {
 
         assertParseFailure(parser, " e/" + VALID_EMAIL_AMY + " e/" + VALID_EMAIL_BOB,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
+    }
+
+    @Test
+    public void parse_invalidPrefix_failure() {
+        assertParseFailure(parser,
+                "i/1 to/",
+                String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT, "to/"));
+
+        assertParseFailure(parser,
+                "i/1 n/alice",
+                String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT, "n/alice"));
+    }
+
+    @Test
+    public void parse_multipleInvalidPrefixes_failure() {
+        assertParseFailure(parser,
+                "i/1 n/alice p/12345678",
+                String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT, "n/alice"));
     }
 
     @Test

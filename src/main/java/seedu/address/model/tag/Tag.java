@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
  */
 public class Tag {
 
-    public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Tags names should be alphanumeric only (no spaces or special characters).";
     public static final String MESSAGE_CONSTRAINTS_TAG_TYPE = "Invalid tag type: %1$s";
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
 
@@ -75,6 +76,7 @@ public class Tag {
     public String toString() {
         return type + ": " + tagName;
     }
+
     /**
      * Filters a set of tags by the specified tag type.
      *

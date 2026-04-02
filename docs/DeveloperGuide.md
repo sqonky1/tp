@@ -705,6 +705,234 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `add n/John Doe e/johndoe@example.com tg/friend`<br>
        Expected: No person is added. Error details shown in the status message indicating unexpected extra input.
 
+### Deleting a person
+
+1. Deleting a person by index
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `delete i/1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Deleting a person by email
+
+   1. Prerequisites: Ensure a person with email `alicetan@u.nus.edu` exists in the address book.
+
+   1. Test case: `delete e/alicetan@u.nus.edu`<br>
+      Expected: Person with the specified email is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Invalid delete commands
+
+   1. Test case: `delete`<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/0`<br>
+       Expected: No person deleted. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `delete e/invalid-email`<br>
+       Expected: No person deleted. Error details shown in the status message indicating email constraints.
+
+   1. Test case: `delete 1` (missing prefix)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 i/2`(multiple same prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `delete e/alicetan@u.nus.edu i/1` (both prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 n/alice p/12345678` (multiple invalid prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message invalid command format and unexpected extra input.
+
+   1. Test case: `delete i/100` (where 100 is larger than list size)<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `delete e/nonexistent@example.com`<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person found with that email and tip to use `list` or `find` commands.
+
+### Tagging a person
+
+1. Adding tags to a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first and second person has no existing tags.
+
+   1. Test case: `tag 1 tg/friends`<br>
+      Expected: `friends` general tag is added to the 1st person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/mentor tg/mentor` (same name, different types)<br>
+      Expected: Both `mentor` tutor tag and `mentor` general tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+1. Adding tags to a person where some tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person only have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends tg/groupmates` (where `friends` already exists)<br>
+      Expected: Only `groupmates` general tag is added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [GENERAL: groupmates]
+      Tags already existing (no changes made): [GENERAL: friends]
+      ```
+
+   1. Test case: `tag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` already exists)<br>
+      Expected: `cs2109s` and `cs2100` course tags are added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [COURSE: cs2109s, COURSE: cs2100]
+      Tags already existing (no changes made): [COURSE: cs2103]
+      ```
+
+1. Adding tags to a person where all tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends` (where `friends` already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+   1. Test case: `tag 1 tg/friends tc/cs2103` (where both tags already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+1. Invalid tag commands
+
+   1. Test case: `tag`<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 0`<br>
+      Expected: No tag added. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `tag 1 test` (missing prefix)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `tag 1 tr/` (missing value)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `tag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag added. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `tag 1 tr/tutor space`<br>
+      Expected: No tag added. Error details shown in the status message indicating tags names should be alphanumeric only (no spaces or special characters).
+
+### Untagging a person
+
+1. Removing tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `tutor` role tag, `cs2103` course tag, `friends` and `groupmates` general tags.
+
+   1. Test case: `untag 1 tg/friends`<br>
+      Expected: `friends` general tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+1. Removing tags from a person where some tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `cs2103` course tag and `friends` general tags.
+
+   1. Test case: `untag 1 tg/friends tr/tutor` (where `friends` exists but `tutor` doesn't)<br>
+      Expected: Only `friends` general tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [GENERAL: friends]
+      Tags not found: [ROLE: tutor]
+      ```
+
+   1. Test case: `untag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` exists but `cs2109s` and `cs2100` doesn't)<br>
+      Expected: Only `cs2103` course tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [COURSE: cs2103]
+      Tags not found: [COURSE: cs2109s, COURSE: cs2100]
+      ```
+
+1. Removing tags from a person where all tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person has no existing tags.
+
+   1. Test case: `untag 1 tg/nonexistent` <br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+   1. Test case: `untag 1 tr/notfound tg/missing`<br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+1. Invalid untag commands
+
+   1. Test case: `untag`<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 0`<br>
+      Expected: No tag removed. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `untag 1 test` (missing prefix)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `untag 1 tr/` (missing value)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `untag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag removed. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `untag 1 tr/tutor space`<br>
+      Expected: No tag removed. Error details shown in the status message indicating tags names should be alphanumeric (no spaces or special characters).
+
+### Clearing all tags of a specific type
+
+1. Clearing all tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person have existing general and role tags.
+
+   1. Test case: `cleartag 1 tg/`<br>
+      Expected: All the general tags are cleared from the 1st person in the list. Status message shows the details of the general tags cleared.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags cleared.
+
+1. Clearing all tags from a person where no tags of specified type exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person has no existing tags.
+
+   1. Test case: `cleartag 1 tc/` <br>
+      Expected: No changes made. Error details shown in the status message indicating that no course tags found to clear.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: No changes made. Error details shown in the status message indicating that no role tags found to clear.
+
+1. Invalid cleartag commands
+
+   1. Test case: `cleartag`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 0`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `cleartag 1` (missing prefix)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `cleartag 1 tr/ tr/` (multiple same prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `cleartag 1 tr/ tg/` (multiple prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 100 tg/` (where 100 is larger than list size)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `cleartag 1 tr/tutor`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and prefix should not contain any value.
+
 ### Sorting persons
 
 1. Sorting by a valid field
