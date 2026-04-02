@@ -750,6 +750,80 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete e/nonexistent@example.com`<br>
        Expected: No person deleted. Error details shown in the status message indicating no person found with that email and tip to use `list` or `find` commands.
 
+### Tagging a person
+
+1. Adding tags to a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br>
+      Ensure the first and second person has no existing tags.
+
+   1. Test case: `tag 1 tg/friends`<br>
+      Expected: `friends` general tag is added to the 1st person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/mentor tg/mentor` (same name, different types)<br>
+      Expected: Both `mentor` tutor tag and `mentor` general tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+1. Adding tags to a person where some tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br>
+      Ensure the first person only have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends tg/groupmates` (where `friends` already exists)<br>
+      Expected: Only `groupmates` general tag is added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [GENERAL: groupmates]
+      Tags already existing (no changes made): [GENERAL: friends]
+      ```
+
+   1. Test case: `tag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` already exists)<br>
+      Expected: `cs2109s` and `cs2100` course tags are added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [COURSE: cs2109s, COURSE: cs2100]
+      Tags already existing (no changes made): [COURSE: cs2103]
+      ```
+
+1. Adding tags to a person where all tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br> 
+      Ensure the first person have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends` (where `friends` already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+   1. Test case: `tag 1 tg/friends tc/cs2103` (where both tags already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+1. Invalid tag commands
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `tag`<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 0`<br>
+      Expected: No tag added. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `tag 1 test` (missing prefix)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `tag 1 tr/` (missing value)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `tag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag added. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `tag 1 tr/tutor space`<br>
+      Expected: No tag added. Error details shown in the status message indicating tags names should be alphanumeric only (no spaces or special characters).
+
 ### Sorting persons
 
 1. Sorting by a valid field

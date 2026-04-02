@@ -251,7 +251,7 @@ Adds one or more tags to an existing person in the address book.
 **Format:** `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be added in a single command.
@@ -287,7 +287,7 @@ Removes one or more tags from an existing person in the address book.
 **Format:** `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be removed in a single command.
