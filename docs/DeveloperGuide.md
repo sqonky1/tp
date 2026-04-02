@@ -367,17 +367,17 @@ See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues
 2. CampusBridge provides access to the user guide.
 
 **Extension:**
-1a. User provides a valid command name.
+* 1a. User provides a valid command name.
     1a1. CampusBridge displays the relevant section of the user guide.
-Use case ends.
+  Use case ends.
 
-1b. User provides an unrecognised command name.
+* 1b. User provides an unrecognised command name.
     1b1. CampusBridge shows an error listing all valid commands.
-Use case ends.
+  Use case ends.
 
-1c. User provides more than one word.
+* 1c. User provides more than one word.
     1c1. CampusBridge shows an invalid command format error.
-Use case ends.
+  Use case ends.
 
 Use case ends.
 
@@ -549,29 +549,20 @@ Use case ends.
 
 **MSS:**
 
-#### Use Case: UC08 - View all contacts
 
+#### Use Case: UC08 - Listing All Contacts
 **Preconditions: Application is running**
 
 **MSS:**
-1. User requests to list contacts.
+1. User requests to list all contacts.
 2. CampusBridge shows a list of all contacts.
-3. User can view details of each contact in the list.
 
 Use case ends.
 
 **Extensions:**
-* 1a. Input does not follow the specified format.
-    * 1a1. CampusBridge shows an error message indicating the invalid format.
-    * 1a2. CampusBridge requests the user to re-enter input.
-    * 1a3. User enters a new input.
-
-  Steps 1a1 - 1a3 are repeated until input is valid.
-  Use case resumes at step 2.
-
-* 2a. No contacts exist in the list.
-  * 2a1. CampusBridge informs the user that the contact list is empty.
-
+* 1a. User provides extra arguments.
+    1a1. CampusBridge shows an invalid command format error.
+    
   Use case ends.
 
 
@@ -641,14 +632,61 @@ Use case ends.
 **Preconditions: Application is running**
 
 **MSS:**
+1. User requests to navigate to an earlier command.
+2. CampusBridge displays the earlier command.
+   Steps 1-2 are repeated until the user is satisfied.
+
+Use case ends.
+
+**Extensions:**
+* 1a. No command history exists.
+    1a1. CampusBridge does nothing.
+  
+  Use case ends.
+
+* 2a. User requests to navigate to a more recent command.
+    2a1. CampusBridge displays the more recent command.
+  
+  Use case resumes at step 1.
+
+* 2b. No earlier command exists.
+    2b1. CampusBridge does nothing.
+
+  Use case resumes at step 1.
+
+* 2c. No more recent command exists.
+    2c1. CampusBridge does nothing.
+
+  Use case resumes at step 1.
 
 #### Use Case: UC13 - Clearing all contacts
 **Preconditions: Application is running**
 
 **MSS:**
+1. User requests to clear all contacts.
+2. CampusBridge clears all contacts.
+
+**Extensions:**
+* 1a. User provides extra arguments.
+  1a1. CampusBridge shows an invalid command format error.
+
+  Use case ends.
+
+Use case ends.
 #### Use Case: UC14 - Exiting
 **Preconditions: Application is running**
 
+**MSS:**
+1. User requests to exit the app.
+2. CampusBridge terminates.
+
+**Extensions:**
+* 1a. User provides extra arguments.
+   1a1. CampusBridge shows an invalid command format error.
+
+  Use case ends.
+
+Use case ends.
 
 ### Non-Functional Requirements
 
