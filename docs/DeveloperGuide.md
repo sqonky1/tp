@@ -883,7 +883,55 @@ testers are expected to do more *exploratory* testing.
       Expected: No tag removed. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
 
    1. Test case: `untag 1 tr/tutor space`<br>
-      Expected: No tag removed. Error details shown in the status message indicating tags names should be alphanumeric.
+      Expected: No tag removed. Error details shown in the status message indicating tags names should be alphanumeric (no spaces or special characters).
+
+### Clearing all tags of a specific type
+
+1. Clearing all tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person have existing general and role tags.
+
+   1. Test case: `cleartag 1 tg/`<br>
+      Expected: All the general tags are cleared from the 1st person in the list. Status message shows the details of the general tags removed.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags removed.
+
+1. Clearing all tags from a person where no tags of specified type exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person has no existing tags.
+
+   1. Test case: `cleartag 1 tc/` <br>
+      Expected: No changes made. Error details shown in the status message indicating that no course tags found to clear.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: No changes made. Error details shown in the status message indicating that no role tags found to clear.
+
+1. Invalid cleartag commands
+
+   1. Test case: `cleartag`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 0`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `cleartag 1` (missing prefix)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `cleartag 1 tr/ tr/` (multiple same prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `cleartag 1 tr/ tg/` (multiple prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 100 tg/` (where 100 is larger than list size)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `cleartag 1 tr/tutor`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and prefix should not contain any value.
 
 ### Sorting persons
 
