@@ -730,6 +730,15 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `add n/John Doe e/johndoe@example.com tg/friend`<br>
        Expected: No person is added. Error details shown in the status message indicating unexpected extra input.
 
+### Editing a person
+
+1. Editing a person with all fields
+   1. Prerequisites: Start with the sample data loaded. Ensure the email and Telegram handle used below do not already exist.
+
+   1. Test case: `edit 1 n/John Lim e/johnlim@nus.edu.sg p/81234567 h/john_LIM`<br>
+      Expected: A new contact is added to the list. The success message shows the added person's details.
+
+
 ### Deleting a person
 
 1. Deleting a person by index
