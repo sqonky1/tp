@@ -705,6 +705,51 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `add n/John Doe e/johndoe@example.com tg/friend`<br>
        Expected: No person is added. Error details shown in the status message indicating unexpected extra input.
 
+### Deleting a person
+
+1. Deleting a person by index
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `delete i/1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Deleting a person by email
+
+   1. Prerequisites: Ensure a person with email `alicetan@u.nus.edu` exists in the address book.
+
+   1. Test case: `delete e/alicetan@u.nus.edu`<br>
+      Expected: Person with the specified email is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Invalid delete commands
+
+   1. Test case: `delete`<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/0`<br>
+       Expected: No person deleted. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `delete e/invalid-email`<br>
+       Expected: No person deleted. Error details shown in the status message indicating email constraints.
+
+   1. Test case: `delete 1` (missing prefix)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 i/2`(multiple same prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `delete e/alicetan@u.nus.edu i/1` (both prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 n/alice p/12345678` (multiple invalid prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message invalid command format and unexpected extra input.
+
+   1. Test case: `delete i/100` (where 100 is larger than list size)<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `delete e/nonexistent@example.com`<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person found with that email and tip to use `list` or `find` commands.
+
 ### Sorting persons
 
 1. Sorting by a valid field
