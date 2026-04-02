@@ -41,6 +41,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_TELEGRAM_HANDLE + "TELEGRAM_HANDLE].\n"
             + "Example: " + COMMAND_WORD + " 1 "
+            + PREFIX_NAME + "john doe "
             + PREFIX_EMAIL + "johndoe@example.com "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_TELEGRAM_HANDLE + "johndoe123";
@@ -76,9 +77,11 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
+        int oneBasedIndex = index.getOneBased();
+        int lastShownListSizeOneBased = lastShownList.size() + 1;
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        if (oneBasedIndex >= lastShownListSizeOneBased) {
+            throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, oneBasedIndex));
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());

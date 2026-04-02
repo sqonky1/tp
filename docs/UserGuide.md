@@ -83,6 +83,7 @@ Emails should be of the format `local-part@domain` and adhere to the following c
 * Each domain label must consist of alphanumeric characters, separated only by hyphens, if any
 
 **Examples:**<br/>
+
 | Email | Valid? | Reason |
 |-------|--------|--------|
 | `john.doe@example.com` | ✓ | Correct domain |
@@ -192,7 +193,7 @@ Edits an existing person in the address book.
 * Telegram handles are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
-If the updated email is not an NUS domain (`@u.nus.edu` or `@nus.edu.sg`), a warning message will be shown. The contact will still be updated.
+If the updated email is not an NUS domain (`@u.nus.edu` or `@*.nus.edu.sg` or `@nus.edu.sg`), a warning message will be shown. The contact will still be updated.
 </div>
 
 **Examples:**
