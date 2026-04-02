@@ -754,8 +754,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding tags to a person
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br>
-      Ensure the first and second person has no existing tags.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first and second person has no existing tags.
 
    1. Test case: `tag 1 tg/friends`<br>
       Expected: `friends` general tag is added to the 1st person in the list. Status message shows the details of the new tags added.
@@ -771,8 +770,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding tags to a person where some tags already exist
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br>
-      Ensure the first person only have existing `friends` general tag and `cs2103` course tag.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person only have existing `friends` general tag and `cs2103` course tag.
 
    1. Test case: `tag 1 tg/friends tg/groupmates` (where `friends` already exists)<br>
       Expected: Only `groupmates` general tag is added to the 1st person in the list. Status message shows:
@@ -790,8 +788,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding tags to a person where all tags already exist
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.<br> 
-      Ensure the first person have existing `friends` general tag and `cs2103` course tag.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `friends` general tag and `cs2103` course tag.
 
    1. Test case: `tag 1 tg/friends` (where `friends` already exists)<br>
       Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
@@ -800,8 +797,6 @@ testers are expected to do more *exploratory* testing.
       Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
 
 1. Invalid tag commands
-
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
    1. Test case: `tag`<br>
       Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
@@ -823,6 +818,72 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `tag 1 tr/tutor space`<br>
       Expected: No tag added. Error details shown in the status message indicating tags names should be alphanumeric only (no spaces or special characters).
+
+### Untagging a person
+
+1. Removing tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `tutor` role tag, `cs2103` course tag, `friends` and `groupmates` general tags.
+
+   1. Test case: `untag 1 tg/friends`<br>
+      Expected: `friends` general tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+1. Removing tags from a person where some tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `cs2103` course tag and `friends` general tags.
+
+   1. Test case: `untag 1 tg/friends tr/tutor` (where `friends` exists but `tutor` doesn't)<br>
+      Expected: Only `friends` general tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [GENERAL: friends]
+      Tags not found: [ROLE: tutor]
+      ```
+
+   1. Test case: `untag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` exists but `cs2109s` and `cs2100` doesn't)<br>
+      Expected: Only `cs2103` course tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [COURSE: cs2103]
+      Tags not found: [COURSE: cs2109s, COURSE: cs2100]
+      ```
+
+1. Removing tags from a person where all tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person has no existing tags.
+
+   1. Test case: `untag 1 tg/nonexistent` <br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+   1. Test case: `untag 1 tr/notfound tg/missing`<br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+1. Invalid untag commands
+
+   1. Test case: `untag`<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 0`<br>
+      Expected: No tag removed. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `untag 1 test` (missing prefix)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `untag 1 tr/` (missing value)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `untag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag removed. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `untag 1 tr/tutor space`<br>
+      Expected: No tag removed. Error details shown in the status message indicating tags names should be alphanumeric.
 
 ### Sorting persons
 
