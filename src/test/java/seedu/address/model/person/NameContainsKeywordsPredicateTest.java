@@ -91,7 +91,7 @@ public class NameContainsKeywordsPredicateTest {
                 .withEmail("alice@email.com").build()));
 
         // Test fuzzy match failure (outside threshold)
-        predicate = new NameContainsKeywordsPredicate(List.of("Alicia")); // 2 edits away from "Alice"
+        predicate = new NameContainsKeywordsPredicate(List.of("AliceXXXX")); // 4 edits away from "Alice"
         assertFalse(predicate.test(new PersonBuilder().withName("Alice").build()));
     }
 

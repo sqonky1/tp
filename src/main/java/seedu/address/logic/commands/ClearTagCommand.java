@@ -28,13 +28,14 @@ public class ClearTagCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Clears all tags of the specified type from the person identified by the index number "
             + "used in the displayed person list.\n"
+            + "Exactly one tag type prefix must be provided.\n"
             + "Parameters: INDEX " + PREFIX_ROLE_TAG + " or "
             + "INDEX " + PREFIX_COURSE_TAG + " or "
             + "INDEX " + PREFIX_GENERAL_TAG + "\n"
             + "Note: INDEX (must be a positive integer).\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ROLE_TAG;
 
-    public static final String MESSAGE_SUCCESS = "All %1$s tags removed: %2$s";
+    public static final String MESSAGE_SUCCESS = "All %1$s tags cleared: %2$s";
     public static final String MESSAGE_NO_TAGS_FOUND = "No %1$s tags found to clear.";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo clear %1$s tags for: %2$s";
     public static final String MESSAGE_UNDO_FAILURE = "Cannot undo clear tag before command execution.";
@@ -87,7 +88,6 @@ public class ClearTagCommand extends Command {
         updatedPerson = editedPerson;
 
         model.setPerson(personToClearTag, editedPerson);
-        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, typeToClear, removedTags));
     }
@@ -105,7 +105,6 @@ public class ClearTagCommand extends Command {
         }
 
         model.setPerson(updatedPerson, originalPerson);
-        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_UNDO_SUCCESS, typeToClear, Messages.format(originalPerson)));
     }
 

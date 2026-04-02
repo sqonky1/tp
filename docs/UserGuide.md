@@ -19,7 +19,7 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 1. Copy the file to the folder you want to use as the _home folder_ for your CampusBridge application.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.4.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.5.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -44,32 +44,7 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
-
-<div markdown="block" class="alert alert-info">
-
-**:information_source: Notes about the command format:**<br>
-
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
-
-* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
-
-* Prefixes are case-insensitive.<br>
-  e.g. n/NAME and N/NAME are treated the same way.
-
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</div>
+## Data entry specifications
 
 ### Tag types
 
@@ -86,8 +61,12 @@ CampusBridge supports three tag types, each displayed in a distinct colour:
 * `tc/COURSE_TAG` — creates a Course tag
 * `tg/GENERAL_TAG` — creates a General tag
 
-**Tag name rules:**
-* Tags are **case-insensitive**. `tr/Friends`, `tr/FRIENDS` and `tr/friends` all refer to the same tag.
+**Tag constraints:**
+* Tags are **case-insensitive** — `tr/Friends`, `tr/FRIENDS` and `tr/friends` all refer to the same tag.
+* Tag names must be **alphanumeric**.
+    * Only letters A-Z, a-z, and number 0-9 are allowed.
+    * Spaces and special characters (e.g `@`, `#`, `-`, `!`, `_`) are not allowed.
+* Each tag name must be unique within its type — you cannot create two Role tags with the same name, but a Role tag and a General tag can share the same name.
 
 ### Email validation
 
@@ -125,6 +104,33 @@ CampusBridge is designed for NUS students and staff. When adding or editing a co
 Non-NUS emails are still accepted, but a warning will be displayed to alert you that the email does not belong to an NUS domain.
 </div>
 
+## Features
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the command format:**<br>
+
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+
+* Items in square brackets are optional.<br>
+  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+
+* Items with `…`​ after them can be used multiple times including zero times.<br>
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+
+* Parameters can be in any order.<br>
+  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+
+* Commands that do not take parameters (such as `list`, `exit` and `clear`) will show an error if extra arguments are provided.<br>
+  e.g. `list 123` will result in an error instead of being interpreted as `list`.
+
+* Prefixes are case-insensitive.<br>
+  e.g. n/NAME and N/NAME are treated the same way.
+
+* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+</div>
+
 ### Viewing help : `help`
 
 Opens the user guide in the browser, and optionally directly to the section for a specific command.
@@ -157,6 +163,8 @@ Adds a person to the address book.
 * Email must be unique. You cannot add two persons with the same email address.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
 * Telegram handles are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
+* Repeated prefixes for single-valued fields are not allowed. For example, `add n/Amy n/Ben e/x@example.com` is invalid.
+* Prefixes meant for other commands, such as `t/`, `tr/`, `tc/`, `tg/`, `i/`, `o/`, and `r/`, are invalid in an `add` command.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Parameters can be entered in any order, as long as each value is preceded by the correct prefix.
@@ -243,7 +251,7 @@ Adds one or more tags to an existing person in the address book.
 **Format:** `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be added in a single command.
@@ -279,7 +287,7 @@ Removes one or more tags from an existing person in the address book.
 **Format:** `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no space or symbols).
+* Tag names must be **alphanumeric** (no spaces or special characters).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be removed in a single command.
@@ -308,7 +316,7 @@ Removes the `tutor` role tag, `cs2103` course tag and `classmates` general tag f
 * `untag 3 tc/cs2103 tc/cs2109`<br/>
 Removes both `cs2103` and `cs2109` course tags from the 3rd person in the list.
 
-### Clearing tags of a specific type from a person : `cleartag`
+### Clearing all tags of a specific type : `cleartag`
 
 Clears all tags of a specific type from an existing person in the address book.
 
@@ -316,11 +324,11 @@ Clears all tags of a specific type from an existing person in the address book.
 
 * The index **must be a positive integer** 1, 2, 3, …​
 * **Exactly one tag type prefix** must be provided (without any tag names).
-* Only one tag type can be cleared at a time.
 
 **Behavior:**
 * Clears all tags of the specified type from the person at the given `INDEX`.
 * The index refers to the index number shown in the displayed person list.
+* Only one tag type can be cleared at a time.
 * Only tags of the specified type will be removed. Tags of other types remain unchanged.
 * If the person has no tags of the specified type, an error message will be shown.
 
@@ -529,7 +537,7 @@ If your changes to the data file makes its format invalid, CampusBridge will dis
 Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Clearing tags of multiple types from a person [coming in v2.0]
+### Clearing all tags of multiple types [coming in v2.0]
 
 _Details coming soon …_
 
@@ -557,7 +565,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]` <br> e.g., `add n/James Ho e/jamesho@example.com p/22224444 h/james_ho`
 **Clear** | `clear`
-**Cleartag** | `cleartag INDEX [tr/] or [tc/] or [tg/]` <br> e.g., `cleartag 1 tg/`
+**Cleartag** | `cleartag INDEX tr/ or cleartag INDEX tc/ or cleartag INDEX tg/` <br> e.g., `cleartag 1 tg/`
 **Delete** | `delete i/INDEX OR delete e/EMAIL`<br> e.g., `delete i/3 OR delete e/jameslee@example.com `
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com h/jlee01`
 **Exit** | `exit`
@@ -569,7 +577,9 @@ Action | Format, Examples
 **Untag** | `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`<br> e.g., `untag 3 tr/tutor tc/cs2103`
 **Undo** | `undo`
 
-## Keyboard shortcuts summary
+## Keyboard Shortcuts Summary
+
+### Windows / Linux
 
 Action | Shortcut
 --------|----------
@@ -577,3 +587,14 @@ Action | Shortcut
 **Exit application** | `F3`
 **Help** | `F1`
 **List all contacts** | `F2`
+
+---
+
+### macOS
+
+Action | Shortcut
+--------|----------
+**Clear input box** | `fn + Delete`
+**Exit application** | `fn + F3`
+**Help** | `fn + F1`
+**List all contacts** | `fn + F2`

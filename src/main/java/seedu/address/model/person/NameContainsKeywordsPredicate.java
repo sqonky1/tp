@@ -90,7 +90,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
 
     private boolean isFuzzyMatch(String token, String keyword) {
         int threshold = Math.max(MIN_ALLOWED_EDITS,
-                (int) (keyword.length() * EDIT_DISTANCE_RATIO));
+                (int) Math.ceil(keyword.length() * EDIT_DISTANCE_RATIO));
 
         return StringUtil.matchesFuzzy(token, keyword, threshold);
     }

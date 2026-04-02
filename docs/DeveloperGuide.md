@@ -201,7 +201,43 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-  ### Current Undo feature
+### Add feature
+
+#### Implementation
+
+The `add` command is implemented using `AddCommandParser` and `AddCommand`.
+
+When the user enters an `add` command, `AddressBookParser` delegates the input to `AddCommandParser`. `AddCommandParser` tokenizes the input using only the prefixes supported by `add`: `n/`, `e/`, `p/`, and `h/`.
+
+The parser enforces the following rules:
+
+* `n/NAME` and `e/EMAIL` are compulsory.
+* `p/PHONE` and `h/TELEGRAM_HANDLE` are optional.
+* Values are trimmed before validation.
+* Repeated single-valued prefixes are rejected.
+* Any non-empty preamble is rejected.
+* Known prefixes belonging to other commands, such as `t/`, `tr/`, `tc/`, `tg/`, `i/`, `o/`, and `r/`, are treated as unexpected extra input in an `add` command.
+
+After tokenization, `AddCommandParser` uses `ParserUtil` to validate and convert each supplied value into the corresponding model type. It then constructs a `Person` object and returns an `AddCommand`.
+
+When `AddCommand` executes, it first checks whether the person already exists in the address book using `model.hasPerson(toAdd)`. If a duplicate is detected, the command fails.
+
+If the person is unique, the command adds the person to the model and returns a success message. If the added person's email is not an NUS-domain email, the command still succeeds but appends a warning message.
+
+`AddCommand` is undoable. Undoing an `add` removes the previously added person, unless that person no longer exists in the model.
+
+#### Duplicate detection
+
+Duplicate detection for `add` is based on `Person#isSamePerson(...)`.
+
+Two persons are considered the same person if they have:
+
+* the same email, or
+* the same non-null Telegram handle.
+
+This identity rule is used by `UniquePersonList` when adding and updating persons. As a result, the `add` command rejects contacts that duplicate either an existing email or an existing Telegram handle.
+
+### Current Undo feature
 
 #### Current Implementation
 
@@ -212,6 +248,9 @@ Undoable commands, once executed, will be added in to a deque.
 When an undo command is called, the deque will peek at the first item to be out.
 
 If the undo of the command is successfully executed, the deque will pop.
+
+Here is the sequence UML diagram:![UndoSequenceDiagram-Logic.png]
+Note: Undo methods in commands now directly calls methods in Model to revert the changes.
 
 More UML diagrams are to be added in a later.
 
@@ -266,36 +305,53 @@ It does so by providing a centralized, easy-to-use system to save, search, and m
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                    | I can …​                                                                 | So that I can…​                                                            |
-|----------|----------------------------|--------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| `* * *`  | user                       | add a contact                                                            | store and organize important academic contact information in one place     |
-| `* * *`  | user                       | view all my contacts                                                     | quickly see everyone in one place                                          |
-| `* * *`  | user                       | delete a contact                                                         | keep my contact list accurate and organized                                |
-| `* * *`  | user                       | edit a specific contact                                                  | quickly correct mistakes in their contact information                      |
-| `* * *`  | user                       | exit the application                                                     | safely close CampusBridge when I am done using it                          |
-| `* * *`  | user                       | have my contacts saved automatically                                     | prevent losing my data when the application closes                         |
-| `* * *`  | user                       | validate my input                                                        | minimize incorrect information                                             |
-| `* * *`  | new user                   | see clear error message                                                  | understand what went wrong and correct my input without feeling confused   |
-| `* * *`  | regular user               | filter contacts by module                                                | view everyone in a specific class                                          |
-| `* * *`  | regular user               | filter contacts by role (e.g., professor, teaching assistant, classmate) | quickly find the right type of contact                                     |
-| `* * *`  | regular user               | search contacts by name or email                                         | quickly find someone                                                       |
-| `* * *`  | new user                   | type help [command] (e.g., help add)                                     | see specific examples and parameter requirements for that command          |
-| `* *`    | regular user               | sort contacts alphabetically                                             | browse them more easily                                                    |
-| `* *`    | new user                   | view preloaded sample modules and contacts                               | understand the app’s layout and value withoadding real data.               |
-| `* *`    | user                       | add new tags to an existing contact                                      | keep their information updated as the semester evolves                     |
-| `* *`    | user                       | delete specific tags from a contact without deleting the entire contact  | keep my contact information accurate                                       |
-| `* *`    | expert user                | type a command to undo my last action                                    | instantly revert an accidental deletion without stress                     |
-| `* *`    | expert user                | have keyboard shortcuts                                                  | operate the system efficiently                                             |
-| `* *`    | expert user                | quickly copy an email address                                            | paste it into Outlook or Gmail                                             |
-| `* *`    | expert user                | see colour coded for tags                                                | visually prioritize my attention                                           |
-| `* *`    | user                       | type history                                                             | see a list of my previously entered commands to recall what I just changed |
-| `* *`    | user                       | export contact data to be in a human-readable format like json           | can edit it easily                                                         |
-| `* *`    | regular user               | mark a preferred contact method                                          | know the fastest way to reach someone                                      |
-| `* *`    | frequent user              | add notes to contacts                                                    | store useful contextual information                                        |
-| `* *`    | fast typing user           | use short aliases for commands                                           | minimize keystrokes                                                        |
-| `* *`    | advanced user              | bulk add contacts at once                                                | save time when entering many contacts                                      |
-| `*`      | frequent user              | set custom reminders for prof/TA office hours                            | stay on top of opportunities for academic help                             |
-| `*`      | user desiring full control | customize the GUI theme                                                  | personalize my experience                                                  |
+#### Current version:
+
+| Priority | As a …​                    | I can …​                                                                | So that I can…​                                                                   |
+|----------|----------------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| `* * *`  | user                       | add a contact                                                           | store and organize important academic contact information in one place            |
+| `* * *`  | user                       | view all my contacts                                                    | quickly see everyone in one place                                                 |
+| `* * *`  | user                       | delete a contact                                                        | keep my contact list accurate and organized                                       |
+| `* * *`  | user                       | edit a specific contact                                                 | quickly correct mistakes in their contact information                             |
+| `* * *`  | user                       | exit the application                                                    | safely close CampusBridge when I am done using it                                 |
+| `* * *`  | user                       | have my contacts saved automatically                                    | prevent losing my data when the application closes                                |
+| `* * *`  | user                       | validate my input                                                       | minimize incorrect information                                                    |
+| `* * *`  | new user                   | see clear error message                                                 | understand what went wrong and correct my input without feeling confused          |
+| `* * *`  | regular user               | search contacts by name, email and tags                                 | quickly find someone                                                              |
+| `* * *`  | new user                   | view help details                                                       | see specific examples and parameter requirements for that command                 |
+| `* *`    | regular user               | sort contacts alphabetically                                            | browse them more easily                                                           |
+| `* *`    | new user                   | view preloaded sample modules and contacts                              | understand the app’s layout and value withoadding real data.                      |
+| `* *`    | user                       | add new tags to an existing contact                                     | keep their information updated as the semester evolves                            |
+| `* *`    | user                       | delete specific tags from a contact without deleting the entire contact | keep my contact information accurate                                              |
+| `* *`    | user                       | clear all tags from a contact                                           | reset the contact’s categorization without manually deleting every individual tag |
+| `* *`    | expert user                | undo my last action                                                     | instantly revert an accidental deletion without stress                            |
+| `* *`    | expert user                | have keyboard shortcuts                                                 | operate the system efficiently                                                    |
+| `* *`    | expert user                | quickly copy an email address                                           | paste it into Outlook or Gmail                                                    |
+| `* *`    | expert user                | view colour-coded tags                                                  | quickly identify and prioritize important information.                            |
+| `* *`    | regular user               | navigate command history                                                | execute or modify past commands without retyping them                             |
+| `* *`    | user                       | export contact data to be in a human-readable format like json          | can edit it easily                                                                |
+
+#### Near-future version:
+
+| Priority | As a …​                          | I can …​                                                           | So that I can…​                                                                 |
+|----------|----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `*`      | regular user                     | mark a preferred contact method                                    | know the fastest way to reach someone                                           |
+| `*`      | regular user                     | mark certain contacts as favorites                                 | keep my most important connections easily accessible at the top of my list      | 
+| `*`      | frequent user                    | add notes to contacts                                              | store useful contextual information                                             |
+| `*`      | fast typing user                 | use short aliases for commands                                     | minimize keystrokes                                                             |
+| `*`      | forgetful student                | see a list of "Available Now" contacts based on their office hours | know exactly who I want to visit for a walk-in consultation                     |
+| `*`      | regular user                     | create a personal profile                                          | tailor the application experience to my specific preferences and needs          |
+| `*`      | user                             | view a list of command history                                     | recall what I just changed                                                      |
+| `*`      | advanced user                    | bulk add contacts at once                                          | save time when entering many contacts                                           |
+| `*`      | advanced user                    | bulk delete contacts at once                                       | remove outdated or unnecessary contacts efficiently                             |
+| `*`      | advanced user                    | bulk edit contacts at once                                         | manage large contact groups with minimal effor                                  |
+| `*`      | user managing multiple semesters | toggle between “current semester” and “past semesters” views       | reference old contacts without cluttering my main screen                        |
+| `*`      | user desiring full control       | customize the GUI theme                                            | personalize my experience                                                       |
+| `*`      | regular user                     | create “sub-groups” for teammates within a module                  | manage project - specific communication efficiently                             |
+| `*`      | frequent user                    | set custom reminders for prof/TA office hours                      | stay on top of opportunities for academic help                                  |
+| `*`      | new user                         | import my existing contacts                                        | avoid manually adding them                                                      |
+| `*`      | user with many past contacts     | archive old semester contacts                                      | have my active list remain uncluttered and focused on current needs             |
+| `*`      | user                             | add my current semester’s modules by searching NUS module codes    | categorize contacts accurately and save time                                    |
 
 See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues?q=is%3Aissue%20label%3Atype.Story)
 
@@ -325,8 +381,8 @@ Use case ends.
   Steps 3a1 - 3a3 are repeated until input is valid.
   Use case resumes at step 4.
 
-* 3b. Email already exists in the contact list.
-  * 3b1. CampusBridge shows a failure message indicating that email already exists.
+* 3b. Email or Telegram handle already exists in the contact list.
+  * 3b1. CampusBridge shows a failure message indicating that the contact already exists.
 
   Use case ends.
 
@@ -518,6 +574,37 @@ Use case ends.
   Use case ends.
 
 
+#### Use Case: UC07 - Undo previous action
+
+**Preconditions: Application is running**
+
+**MSS:**
+1. User requests to undo the most recent action.
+2. CampusBridge retrieves the most recent undoable command from the undo history.
+3. CampusBridge invokes the undo operation of that command.
+4. The command reverses its own effects on the application state.
+5. CampusBridge updates the undo history.
+6. CampusBridge shows the updated state and a success message.
+
+Use case ends.
+
+**Extensions:**
+* 2a. No undoable commands available in undo history.
+    * 2a1. CampusBridge shows an error message indicating that there are no actions to undo.
+
+  Use case ends.
+
+* 3a. Command fails to execute its undo operation.
+    * 3a1. CampusBridge shows an error message indicating that the undo operation failed.
+
+  Use case ends.
+
+* 5a. Storage file cannot be written or accessed.
+    * 5a1. CampusBridge shows an error message indicating the state could not be saved.
+
+  Use case ends.
+
+
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -560,131 +647,312 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Sorting contacts
-
-1. Sorting by a single field
-
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-
-   1. Test case: `sort o/name`<br>
-      Expected: Contacts sorted alphabetically by name (ascending). Success message shown.
-
-   1. Test case: `sort o/email`<br>
-      Expected: Contacts sorted by email address (ascending). Success message shown.
-
-   1. Test case: `sort o/phone`<br>
-      Expected: Contacts sorted by phone number (ascending). Contacts without a phone number appear last. Success message shown.
-
-1. Sorting in descending order
-
-   1. Test case: `sort o/name r/`<br>
-      Expected: Contacts sorted alphabetically by name (descending). Success message shown.
-
-   1. Test case: `sort o/phone r/`<br>
-      Expected: Contacts sorted by phone number (descending). Contacts without a phone number appear last.
-
-1. Resetting sort order
-
-   1. Prerequisites: Apply a sort, e.g. `sort o/name r/`.
-
-   1. Test case: `sort o/none`<br>
-      Expected: Contacts returned to their original insertion order. Reset message shown.
-
-1. Invalid sort commands (each tested individually)
-
-   1. Test case: `sort` (missing `o/` prefix)<br>
-      Expected: Error message with command usage shown.
-
-   1. Test case: `sort o/` (empty order value)<br>
-      Expected: Error message with command usage shown.
-
-   1. Test case: `sort o/address` (invalid order value)<br>
-      Expected: Error message listing valid order values: `email`, `name`, `phone`, `none`.
-
-   1. Test case: `sort o/none r/` (reverse flag combined with `none`)<br>
-      Expected: Error message indicating `r/` is incompatible with `none`.
-
-   1. Test case: `sort o/name r/yes` (reverse flag followed by a value)<br>
-      Expected: Error message indicating the `r/` flag must have no value.
-
-   1. Test case: `sort o/name o/email` (duplicate `o/` prefix)<br>
-      Expected: Error message indicating duplicate prefixes are not allowed.
-
-### Navigating command history
-
-1. Cycling through past commands
-
-   1. Prerequisites: Enter at least three commands in sequence, e.g. `list`, `sort o/name`, `help`.
-
-   1. Press the **Up arrow** key in the command box.<br>
-      Expected: The command box fills with the most recently entered command (`help`).
-
-   1. Press **Up** again.<br>
-      Expected: The command box shows the previous command (`sort o/name`).
-
-   1. Press **Down**.<br>
-      Expected: The command box shows the next command in history (`help`).
-
-1. Navigating beyond history bounds
-
-   1. Press **Up** repeatedly past the oldest command in history.<br>
-      Expected: The command box stays at the oldest command; it does not wrap around.
-
-   1. Press **Down** past the most recent command.<br>
-      Expected: The command box clears (returns to empty input).
-
-1. History is not affected by invalid commands
-
-   1. Enter a valid command (e.g. `list`), then an invalid command (e.g. `badcommand`).
-
-   1. Press **Up** once.<br>
-      Expected: The invalid command `badcommand` is shown (all submitted input, valid or not, is recorded).
-
-### Deleting a person
-
-1. Deleting a person while all persons are being shown
-
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-
-1. _{ more test cases …​ }_
-
 ### Viewing help
 
 1. Opening general help
 
-   1. Test case: `help`<br>
-      Expected: The User Guide opens in the system default browser. Status message shows `Opened user guide in browser.`
+    1. Test case: `help`<br>
+       Expected: The User Guide opens in the system default browser. Status message shows `Opened user guide in browser.`
 
-   1. Alternative: Press <kbd>F1</kbd>.<br>
-      Expected: Same as above.
+    1. Alternative: Press <kbd>F1</kbd>.<br>
+       Expected: Same as above.
 
 1. Opening command-specific help
 
-   1. Test case: `help add`<br>
-      Expected: The User Guide opens in the system default browser at the `add` command section. Status message shows `Opening user guide for 'add' command.`
+    1. Test case: `help add`<br>
+       Expected: The User Guide opens in the system default browser at the `add` command section. Status message shows `Opening user guide for 'add' command.`
 
-   1. Other valid command names to try: `help list`, `help edit`, `help delete`, `help find`, `help sort`, `help tag`, `help untag`, `help cleartag`, `help clear`, `help exit`<br>
-      Expected: The User Guide opens at the respective command section. Status message names the command.
+    1. Other valid command names to try: `help list`, `help edit`, `help delete`, `help find`, `help sort`, `help tag`, `help untag`, `help cleartag`, `help clear`, `help exit`<br>
+       Expected: The User Guide opens at the respective command section. Status message names the command.
 
 1. Invalid help arguments
 
-   1. Test case: `help INVALID`<br>
-      Expected: The User Guide does not open. Error details shown in the status message.
+    1. Test case: `help INVALID`<br>
+       Expected: The User Guide does not open. Error details shown in the status message.
 
-   1. Test case: `help ADD` (uppercase)<br>
-      Expected: Same as above. Command names are case-sensitive and must be lowercase.
+    1. Test case: `help ADD` (uppercase)<br>
+       Expected: Same as above. Command names are case-sensitive and must be lowercase.
 
-   1. Test case: `help add extra`<br>
-      Expected: Same as above. Only a single command name is accepted; extra words cause a format error.
+    1. Test case: `help add extra`<br>
+       Expected: Same as above. Only a single command name is accepted; extra words cause a format error.
+
+### Adding a person
+
+1. Adding a person with all fields
+
+    1. Prerequisites: Start with the sample data loaded. Ensure the email and Telegram handle used below do not already exist.
+
+    1. Test case: `add n/John Doe e/johndoe@example.com p/91234567 h/john_doe`<br>
+       Expected: A new contact is added to the list. The success message shows the added person's details.
+
+2. Adding a person with only compulsory fields
+
+    1. Prerequisites: Ensure the email used below does not already exist.
+
+    1. Test case: `add n/Jane Doe e/janedoe@example.com`<br>
+       Expected: A new contact is added without phone number and Telegram handle. The success message shows the added person's details.
+
+3. Adding a person with a non-NUS email
+
+    1. Prerequisites: Ensure the email used below does not already exist.
+
+    1. Test case: `add n/Alex Tan e/alextan@gmail.com`<br>
+       Expected: A new contact is added. A warning is shown indicating that the email is not an NUS domain.
+
+4. Adding a person with duplicate email or Telegram handle
+
+    1. Prerequisites: Add a contact using `add n/Test Person e/testperson@example.com h/test_person`.
+
+    1. Test case: `add n/Another Person e/testperson@example.com`<br>
+       Expected: No person is added. Error details shown in the status message indicating that the contact already exists.
+
+    1. Test case: `add n/Another Person e/anotherperson@example.com h/test_person`<br>
+       Expected: No person is added. Error details shown in the status message indicating that the contact already exists.
+
+5. Invalid add commands
+
+    1. Test case: `add n/John Doe`<br>
+       Expected: No person is added. Error details shown in the status message.
+
+    1. Test case: `add e/johndoe@example.com`<br>
+       Expected: No person is added. Error details shown in the status message.
+
+    1. Test case: `add n/John Doe e/invalid-email`<br>
+       Expected: No person is added. Error details shown in the status message.
+
+    1. Test case: `add n/John Doe n/Jane Doe e/johndoe@example.com`<br>
+       Expected: No person is added. Error details shown in the status message indicating duplicate prefixes.
+
+    1. Test case: `add n/John Doe e/johndoe@example.com tg/friend`<br>
+       Expected: No person is added. Error details shown in the status message indicating unexpected extra input.
+
+### Deleting a person
+
+1. Deleting a person by index
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `delete i/1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Deleting a person by email
+
+   1. Prerequisites: Ensure a person with email `alicetan@u.nus.edu` exists in the address book.
+
+   1. Test case: `delete e/alicetan@u.nus.edu`<br>
+      Expected: Person with the specified email is deleted from the list. Details of the deleted contact shown in the status message.
+
+1. Invalid delete commands
+
+   1. Test case: `delete`<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/0`<br>
+       Expected: No person deleted. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `delete e/invalid-email`<br>
+       Expected: No person deleted. Error details shown in the status message indicating email constraints.
+
+   1. Test case: `delete 1` (missing prefix)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 i/2`(multiple same prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `delete e/alicetan@u.nus.edu i/1` (both prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `delete i/1 n/alice p/12345678` (multiple invalid prefixes)<br>
+       Expected: No person deleted. Error details shown in the status message invalid command format and unexpected extra input.
+
+   1. Test case: `delete i/100` (where 100 is larger than list size)<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `delete e/nonexistent@example.com`<br>
+       Expected: No person deleted. Error details shown in the status message indicating no person found with that email and tip to use `list` or `find` commands.
+
+### Tagging a person
+
+1. Adding tags to a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first and second person has no existing tags.
+
+   1. Test case: `tag 1 tg/friends`<br>
+      Expected: `friends` general tag is added to the 1st person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+   1. Test case: `tag 2 tr/mentor tg/mentor` (same name, different types)<br>
+      Expected: Both `mentor` tutor tag and `mentor` general tag are added to the 2nd person in the list. Status message shows the details of the new tags added.
+
+1. Adding tags to a person where some tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person only have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends tg/groupmates` (where `friends` already exists)<br>
+      Expected: Only `groupmates` general tag is added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [GENERAL: groupmates]
+      Tags already existing (no changes made): [GENERAL: friends]
+      ```
+
+   1. Test case: `tag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` already exists)<br>
+      Expected: `cs2109s` and `cs2100` course tags are added to the 1st person in the list. Status message shows:
+      ```
+      New tags added: [COURSE: cs2109s, COURSE: cs2100]
+      Tags already existing (no changes made): [COURSE: cs2103]
+      ```
+
+1. Adding tags to a person where all tags already exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `friends` general tag and `cs2103` course tag.
+
+   1. Test case: `tag 1 tg/friends` (where `friends` already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+   1. Test case: `tag 1 tg/friends tc/cs2103` (where both tags already exists)<br>
+      Expected: No changes made. Error details shown in the status message indicating that all tags already exist for this person and no changes made.
+
+1. Invalid tag commands
+
+   1. Test case: `tag`<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 0`<br>
+      Expected: No tag added. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `tag 1 test` (missing prefix)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `tag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `tag 1 tr/` (missing value)<br>
+      Expected: No tag added. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `tag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag added. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `tag 1 tr/tutor space`<br>
+      Expected: No tag added. Error details shown in the status message indicating tags names should be alphanumeric only (no spaces or special characters).
+
+### Untagging a person
+
+1. Removing tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `tutor` role tag, `cs2103` course tag, `friends` and `groupmates` general tags.
+
+   1. Test case: `untag 1 tg/friends`<br>
+      Expected: `friends` general tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tg/groupmates tc/cs2103`<br>
+      Expected: Both `groupmates` general tag and `cs2103` course tag are removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+   1. Test case: `untag 1 tr/tutor tr/TUTOR` (duplicate with different case)<br>
+      Expected: Only one `tutor` role tag is removed from the 1st person in the list. Status message shows the details of the tags removed.
+
+1. Removing tags from a person where some tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person have existing `cs2103` course tag and `friends` general tags.
+
+   1. Test case: `untag 1 tg/friends tr/tutor` (where `friends` exists but `tutor` doesn't)<br>
+      Expected: Only `friends` general tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [GENERAL: friends]
+      Tags not found: [ROLE: tutor]
+      ```
+
+   1. Test case: `untag 1 tc/cs2109s tc/cs2100 tc/cs2103` (where `cs2103` exists but `cs2109s` and `cs2100` doesn't)<br>
+      Expected: Only `cs2103` course tag is removed from the 1st person in the list. Status message shows:
+      ```
+      Tags removed: [COURSE: cs2103]
+      Tags not found: [COURSE: cs2109s, COURSE: cs2100]
+      ```
+
+1. Removing tags from a person where all tags don't exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure the first person has no existing tags.
+
+   1. Test case: `untag 1 tg/nonexistent` <br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+   1. Test case: `untag 1 tr/notfound tg/missing`<br>
+      Expected: No changes made. Error details shown in the status message indicating that none of the specified tags were found.
+
+1. Invalid untag commands
+
+   1. Test case: `untag`<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 0`<br>
+      Expected: No tag removed. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `untag 1 test` (missing prefix)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `untag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `untag 1 tr/` (missing value)<br>
+      Expected: No tag removed. Error details shown in the status message indicating invalid command format and empty value provided for prefix.
+
+   1. Test case: `untag 100 tg/friends` (where 100 is larger than list size)<br>
+      Expected: No tag removed. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `untag 1 tr/tutor space`<br>
+      Expected: No tag removed. Error details shown in the status message indicating tags names should be alphanumeric (no spaces or special characters).
+
+### Clearing all tags of a specific type
+
+1. Clearing all tags from a person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person have existing general and role tags.
+
+   1. Test case: `cleartag 1 tg/`<br>
+      Expected: All the general tags are cleared from the 1st person in the list. Status message shows the details of the general tags cleared.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags cleared.
+
+1. Clearing all tags from a person where no tags of specified type exist
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person has no existing tags.
+
+   1. Test case: `cleartag 1 tc/` <br>
+      Expected: No changes made. Error details shown in the status message indicating that no course tags found to clear.
+
+   1. Test case: `cleartag 2 tr/`<br>
+      Expected: No changes made. Error details shown in the status message indicating that no role tags found to clear.
+
+1. Invalid cleartag commands
+
+   1. Test case: `cleartag`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 0`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating index must be a positive integer (1, 2, 3...).
+
+   1. Test case: `cleartag 1` (missing prefix)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 1 n/alice` (invalid prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and unexpected extra input.
+
+   1. Test case: `cleartag 1 tr/ tr/` (multiple same prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating multiple values specified for the following single-valued field(s): `i/`.
+
+   1. Test case: `cleartag 1 tr/ tg/` (multiple prefixes)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and command usage.
+
+   1. Test case: `cleartag 100 tg/` (where 100 is larger than list size)<br>
+      Expected: No tag cleared. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+
+   1. Test case: `cleartag 1 tr/tutor`<br>
+      Expected: No tag cleared. Error details shown in the status message indicating invalid command format and prefix should not contain any value.
 
 ### Sorting persons
 
@@ -732,50 +1000,89 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `sort o/name o/email`<br>
       Expected: List is not sorted. Error details shown in the status message indicating duplicate `o/` prefix.
 
+### Locating persons by name/email/tag
+1. Searching by single field
+
+    1. Prerequisites: List all persons using the `list` command. At least one person should be in the list.
+
+    1. Test case: `find n/Alex`<br>
+       Expected: Contacts whose names match `Alex` (case-insensitive; supports substring and fuzzy matching) are shown.
+
+    1. Test case: `find e/nus.edu`<br>
+       Expected: Contacts with email addresses containing `nus.edu` (case-insensitive substring) are shown.
+
+    1. Test case: `find t/friends`<br>
+       Expected: Contacts with the tag `friends` (case-insensitive exact match) are shown.
+
+1. Searching by multiple keywords/fields
+
+    1. Prerequisites: List all persons using the `list` command. At least two persons should be in the list.
+
+    1. Test case: `find n/Alex David`<br>
+       Expected: Contacts whose names match `Alex` **OR** `David` are shown (i.e. matches at least one keyword).
+
+    1. Test case: `find n/Alex e/nus.edu`<br>
+       Expected: Contacts whose names match `Alex` **AND** whose email contains `nus.edu` are shown.
+
+    1. Test case: `find n/Alex e/nus.edu t/friends`<br>
+       Expected: Contacts matching all three criteria (Name AND Email AND Tag) are shown.
+
+1. Fuzzy search for names (slight typo tolerance)
+
+    1. Prerequisites: A contact with name `Alice Tan` exists.
+
+    1. Test case: `find n/alce`<br>
+       Expected: `Alice Tan` is shown in the results.
+
+    1. Test case: `find n/alicia`<br>
+       Expected: `Alice Tan` is shown in the results.
+
+    1. Test case: `find n/Tan`<br>
+       Expected: `Alice Tan` is shown in the results.
+
+1. Invalid search commands
+
+    1. Test case: `find` (no parameters)<br>
+       Expected: Error message indicating invalid command format and showing usage.
+
+    1. Test case: `find n/`<br>
+       Expected: Error message indicating empty value provided for prefix `n/`.
+
+    1. Test case: `find n/!@#`<br>
+       Expected: Error message indicating that the keyword `!@#` contains only special characters and must contain at least one alphanumeric character.
+
+    1. Test case: `find p/91234567` (unsupported prefix for find)<br>
+       Expected: Error message indicating unexpected extra input `p/91234567`.
+
 ### Navigating command history
 
-1. Navigating to previous commands
+1. Cycling through past commands
 
-   1. Prerequisites: Execute at least two commands, e.g. `list` then `help`.
+    1. Prerequisites: Enter at least three commands in sequence, e.g. `list`, `sort o/name`, `help`.
 
-   1. Press the <kbd>↑</kbd> (Up) arrow key while the command box is focused.<br>
-      Expected: The most recently executed command (`help`) appears in the command box.
+    1. Press the **Up arrow** key in the command box.<br>
+       Expected: The command box fills with the most recently entered command (`help`).
 
-   1. Press <kbd>↑</kbd> again.<br>
-      Expected: The earlier command (`list`) appears in the command box.
+    1. Press **Up** again.<br>
+       Expected: The command box shows the previous command (`sort o/name`).
 
-   1. Press <kbd>↑</kbd> when already at the oldest command.<br>
-      Expected: Nothing happens. Navigation stops at the oldest entry.
+    1. Press **Down**.<br>
+       Expected: The command box shows the next command in history (`help`).
 
-1. Navigating forward through history
+1. Navigating beyond history bounds
 
-   1. Prerequisites: Navigate back through history using <kbd>↑</kbd> as above.
+    1. Press **Up** repeatedly past the oldest command in history.<br>
+       Expected: The command box stays at the oldest command; it does not wrap around.
 
-   1. Press the <kbd>↓</kbd> (Down) arrow key.<br>
-      Expected: The next more recent command appears in the command box.
+    1. Press **Down** past the most recent command.<br>
+       Expected: The command box clears (returns to empty input).
 
-   1. Press <kbd>↓</kbd> until past the most recent command.<br>
-      Expected: The command box is cleared (shows an empty input field), ready for a new command.
+1. History is not affected by invalid commands
 
-   1. Press <kbd>↓</kbd> when already at the empty new-command position.<br>
-      Expected: Nothing happens.
+    1. Enter a valid command (e.g. `list`), then an invalid command (e.g. `badcommand`).
 
-1. Empty commands and history
-
-   1. Prerequisites: Clear the command box and press Enter without typing anything.
-
-   1. Press <kbd>↑</kbd>.<br>
-      Expected: The last non-empty command appears. The empty submission was not added to history.
-
-1. Clearing the command box
-
-   1. While the command box contains any text, press the <kbd>Delete</kbd> key.<br>
-      Expected: The command box is cleared immediately. This does not affect command history.
-
-1. History is session-only
-
-   1. Execute several commands, then close and relaunch the app.<br>
-      Expected: Press <kbd>↑</kbd> — no history is available. History is not persisted across sessions.
+    1. Press **Up** once.<br>
+       Expected: The invalid command `badcommand` is shown (all submitted input, valid or not, is recorded).
 
 ### Saving data
 
