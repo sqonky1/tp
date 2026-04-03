@@ -15,7 +15,7 @@ import seedu.address.storage.StorageManager;
 
 public class MainAppTest {
 
-    /// No EV or BVA
+    // No EV or BVA
     @Test
     public void stop_savesAddressBook() throws Exception {
         MainApp mainApp = new MainApp();
@@ -27,13 +27,13 @@ public class MainAppTest {
 
         mainApp.stop();
 
-        assertTrue(storageStub.addressBookSaved);
-        assertTrue(storageStub.userPrefsSaved);
+        assertTrue(storageStub.isAddressBookSaved());
+        assertTrue(storageStub.isUserPrefsSaved());
     }
 
     private static class StorageStub extends StorageManager {
-        boolean addressBookSaved = false;
-        boolean userPrefsSaved = false;
+        private boolean addressBookSaved = false;
+        private boolean userPrefsSaved = false;
 
         StorageStub() {
             super(null, null);
@@ -47,6 +47,14 @@ public class MainAppTest {
         @Override
         public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException {
             userPrefsSaved = true;
+        }
+
+        public boolean isAddressBookSaved() {
+            return addressBookSaved;
+        }
+
+        public boolean isUserPrefsSaved() {
+            return userPrefsSaved;
         }
     }
 
