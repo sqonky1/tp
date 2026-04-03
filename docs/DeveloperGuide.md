@@ -1419,8 +1419,20 @@ testers are expected to do more *exploratory* testing.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Dealing with a missing data file
+  
+   1. Prerequisites: Locate the data file at `data/addressbook.json`. Delete it.
 
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Relaunch the application. Expected: The application starts with the sample contact list. A new data file is created automatically.
 
-1. _{ more test cases …​ }_
+1. Dealing with a corrupted data file
+
+   1. Prerequisites: Locate the data file at `data/addressbook.json`. Open it in a text editor and introduce invalid content (e.g., delete a closing brace `}` or replace a field value with gibberish).
+   
+   1. Relaunch the application. Expected: The application starts with an empty contact list. The corrupted file is not loaded to prevent data loss from bad state.
+
+1. Auto-saving after changes
+
+  1. Prerequisites: Application is running.
+  
+  1. Test case: Add a new contact, then close the application using the close button. Relaunch. Expected: The newly added contact is present.
