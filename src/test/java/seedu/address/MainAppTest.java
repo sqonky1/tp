@@ -3,13 +3,14 @@ package seedu.address;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.*;
-import seedu.address.storage.Storage;
+import seedu.address.model.AddressBook;
+import seedu.address.model.ModelManager;
+import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.UserPrefs;
 import seedu.address.storage.StorageManager;
 
 public class MainAppTest {
