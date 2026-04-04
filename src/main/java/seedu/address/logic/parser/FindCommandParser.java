@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_KEYWORD_WITH_ONLY_SPECIAL_CHARACTERS;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PREFIX_WITH_NO_INPUT;
 import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_EXTRA_INPUT;
+import static seedu.address.logic.parser.CliSyntax.FIND_COMMAND_PREFIXES;
 import static seedu.address.logic.parser.CliSyntax.NON_FIND_COMMAND_PREFIXES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -42,11 +43,11 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(leadingSpacedArgs,
-                PREFIX_NAME, PREFIX_EMAIL, PREFIX_TAG);
+                FIND_COMMAND_PREFIXES);
 
         // Check for any prefixes with no value eg. find n/john e/ t/
         Optional<String> emptyPrefix = ParserUtil.findEmptyPrefixValues(argumentMultimap,
-                PREFIX_NAME, PREFIX_EMAIL, PREFIX_TAG);
+                FIND_COMMAND_PREFIXES);
         if (emptyPrefix.isPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_PREFIX_WITH_NO_INPUT, emptyPrefix.get()));
         }
