@@ -147,10 +147,6 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
 
-        if (!model.hasPerson(updatedPerson)) {
-            throw new CommandException("Person to undo no longer exists in the address book.");
-        }
-
         throwIfDuplicate(model, updatedPerson, originalPerson);
 
         model.setPerson(updatedPerson, originalPerson);
