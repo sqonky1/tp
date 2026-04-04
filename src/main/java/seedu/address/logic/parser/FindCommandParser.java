@@ -2,17 +2,13 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_KEYWORD_WITH_ONLY_SPECIAL_CHARACTERS;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PREFIX_WITH_NO_INPUT;
-import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_EXTRA_INPUT;
 import static seedu.address.logic.parser.CliSyntax.FIND_COMMAND_PREFIXES;
-import static seedu.address.logic.parser.CliSyntax.NON_FIND_COMMAND_PREFIXES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -35,22 +31,13 @@ public class FindCommandParser implements Parser<FindCommand> {
         assert leadingSpacedArgs.startsWith(" ") : "Input should start with a space for prefix recognition";
 
         // Check for any disallowed prefixes
-        Optional<String> unexpectedInput = ParserUtil.findUnexpectedExtraInput(leadingSpacedArgs,
-                NON_FIND_COMMAND_PREFIXES);
-        if (unexpectedInput.isPresent()) {
-            throw new ParseException(String.format(MESSAGE_UNEXPECTED_EXTRA_INPUT,
-                    unexpectedInput.get()));
-        }
+        ParserUtil.validateNoInvalidPrefixInputs(leadingSpacedArgs, FIND_COMMAND_PREFIXES);
 
         ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(leadingSpacedArgs,
                 FIND_COMMAND_PREFIXES);
 
         // Check for any prefixes with no value eg. find n/john e/ t/
-        Optional<String> emptyPrefix = ParserUtil.findEmptyPrefixValues(argumentMultimap,
-                FIND_COMMAND_PREFIXES);
-        if (emptyPrefix.isPresent()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_PREFIX_WITH_NO_INPUT, emptyPrefix.get()));
-        }
+        ParserUtil.validateNoEmptyPrefixValues(argumentMultimap, FIND_COMMAND_PREFIXES);
 
         // parse keywords for name, email and tags. Keywords for each field are split by whitespace.
         List<String> nameKeywords = parseKeywords(argumentMultimap, PREFIX_NAME);
