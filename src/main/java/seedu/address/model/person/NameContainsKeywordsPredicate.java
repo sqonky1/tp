@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -77,13 +78,9 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     }
 
     private boolean matchesAnyToken(String[] nameTokens, String keyword) {
-        for (String token : nameTokens) {
-            if (token.contains(keyword) || isFuzzyMatch(token, keyword)) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(nameTokens)
+                .anyMatch(token -> token.contains(keyword)
+                        || isFuzzyMatch(token, keyword));
     }
 
     /**
