@@ -76,11 +76,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
 
     private boolean matchesAnyToken(String[] nameTokens, String keyword) {
         for (String token : nameTokens) {
-            if (token.contains(keyword)) {
-                return true;
-            }
-
-            if (isFuzzyMatch(token, keyword)) {
+            if (token.contains(keyword) || isFuzzyMatch(token, keyword)) {
                 return true;
             }
         }
