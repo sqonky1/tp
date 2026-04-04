@@ -50,11 +50,6 @@ public class EditCommand extends Command {
             + PREFIX_TELEGRAM_HANDLE + "johndoe123";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
-    public static final String MESSAGE_DUPLICATE_EMAIL = Messages.MESSAGE_DUPLICATE_EMAIL;
-    public static final String MESSAGE_DUPLICATE_TELEGRAM_HANDLE = Messages.MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
-    public static final String MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE =
-            Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_UNDO_FAILURE = "Cannot undo edit before command execution.";
     public static final String MESSAGE_UNDO_SUCCESS = "Undo edit person: %1$s";
 
@@ -90,11 +85,10 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
-        int oneBasedIndex = index.getOneBased();
-        int lastShownListSizeOneBased = lastShownList.size() + 1;
 
-        if (oneBasedIndex >= lastShownListSizeOneBased) {
-            throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, oneBasedIndex));
+        if (index.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(
+                    String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index.getOneBased()));
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
