@@ -3,6 +3,11 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_EMAIL;
+import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE;
+import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_TELEGRAM_HANDLE;
+import static seedu.address.logic.Messages.MESSAGE_NON_NUS_EMAIL;
+import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -47,7 +52,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+                + "\n" + MESSAGE_NON_NUS_EMAIL;
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -87,7 +92,6 @@ public class EditCommandTest {
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
-
     @Test
     public void execute_filteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
@@ -112,7 +116,7 @@ public class EditCommandTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_EMAIL);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_EMAIL);
     }
 
     @Test
@@ -123,7 +127,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder(personInList).build());
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_EMAIL);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_EMAIL);
     }
 
     @Test
@@ -177,7 +181,7 @@ public class EditCommandTest {
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
     }
 
     @Test
@@ -201,7 +205,7 @@ public class EditCommandTest {
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
     }
 
     @Test
@@ -210,7 +214,6 @@ public class EditCommandTest {
                 .get(INDEX_FIRST_PERSON.getZeroBased()))
                 .withTelegramHandle("alice123")
                 .build();
-        Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
 
         model.setPerson(model.getFilteredPersonList()
                 .get(INDEX_FIRST_PERSON.getZeroBased()), firstPersonWithTelegram);
@@ -221,7 +224,7 @@ public class EditCommandTest {
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
     }
 
     @Test
@@ -233,7 +236,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editCommand, model,
-                String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index));
+                String.format(MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index));
     }
 
     @Test
@@ -247,7 +250,7 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model,
-                String.format(Messages.MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index));
+                String.format(MESSAGE_PERSON_NOT_FOUND_DISPLAYED_INDEX, index));
     }
 
     @Test
@@ -325,7 +328,7 @@ public class EditCommandTest {
         Person benson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.setPerson(benson, new PersonBuilder(benson).withEmail(alice.getEmail().value).build());
 
-        assertUndoFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_EMAIL);
+        assertUndoFailure(editCommand, model, MESSAGE_DUPLICATE_EMAIL);
     }
 
     @Test
@@ -349,7 +352,7 @@ public class EditCommandTest {
         Person benson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.setPerson(benson, new PersonBuilder(benson).withTelegramHandle("alice123").build());
 
-        assertUndoFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
+        assertUndoFailure(editCommand, model, MESSAGE_DUPLICATE_TELEGRAM_HANDLE);
     }
 
     @Test
@@ -369,7 +372,7 @@ public class EditCommandTest {
                 .build();
 
         String executeMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedAlice)) + "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+                Messages.format(editedAlice)) + "\n" + MESSAGE_NON_NUS_EMAIL;
 
         Model expectedAfterEdit = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedAfterEdit.setPerson(aliceWithTelegram, editedAlice);
@@ -382,7 +385,7 @@ public class EditCommandTest {
                 .withTelegramHandle("alice123")
                 .build());
 
-        assertUndoFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
+        assertUndoFailure(editCommand, model, MESSAGE_DUPLICATE_EMAIL_AND_TELEGRAM_HANDLE);
     }
 
     @Test
@@ -395,7 +398,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\n" + Messages.MESSAGE_NON_NUS_EMAIL;
+                + "\n" + MESSAGE_NON_NUS_EMAIL;
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(personToEdit, editedPerson);
