@@ -16,17 +16,17 @@ import seedu.address.model.person.Person;
  * Finds and lists all persons in the address book whose names, emails, and/or tags
  * match the specified keywords.
  *
- * <p>Matching behaviors by field:
- * <ul>
- *   <li><b>Name keywords:</b> Uses both exact substring matching and fuzzy matching to handle typos.
- *       Fuzzy matching uses Damerau–Levenshtein distance with a dynamic threshold based on keyword length.</li>
- *   <li><b>Email keywords:</b> Uses exact substring matching.</li>
- *   <li><b>Tags:</b> Uses exact matching.</li>
- * </ul>
- * </p>
+ * <p>Matching is case-insensitive and performed on individual tokens (for names, split by whitespace).
+ * Logic combination: OR within each field (any keyword matches),
+ * AND across fields (all non-empty fields must match).</p>
  *
- * <p>All matching is case-insensitive and performed on individual tokens (for names, split by whitespace).
- * Logic combination: OR within each field (any keyword matches), AND across fields (all fields must match).</p>
+ * <p>For detailed matching behavior, see:
+ * <ul>
+ *   <li>{@link seedu.address.model.person.NameEmailTagPredicate}</li>
+ *   <li>{@link seedu.address.model.person.NameContainsKeywordsPredicate}</li>
+ *   <li>{@link seedu.address.model.person.EmailContainsKeywordsPredicate}</li>
+ *   <li>{@link seedu.address.model.person.PersonContainsTagsPredicate}</li>
+ * </ul>
  */
 public class FindCommand extends Command {
 
