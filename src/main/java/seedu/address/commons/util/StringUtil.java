@@ -39,34 +39,6 @@ public class StringUtil {
     }
 
     /**
-     * Normalizes the input string by converting it to lowercase, removing trailing whitespaces
-     * and special characters such as punctuation.
-     *
-     * <p>This method standardizes strings for comparison and storage by:
-     * <ul>
-     *   <li>Converting all characters to lowercase for case-insensitive operations</li>
-     *   <li>Removing any trailing whitespaces</li>
-     *   <li>Removing all special characters (punctuation, symbols, etc.)</li>
-     *   <li>Preserving alphanumeric characters (a-z, 0-9) and whitespace</li>
-     * </ul>
-     * </p>
-     *
-     * <p>This is useful for fuzzy matching, search preprocessing, or comparing names
-     * that may contain special characters or inconsistent casing.</p>
-     *
-     * @param s the string to normalize (cannot be null)
-     * @return the normalized string with lowercase letters, digits, and spaces only
-     * @throws NullPointerException if {@code s} is {@code null}
-     */
-    public static String normalize(String s) {
-        requireNonNull(s);
-
-        return s.toLowerCase()
-                .trim()
-                .replaceAll("[^a-z0-9\\s]", "");
-    }
-
-    /**
      * Returns a detailed message of the t, including the stack trace.
      */
     public static String getDetails(Throwable t) {
@@ -95,6 +67,34 @@ public class StringUtil {
     }
 
     //====================== Fuzzy String Matching ============================/
+
+    /**
+     * Normalizes the input string by converting it to lowercase, removing trailing whitespaces
+     * and special characters such as punctuation.
+     *
+     * <p>This method standardizes strings for comparison and storage by:
+     * <ul>
+     *   <li>Converting all characters to lowercase for case-insensitive operations</li>
+     *   <li>Removing any trailing whitespaces</li>
+     *   <li>Removing all special characters (punctuation, symbols, etc.)</li>
+     *   <li>Preserving alphanumeric characters (a-z, 0-9) and whitespace</li>
+     * </ul>
+     * </p>
+     *
+     * <p>This is useful for fuzzy matching, search preprocessing, or comparing names
+     * that may contain special characters or inconsistent casing.</p>
+     *
+     * @param s the string to normalize (cannot be null)
+     * @return the normalized string with lowercase letters, digits, and spaces only
+     * @throws NullPointerException if {@code s} is {@code null}
+     */
+    public static String normalize(String s) {
+        requireNonNull(s);
+
+        return s.toLowerCase()
+                .trim()
+                .replaceAll("[^a-z0-9\\s]", "");
+    }
 
     /**
      * Computes the Damerau–Levenshtein distance (Optimal String Alignment variant)

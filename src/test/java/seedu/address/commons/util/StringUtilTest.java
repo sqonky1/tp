@@ -124,6 +124,23 @@ public class StringUtilTest {
         assertTrue(StringUtil.containsWordIgnoreCase("AAA bBb ccc  bbb", "bbB"));
     }
 
+    //---------------- Tests for getDetails --------------------------------------
+
+    /*
+     * Equivalence Partitions: null, valid throwable object
+     */
+
+    @Test
+    public void getDetails_exceptionGiven() {
+        assertTrue(StringUtil.getDetails(new FileNotFoundException("file not found"))
+            .contains("java.io.FileNotFoundException: file not found"));
+    }
+
+    @Test
+    public void getDetails_nullGiven_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> StringUtil.getDetails(null));
+    }
+
     //---------------- Tests for normalize ----------------------------------------
     @Test
     public void normalize_nullGiven_throwsNullPointerException() {
@@ -151,24 +168,6 @@ public class StringUtilTest {
         // String with all punctuation
         assertEquals("", StringUtil.normalize("#$%^&*()"));
     }
-
-    //---------------- Tests for getDetails --------------------------------------
-
-    /*
-     * Equivalence Partitions: null, valid throwable object
-     */
-
-    @Test
-    public void getDetails_exceptionGiven() {
-        assertTrue(StringUtil.getDetails(new FileNotFoundException("file not found"))
-            .contains("java.io.FileNotFoundException: file not found"));
-    }
-
-    @Test
-    public void getDetails_nullGiven_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> StringUtil.getDetails(null));
-    }
-
 
     //---------------- Tests for dameraudamerauLevenshteinDistance --------------------------------------
 
