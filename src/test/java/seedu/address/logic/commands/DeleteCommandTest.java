@@ -15,6 +15,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.lang.reflect.Field;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -272,6 +274,29 @@ public class DeleteCommandTest {
         model.setPerson(benson, new PersonBuilder(benson).withEmail(ALICE.getEmail().value).build());
 
         assertUndoFailure(deleteCommand, model, DeleteCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void undo_deletedPersonIndexInvalid_restoresPersonAtEnd() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+
+        Model expectedAfterDelete = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedAfterDelete.deletePerson(personToDelete);
+        assertCommandSuccess(deleteCommand, model,
+                String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)),
+                expectedAfterDelete);
+
+        Field deletedPersonIndexField = DeleteCommand.class.getDeclaredField("deletedPersonIndex");
+        deletedPersonIndexField.setAccessible(true);
+        deletedPersonIndexField.set(deleteCommand, model.getAddressBook().getPersonList().size() + 1);
+
+        Model expectedAfterUndo = new ModelManager(expectedAfterDelete.getAddressBook(), new UserPrefs());
+        expectedAfterUndo.addPerson(personToDelete);
+        assertUndoSuccess(deleteCommand, model,
+                String.format(DeleteCommand.MESSAGE_UNDO_SUCCESS, Messages.format(personToDelete)),
+                expectedAfterUndo);
     }
 
     /**

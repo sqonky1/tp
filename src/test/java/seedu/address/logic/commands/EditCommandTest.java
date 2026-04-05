@@ -21,6 +21,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.lang.reflect.Field;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -313,6 +315,46 @@ public class EditCommandTest {
     public void undo_beforeExecute_throwsCommandException() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+        assertUndoFailure(editCommand, model, EditCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void undo_afterExecuteOriginalPersonNull_throwsCommandException() throws Exception {
+        Person alice = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedAlice = new PersonBuilder(alice).withName("Temporary Name").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
+                new EditPersonDescriptorBuilder().withName("Temporary Name").build());
+
+        Model expectedAfterEdit = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedAfterEdit.setPerson(alice, editedAlice);
+        assertCommandSuccess(editCommand, model,
+                String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedAlice)),
+                expectedAfterEdit);
+
+        Field originalPersonField = EditCommand.class.getDeclaredField("originalPerson");
+        originalPersonField.setAccessible(true);
+        originalPersonField.set(editCommand, null);
+
+        assertUndoFailure(editCommand, model, EditCommand.MESSAGE_UNDO_FAILURE);
+    }
+
+    @Test
+    public void undo_afterExecuteUpdatedPersonNull_throwsCommandException() throws Exception {
+        Person alice = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedAlice = new PersonBuilder(alice).withName("Temporary Name").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
+                new EditPersonDescriptorBuilder().withName("Temporary Name").build());
+
+        Model expectedAfterEdit = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedAfterEdit.setPerson(alice, editedAlice);
+        assertCommandSuccess(editCommand, model,
+                String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedAlice)),
+                expectedAfterEdit);
+
+        Field updatedPersonField = EditCommand.class.getDeclaredField("updatedPerson");
+        updatedPersonField.setAccessible(true);
+        updatedPersonField.set(editCommand, null);
+
         assertUndoFailure(editCommand, model, EditCommand.MESSAGE_UNDO_FAILURE);
     }
 
