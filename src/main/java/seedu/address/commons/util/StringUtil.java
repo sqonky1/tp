@@ -100,7 +100,7 @@ public class StringUtil {
      * Computes the Damerau–Levenshtein distance (Optimal String Alignment variant)
      * between two strings.
      *
-     * <p>This distance measures the minimum number of single-character edits
+     * <p>This distance measures the minimum number of edits
      * required to transform one string into the other. Supported operations are:
      * <ul>
      *   <li>Insertion</li>
@@ -109,12 +109,17 @@ public class StringUtil {
      *   <li>Transposition of adjacent characters (e.g. "alxe" → "alex")</li>
      * </ul>
      *
-     * <p>This implementation is case-insensitive and uses a dynamic programming
-     * approach with O(n × m) time and space complexity, where n and m are the
-     * lengths of the input strings.</p>
+     * <p>This implementation uses a dynamic programming approach with O(n × m) time and space complexity,
+     * where n and m are the lengths of the input strings.</p>
      *
      * <p>Note: This implementation uses the Optimal String Alignment (OSA) variant,
      * which allows only non-overlapping transpositions.</p>
+     *
+     * Preconditions:
+     * <ul>
+     *   <li>{@code query} and {@code candidate} must be normalized
+     *       (e.g. trimmed, lowercased and with non-alphanumeric characters handled consistently)</li>
+     * </ul>
      *
      * @param query the input string (e.g. user search query)
      * @param candidate the string to compare against (e.g. contact name)
@@ -125,12 +130,8 @@ public class StringUtil {
         requireNonNull(query);
         requireNonNull(candidate);
 
-        // defensively normalize for case-insensitive comparison
-        String q = query.toLowerCase();
-        String c = candidate.toLowerCase();
-
-        int n = q.length();
-        int m = c.length();
+        int n = query.length();
+        int m = candidate.length();
 
         // dynamic programming matrix
         int[][] dp = new int[n + 1][m + 1];
@@ -148,8 +149,8 @@ public class StringUtil {
         // Fill up the matrix using dynamic programming
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
-                char chQ = q.charAt(i - 1);
-                char chC = c.charAt(j - 1);
+                char chQ = query.charAt(i - 1);
+                char chC = candidate.charAt(j - 1);
 
                 int cost = (chQ == chC) ? 0 : 1;
                 dp[i][j] = Math.min(
@@ -161,8 +162,8 @@ public class StringUtil {
 
                 // Handles transpositions (swapping adjacent characters)
                 if (i > 1 && j > 1) {
-                    char prevQ = q.charAt(i - 2);
-                    char prevC = c.charAt(j - 2);
+                    char prevQ = query.charAt(i - 2);
+                    char prevC = candidate.charAt(j - 2);
 
                     if (chQ == prevC && prevQ == chC) {
                         dp[i][j] = Math.min(
@@ -184,10 +185,13 @@ public class StringUtil {
      * The method returns true if the Damerau–Levenshtein distance between the query and candidate
      * is less than or equal to the specified threshold.</p>
      *
-     * <p>This is useful for typo-tolerant searches. For example, with a threshold of 2,
-     * "john" would match "joan" or "jhon".</p>
-     *
-     * <p>The matching is case-insensitive.</p>
+     * <p>Preconditions:
+     *   <ul>
+     *       <li>{@code query} and {@code candidate} must be non-null</li>
+     *       <li>{@code query} and {@code candidate} must already be normalized
+     *       (trimmed, lowercased, and with non-alphanumeric characters handled consistently)</li>
+     *       <li>{@code threshold} must be non-negative</li>
+     *   </ul>
      *
      * @param query the search query string (will be trimmed)
      * @param candidate the word to match against (will be trimmed)
@@ -201,19 +205,15 @@ public class StringUtil {
         requireNonNull(candidate);
         checkArgument(threshold >= 0, "Threshold cannot be negative");
 
-        // Normalize inputs by trimming whitespace
-        String trimmedQuery = query.trim();
-        String trimmedCandidate = candidate.trim();
-
         // Handle empty strings after trimming
-        if (trimmedQuery.isEmpty() || trimmedCandidate.isEmpty()) {
+        if (query.isEmpty() || candidate.isEmpty()) {
             // Empty query should not match non-empty word and vice versa
             // except when both are empty (distance = 0)
-            return trimmedQuery.isEmpty() && trimmedCandidate.isEmpty();
+            return query.isEmpty() && candidate.isEmpty();
         }
 
         // Calculate Damerau Levenshtein Distance and check if within threshold
-        int distance = damerauLevenshteinDistance(trimmedQuery, trimmedCandidate);
+        int distance = damerauLevenshteinDistance(query, candidate);
         return distance <= threshold;
     }
 

@@ -216,16 +216,6 @@ public class StringUtilTest {
     }
 
     @Test
-    public void damerauLevenshteinDistance_caseInsensitiveComparison_returnsCorrectDistance() {
-        // identical strings
-        assertEquals(0, StringUtil.damerauLevenshteinDistance("Test", "test"));
-        assertEquals(0, StringUtil.damerauLevenshteinDistance("Kitten", "kitten"));
-
-        // different strings
-        assertEquals(3, StringUtil.damerauLevenshteinDistance("Kitten", "SITTING"));
-    }
-
-    @Test
     public void damerauLevenshteinDistance_symmetryProperty_holds() {
         assertEquals(
                 StringUtil.damerauLevenshteinDistance("kitten", "sitting"),
@@ -283,7 +273,6 @@ public class StringUtilTest {
      *   - exact match (distance = 0)
      *   - within threshold (distance <= threshold)
      *   - both strings empty (distance = 0)
-     *   - case-insensitive match
      *
      * Possible scenarios returning false:
      *   - distance exceeds threshold
@@ -299,11 +288,6 @@ public class StringUtilTest {
         assertTrue(StringUtil.matchesFuzzy("john", "john", 0));
         assertTrue(StringUtil.matchesFuzzy("test", "test", 1));
         assertTrue(StringUtil.matchesFuzzy("hello", "hello", 2));
-
-        // Case-insensitive exact match
-        assertTrue(StringUtil.matchesFuzzy("John", "john", 0));
-        assertTrue(StringUtil.matchesFuzzy("TEST", "test", 0));
-        assertTrue(StringUtil.matchesFuzzy("HeLLo", "HELLO", 0));
     }
 
     @Test
@@ -322,10 +306,6 @@ public class StringUtilTest {
 
         // Threshold larger than needed
         assertTrue(StringUtil.matchesFuzzy("cat", "dog", 5)); // threshold is generous
-
-        // Case-insensitive with threshold
-        assertTrue(StringUtil.matchesFuzzy("john", "JOAN", 1));
-        assertTrue(StringUtil.matchesFuzzy("TEST", "TeSt", 0));
     }
 
     @Test
@@ -344,7 +324,6 @@ public class StringUtilTest {
     public void matchesFuzzy_zeroThreshold_exactMatchOnly() {
         // Exact matches pass
         assertTrue(StringUtil.matchesFuzzy("john", "john", 0));
-        assertTrue(StringUtil.matchesFuzzy("TEST", "test", 0));
 
         // Any difference fails
         assertFalse(StringUtil.matchesFuzzy("john", "joan", 0));
@@ -366,26 +345,9 @@ public class StringUtilTest {
     }
 
     @Test
-    public void matchesFuzzy_withLeadingTrailingSpaces_trimmedCorrectly() {
-        // Strings with spaces are trimmed
-        assertTrue(StringUtil.matchesFuzzy("  john  ", "john", 0));
-        assertTrue(StringUtil.matchesFuzzy("john", "  john  ", 0));
-        assertTrue(StringUtil.matchesFuzzy("  john  ", "  john  ", 0));
-
-        // Spaces trimmed, then fuzzy match applied
-        assertTrue(StringUtil.matchesFuzzy("  john  ", "joan", 1));
-        assertTrue(StringUtil.matchesFuzzy("  cat  ", "  cut  ", 1));
-
-        // Trimmed to empty
-        assertTrue(StringUtil.matchesFuzzy("   ", "   ", 0));
-        assertFalse(StringUtil.matchesFuzzy("   ", "word", 0));
-    }
-
-    @Test
     public void matchesFuzzy_singleCharacters_worksCorrectly() {
         // Same single character
         assertTrue(StringUtil.matchesFuzzy("a", "a", 0));
-        assertTrue(StringUtil.matchesFuzzy("X", "x", 0));
 
         // Different single characters
         assertFalse(StringUtil.matchesFuzzy("a", "b", 0));
@@ -414,19 +376,6 @@ public class StringUtilTest {
 
         // Except when one is empty and other is not, unless both are empty
         assertFalse(StringUtil.matchesFuzzy("", "word", 100));
-    }
-
-    @Test
-    public void matchesFuzzy_caseInsensitive_worksCorrectly() {
-        // Various case combinations should work
-        assertTrue(StringUtil.matchesFuzzy("john", "John", 0));
-        assertTrue(StringUtil.matchesFuzzy("JOHN", "john", 0));
-        assertTrue(StringUtil.matchesFuzzy("JoHn", "jOhN", 0));
-        assertTrue(StringUtil.matchesFuzzy("TEST@123", "test@123", 0));
-
-        // Case-insensitive fuzzy matching
-        assertTrue(StringUtil.matchesFuzzy("John", "Joan", 1));
-        assertTrue(StringUtil.matchesFuzzy("TEST", "TOST", 1));
     }
 
     @Test
