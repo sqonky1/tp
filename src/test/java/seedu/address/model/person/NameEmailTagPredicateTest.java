@@ -65,15 +65,18 @@ public class NameEmailTagPredicateTest {
         assertFalse(firstPredicate.equals(fourthPredicate));
     }
 
+    // ================== SUCCESS CASES ==================
     @Test
     public void test_allFieldsMatch_returnsTrue() {
+        // EP - All fields match
+        // Alice matches all fields
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"),
                 List.of("example.com"),
                 List.of("friends"));
+        assertTrue(predicate.test(ALICE));
 
-        assertTrue(predicate.test(ALICE)); // matches all
-
+        // Benson matches all fields
         predicate = new NameEmailTagPredicate(
                 List.of("Benson"),
                 List.of("example.com"),
@@ -83,6 +86,7 @@ public class NameEmailTagPredicateTest {
 
     @Test
     public void test_nameOnlyMatch_returnsTrue() {
+        // EP - Only name matches
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"), List.of(), List.of());
 
@@ -91,6 +95,7 @@ public class NameEmailTagPredicateTest {
 
     @Test
     public void test_nameFuzzyMatch_returnsTrue() {
+        // EP - name matches partially (fuzzy match)
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alie"), List.of(), List.of());
         assertTrue(predicate.test(ALICE));
@@ -98,6 +103,7 @@ public class NameEmailTagPredicateTest {
 
     @Test
     public void test_emailOnlyMatch_returnsTrue() {
+        // EP - Email Matches
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of(), List.of("example.com"), List.of());
 
@@ -106,12 +112,14 @@ public class NameEmailTagPredicateTest {
 
     @Test
     public void test_tagOnlyMatch_returnsTrue() {
+        // EP - One field matches
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of(), List.of(), List.of("friends"));
 
         assertTrue(predicate.test(ALICE));
     }
 
+    // ================== SUCCESS CASES - OR LOGIC WITHIN SAME FIELD ==================
     @Test
     public void test_multipleNameKeywordsMatch_returnsTrue() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
@@ -121,10 +129,19 @@ public class NameEmailTagPredicateTest {
         assertTrue(predicate.test(BENSON));
     }
 
+    //================== FAILURE CASES ==================
     @Test
     public void test_nameOnlyNoMatch_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
                 List.of("Alice"), List.of(), List.of());
+
+        assertFalse(predicate.test(BENSON));
+    }
+
+    @Test
+    public void test_emailOnlyNoMatch_returnsFalse() {
+        NameEmailTagPredicate predicate = new NameEmailTagPredicate(
+                List.of(), List.of("alice"), List.of());
 
         assertFalse(predicate.test(BENSON));
     }
@@ -137,6 +154,7 @@ public class NameEmailTagPredicateTest {
         assertFalse(predicate.test(BENSON));
     }
 
+    //================== FAILURE CASE - AND LOGIC ACROSS FIELDS ==================
     @Test
     public void test_oneFieldFails_returnsFalse() {
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
@@ -145,14 +163,6 @@ public class NameEmailTagPredicateTest {
                 List.of("friends"));
 
         assertFalse(predicate.test(ALICE));
-    }
-
-    @Test
-    public void test_emailOnlyNoMatch_returnsFalse() {
-        NameEmailTagPredicate predicate = new NameEmailTagPredicate(
-                List.of(), List.of("alice"), List.of());
-
-        assertFalse(predicate.test(BENSON));
     }
 
     @Test
