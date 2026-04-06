@@ -694,6 +694,7 @@ Use case ends.
 
   Use case resumes at step 1.
 
+
 #### Use case: UC13 - Clearing all contacts
 
 **Preconditions: Application is running**
