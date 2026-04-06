@@ -174,7 +174,7 @@ public class AddCommandTest {
     }
 
     @Test
-    public void undo_beforeExecute_existingPersonInModel_throwsCommandException() {
+    public void undo_beforeExecuteExistingPerson_throwsCommandException() {
         Model model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
         Person existingPerson = model.getFilteredPersonList().get(0);
         AddCommand addCommand = new AddCommand(existingPerson);
