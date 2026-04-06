@@ -306,7 +306,7 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_AllFieldsFail_noPersonsFound() {
+    public void execute_allFieldsFail_noPersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
 
         NameEmailTagPredicate predicate = new NameEmailTagPredicate(
