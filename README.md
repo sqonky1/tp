@@ -54,5 +54,5 @@ See the **[CampusBridge Product Website](https://ay2526s2-cs2103-f11-2.github.io
 
 ## Acknowledgements
 
-- Libraries used: JavaFX, Jackson, JUnit5
+- Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
 - This project is based on the [AddressBook-Level3](https://se-education.org/addressbook-level3/) project created by the [SE-EDU initiative](https://se-education.org).
