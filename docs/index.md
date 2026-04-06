@@ -20,7 +20,7 @@ title: CampusBridge
 
 1. Ensure you have Java installed.
 2. Download the latest `CampusBridge.jar`.
-3. Open a terminal, `cd` into the folder containing the jar, and run: java ```-jar CampusBridge.jar```
+3. Open a terminal, `cd` into the folder containing the jar, and run: ```java -jar CampusBridge.jar```
 
 ---
 
