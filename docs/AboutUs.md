@@ -22,7 +22,7 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](https://github.com/happyweijie)]
 
 * Role: Developer
-* Responsibilities: Code Quality
+* Responsibilities: Code Quality, Logic
 
 ### Chua Chloe
 
