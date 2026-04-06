@@ -4,7 +4,7 @@
 
 # CampusBridge
 
-![Ui](images/Ui.png)
+![Ui](/docs/images/Ui.png)
 
 **CampusBridge** helps NUS students organise and access contact information for professors, teaching assistants, and peers across different modules and faculties. It provides a centralised, easy-to-use system to save, search, and manage academic contacts efficiently.
 
