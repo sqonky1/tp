@@ -1431,7 +1431,7 @@ We identified **5 planned enhancements** in total, including several **currently
    The current `find` command uses fuzzy search, which can return irrelevant matches. For example, if both *Robert* and *Hubert* exist in the address book, searching for either name may return both entries. A future enhancement would be to prioritise exact matches whenever both exact and fuzzy matches are available.
 
 3. **Handle edge cases involving special characters in search**  
-   The `find` command can behave unexpectedly when queries contain unusual special characters, such as `find n/ale\x`. At present, special characters are converted into spaces and then split by whitespace into keywords. A future improvement could introduce stronger validation or error handling for malformed input.
+   The `find` command may behave unexpectedly when search keywords contain special characters. This is more noticeable in some name queries such as `find n/ale\x`. Email and tag searches do not currently provide additional handling for such cases. A future enhancement could introduce clearer validation rules and more consistent handling of special characters across name, email, and tag searches.
 
 4. **Allow special characters in tags**  
    Tags currently cannot contain special characters. We plan to support selected characters such as hyphens and underscores to make tagging more flexible and practical.
