@@ -588,9 +588,11 @@ Action | Format, Examples
 Action | Shortcut
 --------|----------
 **Clear input box** | `Delete`
-**Exit application** | `F3`
-**Help** | `F1`
-**List all contacts** | `F2`
+**Exit application** | `F3` or `fn + F3`
+**Help** | `F1` or `fn + F1`
+**List all contacts** | `F2` or `fn + F2`
+
+Note: On some keyboards, you may need to press `fn` together with the function key (for example, `fn + F1`) to trigger the shortcut.
 
 ---
 
