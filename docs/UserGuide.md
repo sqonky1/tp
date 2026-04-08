@@ -545,10 +545,6 @@ If your changes to the data file makes its format invalid, CampusBridge will dis
 Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Clearing all tags of multiple types [coming in v2.0]
-
-_Details coming soon …_
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -570,6 +566,7 @@ _Details coming soon …_
 ## Coming soon [in v2.0]
 
 * Clear multiple tag types at once — Allow cleartag to accept multiple tag type prefixes in a single command.
+* Clear all tags at once - Allow cleartag to clear all tags of a specific person in one short command.
 * Edit tags — Support modifying existing tags directly.
 * Find by other fields — Extend find to search by Telegram handle and other fields beyond name.
 * Unknown command suggestions — Use fuzzy matching to suggest the closest valid command when a typo is entered (e.g. "Did you mean cleartag?").
