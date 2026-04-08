@@ -1299,9 +1299,8 @@ testers are expected to do more *exploratory* testing.
 
 6. Invalid undo command
 
-    1. Test case: `undo extra`<br>
+    1. Test case: `undo extra`   
        Expected: No changes to the contact list. Error details shown in the status message indicating that the command does not accept parameters.
-
 
 7. Persistence after undo
 
