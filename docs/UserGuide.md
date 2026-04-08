@@ -534,7 +534,7 @@ Alternatively, press `F3` to exit the application.
 
 ### Saving the data
 
-CampusBridge data are saved in the hard disk automatically after any valid command. There is no need to save manually.
+CampusBridge data are saved in the hard disk automatically after any valid command is executed. There is no need to save manually.
 
 ### Editing the data file
 
