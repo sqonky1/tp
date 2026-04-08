@@ -255,9 +255,9 @@ Two persons are considered the same person if they have:
 
 This identity rule is used by `UniquePersonList` when adding and updating persons. As a result, the `add` command rejects contacts that duplicate either an existing email or an existing Telegram handle.
 
-### Current Undo feature
+### Undo feature
 
-#### Current Implementation
+#### Implementation
 
 Currently, the undo feature is implemented using the Command pattern, where each undoable command encapsulates its own undo logic. The overall undo process is managed by `LogicManager`.
 
@@ -1300,7 +1300,7 @@ testers are expected to do more *exploratory* testing.
 6. Invalid undo command
 
     1. Test case: `undo extra`<br>
-       Expected: No changes to the contact list. Error details shown in the status message indicating that the command does not accept parameters.
+       Expected: No changes to the contact list. Error details shown in the status message indicating that the command does not accept parameters.p
 
 7. Persistence after undo
 
