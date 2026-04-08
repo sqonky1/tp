@@ -46,15 +46,15 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 ## Data entry specifications
 
-### Tag types
+### Tag specifications
 
 CampusBridge supports three tag types, each displayed in a distinct colour:
 
-| Tag type | Colour | Purpose | Example |
-|----------|--------|---------|---------|
-| **Role** | Green | Academic role of the contact | `Professor`, `TeachingAssistant` |
-| **Course** | Blue | NUS course code associated with the contact | `CS2103T`, `CS2101` |
-| **General** | Red | Any other label | `ProjectMate`, `StudyGroup` |
+| Tag type | Colour | Purpose | Example                          |
+|----------|--------|---------|----------------------------------|
+| **Role** | Green | Academic role of the contact | `professor`, `teachingassistant` |
+| **Course** | Blue | NUS course code associated with the contact | `cs2103t`, `cs2101`              |
+| **General** | Red | Any other label | `projectmate`, `studygroup`      |
 
 **Tag prefixes:**
 * `tr/ROLE_TAG` — creates a Role tag
@@ -62,7 +62,8 @@ CampusBridge supports three tag types, each displayed in a distinct colour:
 * `tg/GENERAL_TAG` — creates a General tag
 
 **Tag constraints:**
-* Tags are **case-insensitive** — `tr/Friends`, `tr/FRIENDS` and `tr/friends` all refer to the same tag.
+* Tags are **case-insensitive** — `tr/Friends`, `tr/FRIENDS` and `tr/friends` are all treated as `tr/friends`.
+* Tag names are automatically **converted to lowercase** for storage and display (e.g., `ProjectMate` &rarr; `projectmate`).
 * Tag names must be **alphanumeric**.
     * Only letters A-Z, a-z, and number 0-9 are allowed.
     * Spaces and special characters (e.g `@`, `#`, `-`, `!`, `_`) are not allowed.
@@ -116,10 +117,10 @@ Non-NUS emails are still accepted, but a warning will be displayed to alert you 
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `n/NAME [p/PHONE_NUMBER]` can be used as `n/John Doe p/1234567` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[tg/GENERAL_TAG]…​` can be used as ` ` (i.e. 0 times), `tg/friend`, `tg/friend tg/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -217,12 +218,14 @@ Deletes the specified person from the address book.
   * Deletes the person at the specified `INDEX`.
   * The index refers to the index number shown in the displayed person list.
   * The index **must be a positive integer** 1, 2, 3, …​
+  * Repeated prefixes for single-valued fields are not allowed (eg. `delete i/1 i/2` is invalid).
 
 * `delete e/EMAIL`
   * Deletes the person with the specified `EMAIL`.
   * The email refers to the email address of a person shown in the displayed person list.
   * The email **must be a valid email address**.
   * Email matching is **case-insensitive**.
+  * Repeated prefixes for single-valued fields are not allowed (eg. `delete e/betsy@example.com e/alex@example.com` is invalid).
 
 <div markdown="block" class="alert alert-info">:information_source: **NOTE:**
 Only one of `i/INDEX` or `e/EMAIL` can be provided at a time.
@@ -259,17 +262,18 @@ Adds one or more tags to an existing person in the address book.
 **Format:** `tag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no spaces or special characters).
+* Tag names must be **alphanumeric** (refer to [Tag Specifications section](#tag-specifications)).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be added in a single command.
 * Duplicate tags in the command will be ignored.
+* Any unexpected slash-prefixed token is rejected as extra input.
 
 **Behavior:**
 * Adds tags to the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * Existing tags will be preserved. New tags are appended.
-* Tag matching is **case-insensitive**. (e.g. `friends` and `FRIENDS` are considered the same).
+* Tag matching is **case-insensitive** (e.g. `friends` and `FRIENDS` are considered the same).
 * If some tags already exist, only new ones are added. A message will show which tags were added and skipped.
 * If all tags already exist, an error message will be shown and no changes will be made.
 
@@ -295,18 +299,19 @@ Removes one or more tags from an existing person in the address book.
 **Format:** `untag INDEX [tr/ROLE_TAG]…​ [tc/COURSE_TAG]…​ [tg/GENERAL_TAG]…​`
 
 * The index **must be a positive integer** 1, 2, 3, …​
-* Tag names must be **alphanumeric** (no spaces or special characters).
+* Tag names must be **alphanumeric** (refer to [Tag Specifications section](#tag-specifications)).
 * At least one of the optional fields must be provided.
 * Each tag must have a value after its prefix (e.g. tg/ alone is not allowed).
 * Multiple tags (of different or same types) can be removed in a single command.
 * Duplicate tags in the command will be ignored.
+* Any unexpected slash-prefixed token is rejected as extra input.
 
 **Behavior:**
 * Removes the specified tags from the person at the given `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * Only tags currently assigned to the person will be removed.
 * Existing tags that are not specified will remain unchanged.
-* Tag matching is **case-insensitive**. e.g. `friends` and `FRIENDS` are considered the same.
+* Tag matching is **case-insensitive** (e.g. `friends` and `FRIENDS` are considered the same).
 * If some tags exist and others don't, the existing ones will be removed. A message will show which tags were not found.
 * If none of the specified tags exist, an error message will be shown and no changes will be made.
 
@@ -332,6 +337,8 @@ Clears all tags of a specific type from an existing person in the address book.
 
 * The index **must be a positive integer** 1, 2, 3, …​
 * **Exactly one tag type prefix** must be provided (without any tag names).
+* Any unexpected slash-prefixed token is rejected as extra input.
+* Repeated prefixes for single-valued fields are not allowed (eg. `cleartag 1 tr/ tr/` is invalid).
 
 **Behavior:**
 * Clears all tags of the specified type from the person at the given `INDEX`.
