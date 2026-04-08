@@ -106,7 +106,7 @@ How the `Logic` component works:
 1. `AddressBookParser` identifies the command word and delegates to the corresponding parser (e.g., `DeleteCommandParser`) to construct a `Command` object.
 1. `LogicManager` executes the command against the `Model`.
 1. If the command is undoable (`command.isUndoable()`), `LogicManager` pushes it to an internal undo history stack.
-1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack. More details on the undo feature are provided in the [Current Undo feature](#current-undo-feature) section under Implementation.
+1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack. More details on the undo feature are provided in the [Undo feature](#undo-feature) section under Implementation.
 1. After command execution, `LogicManager` persists changes through `Storage`, then returns a `CommandResult` to the caller.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
@@ -255,11 +255,11 @@ Two persons are considered the same person if they have:
 
 This identity rule is used by `UniquePersonList` when adding and updating persons. As a result, the `add` command rejects contacts that duplicate either an existing email or an existing Telegram handle.
 
-### Current Undo feature
+### Undo feature
 
-#### Current Implementation
+#### Implementation
 
-Currently, the undo feature is implemented using the Command pattern, where each undoable command encapsulates its own undo logic. The overall undo process is managed by `LogicManager`.
+The undo feature is implemented using the Command pattern, where each undoable command encapsulates its own undo logic. The overall undo process is managed by `LogicManager`.
 
 When an undoable command is executed, it is added to an internal stack (`undoHistory : Deque<Command>`) maintained by `LogicManager`.
 
@@ -1296,18 +1296,18 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `add n/A e/a@example.com`, `list`, `delete i/1`, then `undo`<br>
        Expected: The deleted contact is restored. The `list` command is ignored by undo.
-
-6. Invalid undo command
-
-    1. Test case: `undo extra`<br>
-       Expected: No changes to the contact list. Error details shown in the status message indicating that the command does not accept parameters.
-
-7. Persistence after undo
+   
+6. Persistence after undo
 
     1. Prerequisites: List all persons using the `list` command.
 
     1. Test case: `add n/John Doe e/johndoe@example.com`, then `undo`, then restart the application<br>
        Expected: The contact list reflects the undone state (i.e., the added contact does not appear).
+
+7. Invalid undo command
+
+    1. Test case: `undo extra`<br>
+       Expected: No changes to the contact list. Error details shown in the status message indicating that the command does not accept parameters.
 
 ### Navigating command history
 
@@ -1440,7 +1440,7 @@ We identified 5 planned enhancements in total, including several currently unfix
 3. Handle edge cases involving special characters in search  
    The `find` command may behave unexpectedly when search keywords contain special characters. This is more noticeable in some name queries such as `find n/ale\x`. Email and tag searches do not currently provide additional handling for such cases. A future enhancement could introduce clearer validation rules and more consistent handling of special characters across name, email, and tag searches.
 
-4. Allow special characters in tags  
+4. Allow special characters in tags
    Tags currently cannot contain special characters. We plan to support selected characters such as hyphens and underscores to make tagging more flexible and practical.
 
 5. Provide clearer undo feedback in filtered views  
