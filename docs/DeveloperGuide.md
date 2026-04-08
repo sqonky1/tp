@@ -777,7 +777,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `exit`<br>
       Expected: The application closes.
 
-   1. Alternative: Press <kbd>F3</kbd> (or <kbd>Fn + F3</kbd> on Mac).<br>
+   1. Alternative: Press `F3` (or `Fn + F3` on Mac).<br>
       Expected: Same as above.
 
    1. Test case: `exit 123`<br>
@@ -791,7 +791,7 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `help`<br>
        Expected: The User Guide opens in the system default browser. Status message shows `Opened user guide in browser.`
 
-   1. Alternative: Press <kbd>F1</kbd> (or <kbd>Fn + F1</kbd> on Mac).<br>
+   1. Alternative: Press `F1` (or `Fn + F1` on Mac).<br>
       Expected: Same as above.
 
 1. Opening command-specific help
@@ -1345,45 +1345,45 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Application is running. Some text is present in the input box.
 
-    1. Test case (Windows/Linux): Press <kbd>Delete</kbd> or <kbd>fn</kbd> + <kbd>Delete</kbd><br>
+    1. Test case (Windows/Linux): Press `Delete` or `fn + Delete`<br>
        Expected: The input box is cleared.
 
-    1. Test case (macOS): Press <kbd>fn</kbd> + <kbd>Delete</kbd><br>
+    1. Test case (macOS): Press `fn + Delete`<br>
        Expected: The input box is cleared.
 
-2. Exiting the application
+1. Exiting the application
 
     1. Prerequisites: Application is running.
 
-    1. Test case (Windows/Linux): Press <kbd>F3</kbd> or <kbd>fn</kbd> + <kbd>F3</kbd><br>
+    1. Test case (Windows/Linux): Press `F3` or `fn + F3`<br>
        Expected: The application closes.
 
-    1. Test case (macOS): Press <kbd>fn</kbd> + <kbd>F3</kbd><br>
+    1. Test case (macOS): Press `fn + F3`<br>
        Expected: The application closes.
 
-3. Opening help
+1. Opening help
 
     1. Prerequisites: Application is running.
 
-    1. Test case (Windows/Linux): Press <kbd>F1</kbd> or <kbd>fn</kbd> + <kbd>F1</kbd><br>
+    1. Test case (Windows/Linux): Press `F1` or `fn + F1`<br>
        Expected: The User Guide opens in the system default browser.
 
-    1. Test case (macOS): Press <kbd>fn</kbd> + <kbd>F1</kbd><br>
+    1. Test case (macOS): Press `fn + F1`<br>
        Expected: Same as above.
 
-4. Listing all contacts
+1. Listing all contacts
 
     1. Prerequisites: Application is running.
 
-    1. Test case (Windows/Linux): Press <kbd>F2</kbd> or <kbd>fn</kbd> + <kbd>F2</kbd><br>
+    1. Test case (Windows/Linux): Press `F2` or `fn + F2`<br>
        Expected: All contacts are displayed in the list.
 
-    1. Test case (macOS): Press <kbd>fn</kbd> + <kbd>F2</kbd><br>
+    1. Test case (macOS): Press `fn + F2`<br>
        Expected: Same as above.
 
-5. Invalid or unsupported key combinations
+1. Invalid or unsupported key combinations
 
-    1. Test case: Press unrelated keys (e.g., <kbd>F4</kbd>, <kbd>Ctrl</kbd> + <kbd>F1</kbd>)<br>
+    1. Test case: Press unrelated keys (e.g., `F4`, `Ctrl + F1`)<br>
        Expected: No action is triggered. Application remains unchanged.
 
 ### Saving data
