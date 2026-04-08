@@ -1385,7 +1385,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Locate the data file at `data/addressbook.json`. Delete it.
 
-   1. Relaunch the application. Expected: The application starts with the sample contact list. A new data file is created automatically.
+   1. Relaunch the application. Expected: The application starts with the sample contact list. A new data file is created after any valid command is executed or when the app closes.
 
 1. Dealing with a corrupted data file
 
@@ -1418,7 +1418,7 @@ testers are expected to do more *exploratory* testing.
 - Refined logic and refactoring: The team turned individual contributions into a cohesive whole through active refactoring and the introduction of generalized utility classes.
 - Successful system extension: The team successfully adapted to and extended a large existing codebase.
 
-## Appendix: Planned Enhancements
+## **Appendix: Planned Enhancements**
 
 **Team size:** 6
 

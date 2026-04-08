@@ -534,7 +534,7 @@ Alternatively, press `F3` to exit the application.
 
 ### Saving the data
 
-CampusBridge data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+CampusBridge data are saved in the hard disk automatically after any valid command is executed. There is no need to save manually.
 
 ### Editing the data file
 
@@ -552,8 +552,8 @@ Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBridge home folder.
 
-**Q**: What happens to my data when I upgrade from v1.3 to v1.4?<br>
-**A**: CampusBridge v1.4 uses an updated storage format that may not be compatible with older versions. If your existing data cannot be read, the app will start with an empty data file. Back up your `data/addressbook.json` before upgrading.
+**Q**: What happens to my data when I upgrade from v1.3 to v1.4 (or a later version?)<br>
+**A**: CampusBridge v1.4 onwards uses an updated storage format that may not be compatible with older versions. If your existing data cannot be read, the app will start with an empty data file. Back up your `data/addressbook.json` before upgrading.
 
 --------------------------------------------------------------------------------------------------------------------
 
