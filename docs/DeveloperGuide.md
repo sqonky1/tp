@@ -106,7 +106,7 @@ How the `Logic` component works:
 1. `AddressBookParser` identifies the command word and delegates to the corresponding parser (e.g., `DeleteCommandParser`) to construct a `Command` object.
 1. `LogicManager` executes the command against the `Model`.
 1. If the command is undoable (`command.isUndoable()`), `LogicManager` pushes it to an internal undo history stack.
-1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack. More details on the undo feature are provided in the [Current Undo feature](#current-undo-feature) section under Implementation.
+1. If the command is `undo`, `LogicManager` handles it directly by invoking `undo(model)` on the most recent undoable command in that history stack. More details on the undo feature are provided in the [Undo feature](#undo-feature) section under Implementation.
 1. After command execution, `LogicManager` persists changes through `Storage`, then returns a `CommandResult` to the caller.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
@@ -1440,7 +1440,7 @@ We identified 5 planned enhancements in total, including several currently unfix
 3. Handle edge cases involving special characters in search  
    The `find` command may behave unexpectedly when search keywords contain special characters. This is more noticeable in some name queries such as `find n/ale\x`. Email and tag searches do not currently provide additional handling for such cases. A future enhancement could introduce clearer validation rules and more consistent handling of special characters across name, email, and tag searches.
 
-4. Allow special characters in tags  
+4. Allow special characters in tags
    Tags currently cannot contain special characters. We plan to support selected characters such as hyphens and underscores to make tagging more flexible and practical.
 
 5. Provide clearer undo feedback in filtered views  
