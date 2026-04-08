@@ -1406,19 +1406,19 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix: Effort**
 
-### **Challenges faced**
+### Challenges faced
 - Architectural onboarding: As TP is a brownfield project, significant time was spent tracing the codebase and understanding existing design patterns.
 - Team coordination and synchronization: Working in a shared codebase made it challenging to track concurrent changes and maintain consistency across contributions.
 - Technical ambiguity: The team had to resolve uncertainties about the most appropriate way to implement features and standardize error messages across modules.
 - Complex undo logic: Implementing the undo feature required bespoke handling for each command type to ensure state changes could be reversed correctly across different scenarios.
 - Refactoring and redundancy: The team also had to identify duplicated code and extract reusable logic into shared helper classes.
 
-### **Effort required**
+### Effort required
 - Rigorous testing and quality assurance: Substantial effort was devoted to designing and executing test cases that covered many input permutations and uncovered edge-case bugs.
 - Comprehensive error handling: Beyond implementing features, the team invested significant effort in thorough validation and in deciding how errors should be handled and communicated to users.
 - Exhaustive code reviews: Team members carefully reviewed one another’s pull requests to avoid duplicated work and ensure the implementation was sound.
 
-### **Achievements**
+### Achievements
 - Data integrity and robustness: Successfully navigated complex data permutations (valid/invalid assignments, duplicate handling) to ensure a stable system.
 - Refined logic and refactoring: The team turned individual contributions into a cohesive whole through active refactoring and the introduction of generalized utility classes.
 - Successful system extension: The team successfully adapted to and extended a large existing codebase.
