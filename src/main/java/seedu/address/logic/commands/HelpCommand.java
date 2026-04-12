@@ -57,6 +57,35 @@ public class HelpCommand extends Command {
             "Command \"%s\" does not exist.\nValid commands: "
             + String.join(", ", VALID_COMMAND_NAMES_SORTED);
 
+    /** Prefix added to offline fallback messages. */
+    public static final String OFFLINE_HELP_NOTICE = "User guide unavailable (no internet connection).\n";
+
+    /** Fallback shown when general {@code help} is called offline. */
+    public static final String OFFLINE_FALLBACK_GENERAL =
+            OFFLINE_HELP_NOTICE
+            + "Available commands: " + String.join(", ", VALID_COMMAND_NAMES_SORTED) + "\n"
+            + "Use 'help <command>' for details on a specific command.";
+
+    /**
+     * Maps each command word to its offline fallback usage text.
+     * Commands without a {@code MESSAGE_USAGE} constant use inline strings.
+     */
+    public static final Map<String, String> COMMAND_FALLBACK_MESSAGES = Map.ofEntries(
+            Map.entry("add", OFFLINE_HELP_NOTICE + AddCommand.MESSAGE_USAGE),
+            Map.entry("edit", OFFLINE_HELP_NOTICE + EditCommand.MESSAGE_USAGE),
+            Map.entry("find", OFFLINE_HELP_NOTICE + FindCommand.MESSAGE_USAGE),
+            Map.entry("delete", OFFLINE_HELP_NOTICE + DeleteCommand.MESSAGE_USAGE),
+            Map.entry("sort", OFFLINE_HELP_NOTICE + SortCommand.MESSAGE_USAGE),
+            Map.entry("tag", OFFLINE_HELP_NOTICE + TagCommand.MESSAGE_USAGE),
+            Map.entry("untag", OFFLINE_HELP_NOTICE + UntagCommand.MESSAGE_USAGE),
+            Map.entry("cleartag", OFFLINE_HELP_NOTICE + ClearTagCommand.MESSAGE_USAGE),
+            Map.entry("help", OFFLINE_HELP_NOTICE + MESSAGE_USAGE),
+            Map.entry("list", OFFLINE_HELP_NOTICE + "list: Lists all persons.\nExample: list"),
+            Map.entry("clear", OFFLINE_HELP_NOTICE + "clear: Clears all entries.\nExample: clear"),
+            Map.entry("exit", OFFLINE_HELP_NOTICE + "exit: Exits the program.\nExample: exit"),
+            Map.entry("undo", OFFLINE_HELP_NOTICE + "undo: Undoes the last action.\nExample: undo")
+    );
+
     private final String targetCommand;
 
     /**
@@ -97,6 +126,9 @@ public class HelpCommand extends Command {
         String message = targetCommand == null
                 ? SHOWING_HELP_MESSAGE
                 : String.format(SHOWING_HELP_COMMAND_MESSAGE, targetCommand);
-        return new CommandResult(message, true, false, url);
+        String fallback = targetCommand == null
+                ? OFFLINE_FALLBACK_GENERAL
+                : COMMAND_FALLBACK_MESSAGES.getOrDefault(targetCommand, OFFLINE_FALLBACK_GENERAL);
+        return new CommandResult(message, true, false, url, fallback);
     }
 }
