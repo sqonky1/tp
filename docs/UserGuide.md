@@ -3,7 +3,8 @@ layout: page
 title: User Guide
 ---
 
-CampusBridge is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CampusBridge can get your contact management tasks done faster than traditional GUI apps.
+CampusBridge is a desktop app designed for **NUS undergraduate students** who need to organise contact information for professors, teaching assistants, and groupmates across multiple modules and faculties. Instead of searching through Canvas, Telegram, and email for scattered contact details, CampusBridge provides a **centralised system to save, search, and manage all academic contacts in one place**. Optimized for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI), fast typists can get contact management tasks done quicker than with traditional GUI apps.
+
 
 * Table of Contents
 {:toc}
