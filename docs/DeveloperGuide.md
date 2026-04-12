@@ -734,8 +734,26 @@ Use case ends.
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* Brownfield project: A software project developed upon an existing codebase, rather than starting from scratch.
+* CLI (Command-line interface): A text-based user interface where users type specific commands to interact with the application or OS.
+* Command: A text instruction entered by the user (e.g. `add`, `delete`, `edit`) that triggers a specific action in the application.
+* Course: An academic course offered at NUS, identified by a unique course code (e.g. CS2103T, CS2101).
+* Course tag: A type of tag (displayed in blue) used to label a contact with an NUS course code. Its prefix is `tc/`.
+* Duplicate person: A contact is considered a duplicate if another contact already has the same email OR the same non-empty Telegram handle (case-insensitive for handles).
+* Fuzzy matching: A search technique used in the `find` command that allows for minor typos or substrings rather than requiring an exact character-for-character match.
+* General tag: A type of tag (displayed in red) for any user-defined label. Its prefix is `tg/`.
+* Groupmate: A fellow student who collaborates with you on academic projects, assignments, or study groups within the same module.
+* GUI (Graphical user interface): A visual way for users to interact with digital components through items like icons and buttons.
+* Index: A positive integer representing the position of a contact in the currently displayed list.
+* Mainstream OS: Windows, Linux, Unix, MacOS.
+* NUS domain: Email addresses ending with `@u.nus.edu` (student), `@nus.edu.sg` (staff), or `@*.nus.edu.sg`.
+* Prefix: A short identifier (e.g. `n/`, `e/`, `tg/`) used in commands to denote the type of parameter that follows.
+* Professor: An academic staff member who teaches a course at NUS.
+* Role tag: A type of tag (displayed in green) used to label a contact's academic role. Its prefix is `tr/`.
+* Tag: A label attached to a contact for categorization.
+* Teaching Assistant (TA): A graduate or undergraduate student who assists with teaching duties, including conducting tutorials and grading assignments.
+* Undoable command: A command (e.g. `add`, `delete`, `edit`, `tag`) that can be reversed using the `undo` command. Commands like `list` and `find` are not undoable.
+* Undo history stack: An internal data structure that stores previous commands, allowing the user to revert changes in reverse chronological order.
 
 --------------------------------------------------------------------------------------------------------------------
 
