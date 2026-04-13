@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-CampusBridge is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CampusBridge can get your contact management tasks done faster than traditional GUI apps.
+CampusBridge is a desktop app for **NUS students** to organise and manage academic and campus-related contacts such as professors, teaching assistants, groupmates, and club members. It provides a **centralised place to store and search contact details that are otherwise scattered across platforms like Canvas, Telegram, and email.** Optimised for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI), fast typists can get contact management tasks done quicker than with traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -19,7 +19,7 @@ CampusBridge is a **desktop app for managing contacts, optimized for use via a C
 
 1. Copy the file to the folder you want to use as the _home folder_ for your CampusBridge application.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.5.1.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.6.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -159,6 +159,7 @@ Examples:
 * `help add` — opens the user guide at the **Adding a person** section.
 * `help sort` — opens the user guide at the **Sorting persons** section.
 
+Supported commands: `help`, `add`, `edit`, `delete`, `untag`, `cleartag`, `list`, `sort`, `find`, `clear`, `exit`
 
 ### Adding a person : `add`
 
@@ -206,7 +207,7 @@ Edits an existing person in the address book.
 * Existing values will be updated to the input values.
 * Any unexpected slash-prefixed token is rejected as extra input.
 * Prefixes are case-insensitive (n/ and N/ are treated the same).
-* Repeated prefixes for single-valued fields are not allowed. For example, `edit n/Amy n/Ben e/x@example.com` is invalid.
+* Repeated prefixes for single-valued fields are not allowed. For example, `edit 1 n/Amy n/Ben e/x@example.com` is invalid.
 * Phone numbers provided must contain only digits and be at least 3 digits long.
 * Requirements for an email provided is specified [here](#email-validation).
 * The updated email and Telegram handle, if provided, must remain unique.
@@ -545,17 +546,6 @@ You can repeatedly use `undo` to step backwards through your previous changes.
   ```
   When no more commands to undo, an error message will be shown indicating that there are no actions to undo.
 
-### Navigating command history
-
-Previously entered commands can be recalled using the keyboard.
-
-* Press the **Up arrow** key to go back to an earlier command.
-* Press the **Down arrow** key to go forward to a more recent command.
-
-**Examples:**
-* After running `add n/John Doe e/john@example.com`, press **Up** to recall it and modify it.
-* After running several commands, press **Up** repeatedly to scroll back through them.
-
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -569,6 +559,17 @@ Exits the program.
 **Format:** `exit`
 
 Alternatively, press `F3` or `fn + F3` to exit the application.
+
+### Navigating command history
+
+Previously entered commands can be recalled using the keyboard.
+
+* Press the **Up arrow** key to go back to an earlier command.
+* Press the **Down arrow** key to go forward to a more recent command.
+
+**Examples:**
+* After running `add n/John Doe e/john@example.com`, press **Up** to recall it and modify it.
+* After running several commands, press **Up** repeatedly to scroll back through them.
 
 ### Saving the data
 
