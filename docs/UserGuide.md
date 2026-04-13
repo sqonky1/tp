@@ -429,18 +429,20 @@ Finds persons whose names, emails, or tags match the given keywords.
 * The search is case-insensitive for all fields. e.g. `alex` will match `Alex`.
 * The order of keywords does not matter. e.g. `Yeoh Alex` will match `Alex Yeoh`.
 * Keywords consisting **only of special characters** are not allowed (e.g., `.`, `#`, `!@#`). If you provide such a keyword, an error message will be shown.
-* Keywords containing a mix of alphanumeric and special characters are allowed (e.g., `"Dr."`, `"J."`, `"A-12"`).
-* Avoid including slash-prefixed fragments inside keywords (for example, `find n/alex s/o`). Such input is interpreted as command syntax rather than part of the keyword, so the command will be rejected with an error message.
+* Keywords containing special characters are allowed (e.g., `"Dr."`, `"J."`, `"J-A"`, `"@#$%"`).
+* Slashes (`/`) are not allowed in keywords. For example, `find n/alex s/o` will be rejected as it is interpreted as command syntax rather than part of the keyword.
 
 **Matching behavior:**
 * **Name keywords** use both exact substring matching and fuzzy matching (typo-tolerant):
   * Exact match: `Jo` will match `John` and `Alice Johnson`.
   * Fuzzy match: `jon` will also match `John` (handles typos like missing or swapped letters).
   * The fuzzy matching threshold is calculated based on keyword length, allowing ~1 edit for short keywords and scaling up for longer keywords.
-  * Special characters in name keywords are converted into spaces. For example, `Robert-Smith` becomes `Robert Smith`, so the search treats it as the keywords `Robert` and `Smith`.
+  * If a special character appears in at least one of the name keywords, case-insensitive substring matching is used for all keywords. For example:
+    * `find n/Robert-Smith` matches `Robert-Smith` but not `Robert Smith`.
+    * `find n/Robert-Jones aliec` will use substring matching for both `Robert-Jones` and `aliec`, so no fuzzy matching is performed for `aliec`.
 * **Email keywords** use exact substring matching.
     * e.g. `gmail` will match `john@gmail.com` and `alice.gmail@example.com`.
-    * Special characters in email keywords are matched as entered. For example, `john.doe` will not match `doe@gmail.com`.
+    * Special characters in email keywords are matched as entered. For example, `john.doe` will not match `johndoe@gmail.com`.
 * **Tags** require exact keyword matches (no partial matching), but are still case-insensitive.
     * e.g. `cs2103` will match tag `cs2103` and `CS2103` but not `cs210`.
     * Special characters in tag keywords are matched as entered. For example, in `cs2103-t`, the `-` is treated as part of the tag and is not ignored.
