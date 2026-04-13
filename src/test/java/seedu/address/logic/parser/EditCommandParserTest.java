@@ -175,7 +175,27 @@ public class EditCommandParserTest {
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_TELEGRAM_HANDLE));
     }
+    @Test
+    public void parse_clearOptionalFields_success() {
+        // EP: clear phone field
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " p/";
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(null).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
 
+        // EP: clear telegram handle field
+        userInput = targetIndex.getOneBased() + " h/";
+        descriptor = new EditPersonDescriptorBuilder().withTelegramHandle(null).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // EP: clear both optional fields
+        userInput = targetIndex.getOneBased() + " p/ h/";
+        descriptor = new EditPersonDescriptorBuilder().withPhone(null).withTelegramHandle(null).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
     @Test
     public void parse_phoneWithSpaces_success() {
         Index targetIndex = INDEX_FIRST_PERSON;
@@ -185,7 +205,6 @@ public class EditCommandParserTest {
                 .withPhone("9312 1534")
                 .build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 }
