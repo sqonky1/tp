@@ -446,10 +446,6 @@ Sorts the list of persons by the specified field.
   e.g. `sort o/phone` produces `81234567`, `91234567`, then persons with no phone
 * **`none`** — resets the list to its default (insertion) order.
 
-![result for 'sort o/email'](images/sortemail.png)
-
-![result for 'sort o/name r/'](images/sortreverse.png)
-
 **Examples:**
 * `sort o/name`<br/>
 Sorts all persons alphabetically by name (A–Z).
@@ -457,8 +453,12 @@ Sorts all persons alphabetically by name (A–Z).
 * `sort o/name r/`<br/>
 Sorts all persons in reverse alphabetical order by name (Z–A).
 
+![result for 'sort o/name r/'](images/sortreverse.png)
+
 * `sort o/email`<br/>
 Sorts all persons alphabetically by email address.
+
+![result for 'sort o/email'](images/sortemail.png)
 
 * `sort o/phone r/`<br/>
 Sorts all persons in reverse lexicographic order by phone number.
