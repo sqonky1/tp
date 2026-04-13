@@ -75,10 +75,6 @@ CampusBridge supports three tag types, each displayed in a distinct colour:
 * Tag names must be unique within their type — you cannot create two Role tags with the same name.
 * Different tag types can share the same name (e.g. a Role tag `mentor` and a General tag `mentor` can both exist).
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:**
-Long tag names (and other fields) may appear **truncated** in the contact card for readability. To retrieve the full value, **click on the field** in the contact card — it will be copied to your clipboard, and you can paste it wherever needed.
-</div>
-
 ### Email validation
 
 Emails should be of the format `local-part@domain` and adhere to the following constraints:

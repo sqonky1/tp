@@ -5,7 +5,6 @@ import java.util.Comparator;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -89,8 +88,6 @@ public class PersonCard extends UiPart<Region> {
                 .forEach(tag -> {
                     Label tagLabel = new Label(tag.tagName);
                     tagLabel.getStyleClass().add(getTagStyleClass(tag.getType()));
-                    tagLabel.setMaxWidth(120);
-                    tagLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
                     tagLabel.setTooltip(new Tooltip(tag.tagName + "\nClick to copy"));
                     tagLabel.setOnMouseClicked(e -> copyToClipboard(tagLabel, tag.tagName));
                     tags.getChildren().add(tagLabel);
