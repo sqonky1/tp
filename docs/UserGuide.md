@@ -645,7 +645,7 @@ CampusBridge data are saved in the hard disk automatically after any valid comma
 CampusBridge data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, CampusBridge will start with an empty contact list for that run. The invalid data file is not automatically overwritten, so back up or fix it before restarting.<br>
+If your changes to the data file makes its format invalid, CampusBridge will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
@@ -657,7 +657,7 @@ Furthermore, certain edits can cause CampusBridge to behave in unexpected ways (
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBridge home folder.
 
 **Q**: What happens to my data when I upgrade from v1.3 to v1.4 (or a later version)?<br>
-**A**: CampusBridge v1.4 and later uses an updated storage format that may not be compatible with older versions. If your existing data cannot be read, the app will start with an empty contact list. Back up your `data/addressbook.json` before upgrading.
+**A**: CampusBridge v1.4 and later uses an updated storage format that may not be compatible with older versions. If your existing data cannot be read, the app will start with an empty data file. Back up your `data/addressbook.json` before upgrading.
 
 --------------------------------------------------------------------------------------------------------------------
 
