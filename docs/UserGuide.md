@@ -230,22 +230,30 @@ Edits an existing person in the address book.
 
 **Format:** `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [h/TELEGRAM_HANDLE]`
 
-* Edits the person at the specified `INDEX`.
+**Fields:**
+* `INDEX` and at least one of `[n/NAME]`, `[e/EMAIL]`, `[p/PHONE_NUMBER]`, `[h/TELEGRAM_HANDLE]` must be provided.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* Any unexpected slash-prefixed token is rejected as extra input.
-* Prefixes are case-insensitive (n/ and N/ are treated the same).
 * To remove an optional field, use the prefix with no value: `p/` clears the phone number, `h/` clears the Telegram handle.
-* Repeated prefixes for single-valued fields are not allowed. For example, `edit 1 n/Amy n/Ben e/x@example.com` is invalid.
-* Phone numbers provided may contain digits and spaces, and must contain at least 3 digits in total.
-* Requirements for an email provided is specified [here](#email-validation).
-* The updated email and Telegram handle, if provided, must remain unique.
-* Telegram handles provided are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
-* Telegram handles provide must start with a letter, contain only letters, numbers, and underscores, be 5 to 32 characters long, not contain consecutive underscores, and not end with an underscore.
+* Prefixes are case-insensitive (n/ and N/ are treated the same).
+
+**Validation rules:**
 * Updated names may contain only letters, numbers, spaces, and these symbols: `(` `)` `.` `-` `,` `'`. <br>
   Other special characters are not supported. In particular, `/` is not accepted because it may be interpreted as command syntax. If needed, replace it with a supported symbol instead, e.g. `D/O` as `D-O`.
+* Requirements for an email provided is specified [here](#email-validation).
+* Phone numbers provided may contain digits and spaces, and must contain at least 3 digits in total.
+* Telegram handles provide must start with a letter, contain only letters, numbers, and underscores, be 5 to 32 characters long, not contain consecutive underscores, and not end with an underscore.
+* Repeated prefixes for single-valued fields are not allowed. For example, `edit 1 n/Amy n/Ben e/x@example.com` is invalid.
+* Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
+
+**Identity and warnings:**
+* A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle.
+* Email must be unique. You cannot add two persons with the same email address.
+* Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
+* Emails are treated case-insensitively for duplicate detection. For example, `John@Example.com` and `john@example.com` are considered the same email.
+* Telegram handles are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
+* If the email is not an NUS domain, the contact is still added, but a warning message is shown.
 
 ![result for 'edit 1 n/James e/JamesLee@nus.edu.sg p/82901234 h/jamesLEE'](images/editaperson.png)
 
