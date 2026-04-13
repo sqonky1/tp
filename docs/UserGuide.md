@@ -180,7 +180,7 @@ Adds a person to the address book.
 
 **Format:** `add n/NAME e/EMAIL [p/PHONE_NUMBER] [h/TELEGRAM_HANDLE]`
 
-**Fields**
+**Fields:**
 * `n/NAME` and `e/EMAIL` are required.
 * Email is required because CampusBridge uses it as the primary stable identifier for campus-related contacts.
 * `p/PHONE_NUMBER` and `h/TELEGRAM_HANDLE` are optional.
@@ -188,7 +188,7 @@ Adds a person to the address book.
 * If no Telegram handle is provided, the contact will be created without one.
 * Prefixes are case-insensitive (n/ and N/ are treated the same).
 
-**Validation rules**
+**Validation rules:**
 * Names may contain only letters, numbers, spaces, and these symbols: `(` `)` `.` `-` `,` `'`. <br>
   Other special characters are not supported. In particular, `/` is not accepted because it may be interpreted as command syntax. If needed, replace it with a supported symbol instead, e.g. `D/O` as `D-O`.
 * Requirements for an email provided is specified [here](#email-validation).
@@ -197,7 +197,7 @@ Adds a person to the address book.
 * Repeated prefixes for single-valued fields are not allowed. For example, `add n/Amy n/Ben e/x@example.com` is invalid.
 * Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
 
-**Identity and warnings**
+**Identity and warnings:**
 * A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle.
 * Email must be unique. You cannot add two persons with the same email address.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
