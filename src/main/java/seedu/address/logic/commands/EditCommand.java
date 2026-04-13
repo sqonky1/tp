@@ -288,24 +288,31 @@ public class EditCommand extends Command {
         public void setEmail(Email email) {
             this.email = email;
         }
+        //@@author calijacked
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
         }
+
         public void setTelegramHandle(TelegramHandle telegramHandle) {
             this.telegramHandle = telegramHandle;
         }
+
         public Optional<TelegramHandle> getTelegramHandle() {
             return Optional.ofNullable(telegramHandle);
         }
+
         public void setPhoneCleared() {
             this.phoneCleared = true;
         }
+
         public boolean isPhoneCleared() {
             return phoneCleared;
         }
+
         public void setTelegramHandleCleared() {
             this.telegramHandleCleared = true;
         }
+
         public boolean isTelegramHandleCleared() {
             return telegramHandleCleared;
         }

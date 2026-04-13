@@ -52,10 +52,8 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         ParserUtil.validateNoEmptyPrefixValues(argMultimap, PREFIX_NAME, PREFIX_EMAIL);
 
-        String preamble = argMultimap.getPreamble().trim();
-        if (preamble.isEmpty() || preamble.contains(" ")) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
+        //@@author calijacked
+        ParserUtil.validatePreambleAsIndex(argMultimap, EditCommand.MESSAGE_USAGE);
 
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble().trim());
 
