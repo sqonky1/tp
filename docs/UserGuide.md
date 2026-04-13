@@ -236,7 +236,6 @@ If the updated email is not an [NUS domain](#email-validation), a warning messag
 
 ![result for 'edit 1 n/James e/JamesLee@gmail.com p/82901234 h/jamesLEE'](images/editemailwarning.png)
 
-
 **Examples:**
 *  `edit 1 p/9123 4567 e/johndoe@u.nus.edu`<br/>
 Edits the phone number and email address of the 1st person to be `9123 4567` and `johndoe@u.nus.edu` respectively.
