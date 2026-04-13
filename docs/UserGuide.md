@@ -502,7 +502,7 @@ Reverts the most recent **undoable command** executed.
 * Multiple undo operations can be performed consecutively, up to the number of undoable commands previously executed.
 * If there are no commands to undo, an error message will be shown.
 * `undo` keeps the current filtered view unchanged.
-* When undoing `delete`, `edit`, `clear`, `tag`, `untag`, or `cleartag`, the restored contact(s) may still be hidden if they do not match the current filter. CampusBridge will show a reminder in the status message.
+* When undoing `delete`, `edit`, `clear`, `tag`, `untag`, or `cleartag`, the restored contact(s) may still be hidden if they do not match the current filter. CampusBridge will show a reminder in the status message, and the full list can be viewed using `list`.
 
 **Undoable commands:**
 ```
@@ -555,7 +555,6 @@ Clears all entries from the address book.
 ![ClearCommandSuccessResultImage](images/clearcommand.png)
 
 * `clear` keeps the current filtered view unchanged.
-* If you later use `undo`, the cleared contacts will be restored, but some restored contacts may still be hidden if they do not match the current filter.
 
 ### Exiting the program : `exit`
 
