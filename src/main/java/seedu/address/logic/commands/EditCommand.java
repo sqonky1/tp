@@ -288,7 +288,7 @@ public class EditCommand extends Command {
         public void setEmail(Email email) {
             this.email = email;
         }
-        //@@author calijacked
+
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
         }

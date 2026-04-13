@@ -52,7 +52,6 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         ParserUtil.validateNoEmptyPrefixValues(argMultimap, PREFIX_NAME, PREFIX_EMAIL);
 
-        //@@author calijacked
         ParserUtil.validatePreambleAsIndex(argMultimap, EditCommand.MESSAGE_USAGE);
 
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble().trim());
