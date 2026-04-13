@@ -22,33 +22,21 @@ public class CommandResult {
     /** URL to open directly in the browser, or null if no URL to open. */
     private final String helpUrl;
 
-    /** Fallback message to show when the URL cannot be opened (e.g. no internet). Null if not applicable. */
-    private final String helpFallbackMessage;
-
-    /**
-     * Constructs a {@code CommandResult} with the specified fields, a help URL, and an offline fallback message.
-     */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit,
-            String helpUrl, String helpFallbackMessage) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
-        this.helpUrl = helpUrl;
-        this.helpFallbackMessage = helpFallbackMessage;
-    }
-
     /**
      * Constructs a {@code CommandResult} with the specified fields and a help URL.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, String helpUrl) {
-        this(feedbackToUser, showHelp, exit, helpUrl, null);
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.helpUrl = helpUrl;
     }
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, null, null);
+        this(feedbackToUser, showHelp, exit, null);
     }
 
     /**
@@ -56,7 +44,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, null, null);
+        this(feedbackToUser, false, false, null);
     }
 
     public String getFeedbackToUser() {
@@ -78,13 +66,6 @@ public class CommandResult {
         return helpUrl;
     }
 
-    /**
-     * Returns the fallback message to show when the URL cannot be opened, or null if not applicable.
-     */
-    public String getHelpFallbackMessage() {
-        return helpFallbackMessage;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -100,13 +81,12 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
-                && Objects.equals(helpUrl, otherCommandResult.helpUrl)
-                && Objects.equals(helpFallbackMessage, otherCommandResult.helpFallbackMessage);
+                && Objects.equals(helpUrl, otherCommandResult.helpUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, helpUrl, helpFallbackMessage);
+        return Objects.hash(feedbackToUser, showHelp, exit, helpUrl);
     }
 
     @Override
@@ -116,7 +96,6 @@ public class CommandResult {
                 .add("showHelp", showHelp)
                 .add("exit", exit)
                 .add("helpUrl", helpUrl)
-                .add("helpFallbackMessage", helpFallbackMessage)
                 .toString();
     }
 
