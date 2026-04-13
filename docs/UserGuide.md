@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-CampusBridge is a desktop app for **NUS students** to organise and manage academic and campus-related contacts such as professors, teaching assistants, groupmates, and club members. It provides a **centralised place to store and search contact details that are otherwise scattered across platforms like Canvas, Telegram, and email.** Optimised for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI), fast typists can get contact management tasks done quicker than with traditional GUI apps.
+CampusBridge is a desktop app for **NUS students** to organise and manage academic contacts such as professors, teaching assistants, and groupmates. It provides a **centralised place to store and search contact details that are otherwise scattered across platforms like Canvas, Telegram, and email.** Optimised for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI), fast typists can get contact management tasks done quicker than with traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -102,7 +102,7 @@ Emails should be of the format `local-part@domain` and adhere to the following c
 
 **NUS domain check:**
 
-CampusBridge is designed for NUS students and staff. When adding or editing a contact:
+CampusBridge is designed for NUS undergraduate students. When adding or editing a contact:
 
 | Email domain         | Behavior                                   |
 |----------------------|--------------------------------------------|
@@ -165,15 +165,15 @@ Alternatively, press `F1` or `fn + F1` to open the user guide.
 * If `COMMAND` is not a recognised command name, an error is shown listing all valid commands.
 * If more than one word is provided (e.g. `help add clear`), an invalid command format error is shown.
 
-**Supported commands:** `help`, `add`, `edit`, `delete`, `untag`, `cleartag`, `list`, `sort`, `find`, `clear`, `exit`
+Supported commands: `help`, `add`, `edit`, `delete`, `tag`, `untag`, `cleartag`, `list`, `sort`, `find`, `undo`, `clear`, `exit`
 
 **Examples:**
 * `help` — shows available commands in the result box and opens the user guide in the browser.
-* `help add` — shows the usage message for `add` in the result box and opens the user guide at the **Adding a person** section.
+* `help add` — shows the usage message for `add` in the result box and opens the user guide at the [**Adding a person**](#adding-a-person--add) section.
 
 ![result for 'help add'](images/helpadd.png)
 
-* `help sort` — shows the usage message for `sort` in the result box and opens the user guide at the **Sorting persons** section.
+* `help sort` — shows the usage message for `sort` in the result box and opens the user guide at the [**Sorting persons**](#sorting-persons--sort) section.
 
 ### Adding a person : `add`
 
@@ -183,7 +183,7 @@ Adds a person to the address book.
 
 **Fields:**
 * `n/NAME` and `e/EMAIL` are required.
-* Email is required because CampusBridge uses it as the primary stable identifier for campus-related contacts.
+* Email is required because CampusBridge uses it as the primary stable identifier for academic contacts.
 * `p/PHONE_NUMBER` and `h/TELEGRAM_HANDLE` are optional.
 * If no phone number is provided, the contact will be created without one.
 * If no Telegram handle is provided, the contact will be created without one.
@@ -192,14 +192,14 @@ Adds a person to the address book.
 **Validation rules:**
 * Names may contain only letters, numbers, spaces, and these symbols: `(` `)` `.` `-` `,` `'`. <br>
   Other special characters are not supported. In particular, `/` is not accepted because it may be interpreted as command syntax. If needed, replace it with a supported symbol instead, e.g. `D/O` as `D-O`.
-* Requirements for an email provided is specified [here](#email-validation).
+* The requirements for a valid email are specified [here](#email-validation).
 * Phone numbers, if provided, may contain digits and spaces, and must contain at least 3 digits in total.
 * Telegram handles must start with a letter, contain only letters, numbers, and underscores, be 5 to 32 characters long, not contain consecutive underscores, and not end with an underscore.
 * Repeated prefixes for single-valued fields are not allowed. For example, `add n/Amy n/Ben e/x@example.com` is invalid.
 * Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
 
 **Identity and warnings:**
-* A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle.
+* A contact is treated as a duplicate if another contact already has the same email, or the same non-null Telegram handle.
 * Email must be unique. You cannot add two persons with the same email address.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
 * Emails are treated case-insensitively for duplicate detection. For example, `John@Example.com` and `john@example.com` are considered the same email.
@@ -242,9 +242,9 @@ Edits an existing person in the address book.
 **Validation rules:**
 * Updated names may contain only letters, numbers, spaces, and these symbols: `(` `)` `.` `-` `,` `'`. <br>
   Other special characters are not supported. In particular, `/` is not accepted because it may be interpreted as command syntax. If needed, replace it with a supported symbol instead, e.g. `D/O` as `D-O`.
-* Requirements for an email provided is specified [here](#email-validation).
+* The requirements for a valid email are specified [here](#email-validation).
 * Phone numbers provided may contain digits and spaces, and must contain at least 3 digits in total.
-* Telegram handles provide must start with a letter, contain only letters, numbers, and underscores, be 5 to 32 characters long, not contain consecutive underscores, and not end with an underscore.
+* Telegram handles provided must start with a letter, contain only letters, numbers, and underscores, be 5 to 32 characters long, not contain consecutive underscores, and not end with an underscore.
 * Repeated prefixes for single-valued fields are not allowed. For example, `edit 1 n/Amy n/Ben e/x@example.com` is invalid.
 * Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
 
@@ -254,7 +254,6 @@ Edits an existing person in the address book.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
 * Emails are treated case-insensitively for duplicate detection. For example, `John@Example.com` and `john@example.com` are considered the same email.
 * Telegram handles are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
-* If the email is not an NUS domain, the contact is still added, but a warning message is shown.
 
 ![result for 'edit 1 n/James e/JamesLee@nus.edu.sg p/82901234 h/jamesLEE'](images/editaperson.png)
 
@@ -468,7 +467,7 @@ Sorts all persons in reverse lexicographic order by phone number.
 Resets the list to its default order.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
-The sort order stays active until you explicitly reset it (e.g. with `sort o/none` or `list`). Data commands (`add`, `edit`, `delete`, `tag`, `untag`, `cleartag`) do not reset the sort order.
+The sort order stays active until you explicitly reset it (e.g. with `sort o/none`). Data commands (`add`, `edit`, `delete`, `tag`, `untag`, `cleartag`) do not reset the sort order.
 </div>
 
 ### Locating persons by name / email / tag : `find`
@@ -481,7 +480,7 @@ Finds persons whose names, emails, or tags match the given keywords.
 * The search is case-insensitive for all fields. e.g. `alex` will match `Alex`.
 * The order of keywords does not matter. e.g. `Yeoh Alex` will match `Alex Yeoh`.
 * Keywords consisting **only of special characters** are not allowed (e.g., `.`, `#`, `!@#`). If you provide such a keyword, an error message will be shown.
-* Keywords containing special characters are allowed (e.g., `"Dr."`, `"J."`, `"J-A"`, `"@#$%"`).
+* Keywords containing special characters are allowed (e.g., `"Dr."`, `"J."`, `"J-A"`).
 * Slashes (`/`) are not allowed in keywords. For example, `find n/alex s/o` will be rejected as it is interpreted as command syntax rather than part of the keyword.
 
 **Matching behavior:**
@@ -497,7 +496,6 @@ Finds persons whose names, emails, or tags match the given keywords.
     * Special characters in email keywords are matched as entered. For example, `john.doe` will not match `johndoe@gmail.com`.
 * **Tags** require exact keyword matches (no partial matching), but are still case-insensitive.
     * e.g. `cs2103` will match tag `cs2103` and `CS2103` but not `cs210`.
-    * Special characters in tag keywords are matched as entered. For example, in `cs2103-t`, the `-` is treated as part of the tag and is not ignored.
 * Multiple keywords within the same field are combined using **OR**.
   e.g. `n/Alex David` will match `Alex Yeoh` or `David Li`.
 * Different fields are combined using **AND**.

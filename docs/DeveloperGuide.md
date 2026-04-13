@@ -202,7 +202,7 @@ Data is stored in two JSON files:
 
 When CampusBridge starts, it attempts to read the address book file and handles three cases:
 * **File not found** — sample data is loaded and the file is created on the next save or exit.
-* **File is malformed or contains invalid data** — an empty address book is used and a warning is logged; the corrupted file is left untouched.
+* **File is malformed or contains invalid data** — an empty address book is used and a warning is logged.
 * **File is valid** — data is loaded normally.
 
 ### Common classes
@@ -227,7 +227,7 @@ The parser enforces the following rules:
 
 **Field requirements**
 * `n/NAME` and `e/EMAIL` are compulsory.
-* Email is compulsory because the product assumes campus-related contacts are typically reachable by email, and email serves as the primary stable identifier for duplicate detection.
+* Email is compulsory because the product assumes academic contacts are typically reachable by email, and email serves as the primary stable identifier for duplicate detection.
 * `p/PHONE` and `h/TELEGRAM_HANDLE` are optional.
 
 **Input handling**
@@ -327,7 +327,7 @@ NUS undergraduate students who
 * Prefer using CLI over GUI.
 
 **Value proposition**:
-CampusBridge helps NUS undergraduate students to organize and access contact information for their academic peers across different modules and faculties.
+CampusBridge helps NUS undergraduate students to organize and access contact information for their academic contacts such as professors, teaching assistants, and groupmates.
 
 It does so by providing a centralized, easy-to-use system to save, search, and manage academic contacts efficiently.
 
@@ -337,28 +337,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### Current version
 
-| Priority | As a …​                    | I can …​                                                                 | So that I can…​                                                                   |
-|----------|----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| `* * *`  | user                       | add a contact                                                            | store and organize important academic contact information in one place            |
-| `* * *`  | user                       | view all my contacts                                                     | quickly see everyone in one place                                                 |
-| `* * *`  | user                       | delete a contact                                                         | keep my contact list accurate and organized                                       |
-| `* * *`  | user                       | edit a specific contact                                                  | quickly correct mistakes in their contact information                             |
-| `* * *`  | user                       | exit the application                                                     | safely close CampusBridge when I am done using it                                 |
-| `* * *`  | user                       | have my contacts saved automatically                                     | prevent losing my data when the application closes                                |
-| `* * *`  | user                       | validate my input                                                        | minimize incorrect information                                                    |
-| `* * *`  | new user                   | see clear error messages                                                 | understand what went wrong and correct my input without feeling confused          |
-| `* * *`  | regular user               | search contacts by name, email and tags                                  | quickly find someone                                                              |
-| `* * *`  | new user                   | view help details                                                        | see specific examples and parameter requirements for that command                 |
-| `* *`    | regular user               | sort contacts by name, email, or phone in ascending or descending order  | browse them more easily                                                           |
-| `* *`    | new user                   | view preloaded sample modules and contacts                               | understand the app’s layout and value without adding real data                    |
-| `* *`    | user                       | add new tags to an existing contact                                      | keep their information updated as the semester evolves                            |
-| `* *`    | user                       | delete specific tags from a contact without deleting the entire contact  | keep my contact information accurate                                              |
-| `* *`    | user                       | clear all tags from a contact                                            | reset the contact’s categorization without manually deleting every individual tag |
-| `* *`    | expert user                | undo my last action                                                      | instantly revert an accidental deletion without stress                            |
-| `* *`    | expert user                | have keyboard shortcuts                                                  | operate the system efficiently                                                    |
-| `* *`    | expert user                | copy any contact field                                                   | efficiently transfer information to other applications without manual typing      |
-| `* *`    | expert user                | view colour-coded tags                                                   | quickly identify and prioritize important information.                            |
-| `* *`    | regular user               | navigate command history                                                 | execute or modify past commands without retyping them                             |
+| Priority | As a …​                    | I can …​                                                                | So that I can…​                                                                   |
+|----------|----------------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| `* * *`  | user                       | add a contact                                                           | store and organize important academic contact information in one place            |
+| `* * *`  | user                       | view all my contacts                                                    | quickly see everyone in one place                                                 |
+| `* * *`  | user                       | delete a contact                                                        | keep my contact list accurate and organized                                       |
+| `* * *`  | user                       | edit a specific contact                                                 | quickly correct mistakes in their contact information                             |
+| `* * *`  | user                       | exit the application                                                    | safely close CampusBridge when I am done using it                                 |
+| `* * *`  | user                       | have my contacts saved automatically                                    | prevent losing my data when the application closes                                |
+| `* * *`  | user                       | validate my input                                                       | minimize incorrect information                                                    |
+| `* * *`  | new user                   | see clear error messages                                                | understand what went wrong and correct my input without feeling confused          |
+| `* * *`  | regular user               | search contacts by name, email and tags                                 | quickly find someone                                                              |
+| `* * *`  | new user                   | view help details                                                       | see specific examples and parameter requirements for that command                 |
+| `* *`    | regular user               | sort contacts by name, email, or phone in ascending or descending order | browse them more easily                                                           |
+| `* *`    | new user                   | view preloaded sample modules and contacts                              | understand the app’s layout and value without adding real data                    |
+| `* *`    | user                       | add new tags to an existing contact                                     | keep their information updated as the semester evolves                            |
+| `* *`    | user                       | delete specific tags from a contact without deleting the entire contact | keep my contact information accurate                                              |
+| `* *`    | user                       | clear all tags of a specific type from a contact                        | reset the contact’s categorization without manually deleting every individual tag |
+| `* *`    | expert user                | undo my last action                                                     | instantly revert an accidental deletion without stress                            |
+| `* *`    | expert user                | have keyboard shortcuts                                                 | operate the system efficiently                                                    |
+| `* *`    | expert user                | copy any contact field                                                  | efficiently transfer information to other applications without manual typing      |
+| `* *`    | expert user                | view colour-coded tags                                                  | quickly identify and prioritize important information.                            |
+| `* *`    | regular user               | navigate command history                                                | execute or modify past commands without retyping them                             |
 
 #### Near-future version
 
@@ -612,7 +612,7 @@ Use case ends.
 
 **MSS:**
 1. User requests to sort contacts.
-2. User provides sort field (name/email/phone/reset) and optional reverse order.
+2. User provides sort field (name/email/phone/none) and optional reverse order.
 3. CampusBridge sorts the contacts based on the specified criteria.
 4. CampusBridge displays the list of contacts in the specified sorted order.
 
@@ -695,7 +695,7 @@ Use case ends.
   Use case resumes at step 1.
 
 * 2c. No more recent command exists.
-  * 2c1. CampusBridge does nothing.
+  * 2c1. CampusBridge clears the command box (returns to empty input).
 
   Use case resumes at step 1.
 
@@ -751,7 +751,7 @@ Use case ends.
 * Command: A text instruction entered by the user (e.g. `add`, `delete`, `edit`) that triggers a specific action in the application.
 * Course: An academic course offered at NUS, identified by a unique course code (e.g. CS2103T, CS2101).
 * Course tag: A type of tag (displayed in blue) used to label a contact with an NUS course code. Its prefix is `tc/`.
-* Duplicate person: A contact is considered a duplicate if another contact already has the same email OR the same non-empty Telegram handle (case-insensitive for handles).
+* Duplicate person: A contact is considered a duplicate if another contact already has the same email or the same non-null Telegram handle. Email and Telegram handle comparisons are case-insensitive.
 * Filtered view: The subset of contacts currently displayed in the CampusBridge window, which may be limited by an active search (`find` command) or sort order (`sort` command).
 * Fuzzy matching: A search technique used in the `find` command that allows for minor typos or substrings rather than requiring an exact character-for-character match.
 * General tag: A type of tag (displayed in red) for any user-defined label. Its prefix is `tg/`.
@@ -831,7 +831,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `help add` with no internet connection<br>
       Expected: The usage message for the `add` command is still shown in the result box.
 
-   1. Other valid command names to try: `help list`, `help edit`, `help delete`, `help find`, `help sort`, `help tag`, `help untag`, `help cleartag`, `help clear`, `help exit`<br>
+   1. Other valid command names to try: `help edit`, `help delete`, `help tag`, `help untag`, `help cleartag`, `help list`, `help sort`, `help find`, `help undo`, `help clear`, `help exit`<br>
       Expected: The usage message for the respective command is shown in the result box. The User Guide opens at the respective command section.
 
 1. Invalid help arguments
@@ -919,22 +919,22 @@ testers are expected to do more *exploratory* testing.
       Expected: The first contact's phone number is updated. All other fields remain unchanged. The success message shows the edited person's details.
 
    1. Test case: `edit 1 h/johnlimm`<br>
-      Expected: The first contact's telegram handle is updated. All other fields remain unchanged. The success message shows the edited person's details.
+      Expected: The first contact's Telegram handle is updated. All other fields remain unchanged. The success message shows the edited person's details.
 
 3. Editing a person with a non-NUS email
-    1. Prerequisites: Start with the sample data loaded. Ensure the email used below do not already exist. At least one person in the list.
+    1. Prerequisites: Start with the sample data loaded. Ensure the email used below does not already exist. At least one person in the list.
 
     1. Test case: `edit 1 e/john@gmail.com`<br>
        Expected: The first contact's email is updated. A warning is shown indicating that the email is not an NUS domain.
 
 4. Editing a person with duplicate email or Telegram handle
-    1. Prerequisites: Start with the sample data loaded. The first contact has email `johnlim@u.nus.edu` and Telegram handle `johnlimm`. At least two person in the list.
+    1. Prerequisites: Start with the sample data loaded. The first contact in the displayed list is `Tan Wei Ming`, with email `tanwm@comp.nus.edu.sg` and Telegram handle `tanwm_nus`. At least two persons are in the list.
 
-    1. Test case: `edit 2 e/johnlim@u.nus.edu`<br>
-       Expected: No changes made. Error details shown indicating a person with this email already exists.
+    1. Test case: `edit 2 e/tanwm@comp.nus.edu.sg`<br>
+        Expected: No changes made. Error details shown indicating a person with this email already exists.
 
-    1. Test case: `edit 2 h/johnlimm`<br>
-       Expected: No changes made. Error details shown indicating a person with this Telegram handle already exists.
+    1. Test case: `edit 2 h/tanwm_nus`<br>
+        Expected: No changes made. Error details shown indicating a person with this Telegram handle already exists.
 
 5. Clearing optional fields
     1. Prerequisites: At least one person in the list with a phone number and Telegram handle.
@@ -1124,7 +1124,7 @@ testers are expected to do more *exploratory* testing.
 
 ### Clearing all tags of a specific type
 
-1. Clearing all tags from a person
+1. Clearing all tags of a specific type from a person
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person have existing general and role tags.
 
@@ -1134,7 +1134,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `cleartag 2 tr/`<br>
       Expected: All the role tags are cleared from the 2nd person in the list. Status message shows the details of the role tags cleared.
 
-1. Clearing all tags from a person where no tags of specified type exist
+1. Clearing all tags of a specific type from a person where no tags of specified type exist
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Ensure both first and second person has no existing tags.
 
