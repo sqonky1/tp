@@ -143,6 +143,8 @@ Non-NUS emails are still accepted, but a warning will be displayed to alert you 
 * Prefixes are case-insensitive.<br>
   e.g. n/NAME and N/NAME are treated the same way.
 
+* Commands are case-insensitive. e.g. ADD, Add, and add are treated the same way.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
@@ -155,6 +157,7 @@ Opens the user guide in the browser, and optionally directly to the section for 
 Alternatively, press `F1` or `fn + F1` to open the user guide.
 
 * `COMMAND` is optional. When provided, it must be a single valid command name (e.g. `add`, `edit`).
+* `COMMAND` is case-insensitive. e.g. `help ADD`, `help Add`, and `help add` are treated the same.
 * If `COMMAND` is provided, the user guide is opened at the section for that command.
 * If `COMMAND` is not a recognised command name, an error is shown listing all valid commands.
 * If more than one word is provided (e.g. `help add clear`), an invalid command format error is shown.
