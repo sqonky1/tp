@@ -195,9 +195,10 @@ Adds a person to the address book.
 * Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
 
 **Identity and warnings**
-* A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle (case-insensitive).
+* A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle.
 * Email must be unique. You cannot add two persons with the same email address.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
+* Emails are treated case-insensitively for duplicate detection. For example, `John@Example.com` and `john@example.com` are considered the same email.
 * Telegram handles are treated case-insensitively for duplicate detection. For example, `handle1` and `HANDLE1` are considered the same handle.
 * If the email is not an NUS domain, the contact is still added, but a warning message is shown.
 
