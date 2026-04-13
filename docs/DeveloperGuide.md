@@ -726,7 +726,7 @@ Use case ends.
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 1000 persons and return search results or complete command executions within 1 second.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. Changes should be implemented incrementally, i.e. in a way that allows the app to be usable after each increment, even if some features are not yet implemented.
 5. All logics and storage should be implemented locally, to ensure testability and usability in secure environments without internet access.
