@@ -102,12 +102,17 @@ Emails should be of the format `local-part@domain` and adhere to the following c
 
 CampusBridge is designed for NUS students and staff. When adding or editing a contact:
 
-| Email domain            | Behavior                                   |
-|-------------------------|--------------------------------------------|
-| `@u.nus.edu` (student)  | No warning                                 |
-| `@nus.edu.sg` (staff)   | No warning                                 |
-| `@*.nus.edu.sg` (staff) | No warning                                 |
-| Other domains           | Warning shown (but contact is still added) |
+| Email domain         | Behavior                                   |
+|----------------------|--------------------------------------------|
+| `@u.nus.edu`         | No warning                                 |
+| `@*.nus.edu`         | No warning                                 |
+| `@nus.edu.sg`        | No warning                                 |
+| `@*.nus.edu.sg`      | No warning                                 |
+| `@duke-nus.edu.sg`   | No warning                                 |
+| `@*.duke-nus.edu.sg` | No warning                                 |
+| `@yale-nus.edu.sg`   | No warning                                 |
+| `@*.yale-nus.edu.sg` | No warning                                 |
+| Other domains        | Warning shown (but contact is still added) |
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
 Non-NUS emails are still accepted, but a warning will be displayed to alert you that the email does not belong to an NUS domain.
