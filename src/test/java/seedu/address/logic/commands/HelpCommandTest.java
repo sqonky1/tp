@@ -19,7 +19,8 @@ public class HelpCommandTest {
     @Test
     public void execute_help_success() {
         CommandResult expectedCommandResult = new CommandResult(
-                SHOWING_HELP_MESSAGE, true, false, HelpCommand.USERGUIDE_URL);
+                SHOWING_HELP_MESSAGE, true, false, HelpCommand.USERGUIDE_URL,
+                HelpCommand.OFFLINE_FALLBACK_GENERAL);
         assertCommandSuccess(new HelpCommand(), model, expectedCommandResult, expectedModel);
     }
 
@@ -27,7 +28,8 @@ public class HelpCommandTest {
     public void execute_helpAdd_success() {
         String expectedUrl = HelpCommand.USERGUIDE_URL + HelpCommand.COMMAND_URL_FRAGMENTS.get("add");
         CommandResult expectedCommandResult = new CommandResult(
-                String.format(HelpCommand.SHOWING_HELP_COMMAND_MESSAGE, "add"), true, false, expectedUrl);
+                String.format(HelpCommand.SHOWING_HELP_COMMAND_MESSAGE, "add"), true, false, expectedUrl,
+                HelpCommand.COMMAND_FALLBACK_MESSAGES.get("add"));
         assertCommandSuccess(new HelpCommand("add"), model, expectedCommandResult, expectedModel);
     }
 

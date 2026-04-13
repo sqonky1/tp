@@ -37,6 +37,10 @@ public class CommandResultTest {
         // different helpUrl value -> returns false
         assertFalse(new CommandResult("feedback", false, false, "url1")
                 .equals(new CommandResult("feedback", false, false, "url2")));
+
+        // different helpFallbackMessage value -> returns false
+        assertFalse(new CommandResult("feedback", false, false, null, "fallback1")
+                .equals(new CommandResult("feedback", false, false, null, "fallback2")));
     }
 
     @Test
@@ -61,7 +65,8 @@ public class CommandResultTest {
         CommandResult commandResult = new CommandResult("feedback");
         String expected = CommandResult.class.getCanonicalName() + "{feedbackToUser="
                 + commandResult.getFeedbackToUser() + ", showHelp=" + commandResult.isShowHelp()
-                + ", exit=" + commandResult.isExit() + ", helpUrl=" + commandResult.getHelpUrl() + "}";
+                + ", exit=" + commandResult.isExit() + ", helpUrl=" + commandResult.getHelpUrl()
+                + ", helpFallbackMessage=" + commandResult.getHelpFallbackMessage() + "}";
         assertEquals(expected, commandResult.toString());
     }
 }

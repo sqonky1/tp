@@ -385,7 +385,7 @@ See the full list on [GitHub](https://github.com/AY2526S2-CS2103-F11-2/tp/issues
 
 **MSS:**
 1. User requests for help.
-2. CampusBridge displays the relevant section of the user guide.
+2. CampusBridge opens the relevant section of the user guide in the browser.
 
 Use case ends.
 
@@ -393,12 +393,17 @@ Use case ends.
 
 * 1a. User provides an unrecognised command name.
   * 1a1. CampusBridge shows an error message indicating the command name does not exist and list all the valid commands.
-  
+
   Use case ends.
 
 * 1b. User provides more than one word.
   * 1b1. CampusBridge shows an error message indicating invalid command format.
-  
+
+  Use case ends.
+
+* 1c. The user guide URL is unreachable (e.g. no internet connection).
+  * 1c1. CampusBridge shows the usage summary for the requested command in the result display.
+
   Use case ends.
 
 
@@ -801,8 +806,8 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `help`<br>
        Expected: The User Guide opens in the system default browser. Status message shows `Opened user guide in browser.`
 
-   1. Alternative: Press `F1` (or `Fn + F1` on Mac).<br>
-      Expected: Same as above.
+    1. Alternative: Press `F1` (or `Fn + F1` on Mac).<br>
+       Expected: Same as above.
 
 1. Opening command-specific help
 
@@ -811,6 +816,16 @@ testers are expected to do more *exploratory* testing.
 
     1. Other valid command names to try: `help list`, `help edit`, `help delete`, `help find`, `help sort`, `help tag`, `help untag`, `help cleartag`, `help clear`, `help exit`<br>
        Expected: The User Guide opens at the respective command section. Status message names the command.
+
+1. Opening help without internet connection
+
+    1. Prerequisites: Disconnect from the internet (disable Wi-Fi or unplug ethernet).
+
+    1. Test case: `help`<br>
+       Expected: The browser does not open. The result display shows a list of all available commands and a prompt to use `help <command>` for details.
+
+    1. Test case: `help add`<br>
+       Expected: The browser does not open. The result display shows the usage summary for the `add` command.
 
 1. Invalid help arguments
 

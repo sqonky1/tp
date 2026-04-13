@@ -152,6 +152,7 @@ Alternatively, press `F1` or `fn + F1` to open the user guide.
 * If `COMMAND` is provided, the user guide is opened at the section for that command.
 * If `COMMAND` is not a recognised command name, an error is shown listing all valid commands.
 * If more than one word is provided (e.g. `help add clear`), an invalid command format error is shown.
+* If the user guide cannot be reached (e.g. no internet connection), the usage summary for the relevant command is shown in the result display instead.
 
 Examples:
 * `help` — opens the user guide in the browser.

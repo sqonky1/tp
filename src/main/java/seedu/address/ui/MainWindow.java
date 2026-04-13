@@ -1,7 +1,9 @@
 package seedu.address.ui;
 
 import java.awt.Desktop;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -166,22 +168,34 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the user guide in the system default browser.
+     * Opens the user guide in the system default browser, or shows an offline fallback in the result display.
      */
     @FXML
     public void handleHelp() {
         resultDisplay.setFeedbackToUser(HelpCommand.SHOWING_HELP_MESSAGE);
-        handleHelpUrl(HelpCommand.USERGUIDE_URL);
+        boolean opened = handleHelpUrl(HelpCommand.USERGUIDE_URL);
+        if (!opened) {
+            resultDisplay.setFeedbackToUser(HelpCommand.OFFLINE_FALLBACK_GENERAL);
+        }
     }
 
     /**
-     * Opens the given URL in the system default browser.
+     * Checks internet connectivity, then opens the given URL in the system default browser.
+     * Returns {@code true} if the URL was opened successfully, {@code false} otherwise.
      */
-    private void handleHelpUrl(String url) {
+    private boolean handleHelpUrl(String url) {
         try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(1000);
+            connection.setReadTimeout(1000);
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            connection.disconnect();
             Desktop.getDesktop().browse(new URI(url));
+            return true;
         } catch (Exception e) {
             logger.warning("Failed to open URL in browser: " + e.getMessage());
+            return false;
         }
     }
 
@@ -216,7 +230,10 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
-                handleHelpUrl(commandResult.getHelpUrl());
+                boolean opened = handleHelpUrl(commandResult.getHelpUrl());
+                if (!opened && commandResult.getHelpFallbackMessage() != null) {
+                    resultDisplay.setFeedbackToUser(commandResult.getHelpFallbackMessage());
+                }
             }
 
             if (commandResult.isExit()) {
