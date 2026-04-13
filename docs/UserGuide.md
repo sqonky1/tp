@@ -199,7 +199,7 @@ Adds a person to the address book.
 * Any unexpected slash-prefixed token is rejected as extra input. This includes prefixes from other commands such as `t/`, `tr/`, `tc/`, `tg/`, `o/`, and `r/`, as well as unknown prefixes such as `x/`.
 
 **Identity and warnings:**
-* A contact is treated as a duplicate if another contact already has the same email, or the same Telegram handle.
+* A contact is treated as a duplicate if another contact already has the same email, or the same non-null Telegram handle.
 * Email must be unique. You cannot add two persons with the same email address.
 * Telegram handle, if provided, must be unique. You cannot add two persons with the same Telegram handle.
 * Emails are treated case-insensitively for duplicate detection. For example, `John@Example.com` and `john@example.com` are considered the same email.

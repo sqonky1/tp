@@ -751,7 +751,7 @@ Use case ends.
 * Command: A text instruction entered by the user (e.g. `add`, `delete`, `edit`) that triggers a specific action in the application.
 * Course: An academic course offered at NUS, identified by a unique course code (e.g. CS2103T, CS2101).
 * Course tag: A type of tag (displayed in blue) used to label a contact with an NUS course code. Its prefix is `tc/`.
-* Duplicate person: A contact is considered a duplicate if another contact already has the same email or the same non-empty Telegram handle. Email and Telegram handle comparisons are case-insensitive.
+* Duplicate person: A contact is considered a duplicate if another contact already has the same email or the same non-null Telegram handle. Email and Telegram handle comparisons are case-insensitive.
 * Filtered view: The subset of contacts currently displayed in the CampusBridge window, which may be limited by an active search (`find` command) or sort order (`sort` command).
 * Fuzzy matching: A search technique used in the `find` command that allows for minor typos or substrings rather than requiring an exact character-for-character match.
 * General tag: A type of tag (displayed in red) for any user-defined label. Its prefix is `tg/`.
