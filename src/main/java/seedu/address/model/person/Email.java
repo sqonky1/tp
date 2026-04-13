@@ -34,9 +34,9 @@ public class Email {
     private static final String DOMAIN_REGEX = "(" + DOMAIN_PART_REGEX + "\\.)*" + DOMAIN_LAST_PART_REGEX;
     public static final String VALIDATION_REGEX = LOCAL_PART_REGEX + "@" + DOMAIN_REGEX;
     private static final String[] NUS_DOMAINS = {
-            ".nus.edu", ".nus.edu.sg", "@nus.edu.sg",
-            ".duke-nus.edu.sg", "@duke-nus.edu.sg",
-            ".yale-nus.edu.sg", "@yale-nus.edu.sg"
+        ".nus.edu", ".nus.edu.sg", "@nus.edu.sg",
+        ".duke-nus.edu.sg", "@duke-nus.edu.sg",
+        ".yale-nus.edu.sg", "@yale-nus.edu.sg"
     };
     public final String value;
 

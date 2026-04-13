@@ -160,6 +160,7 @@ public class EmailTest {
     public void isNusDomain_dukeNusEmail_returnsTrue() {
         assertTrue(new Email("student@u.duke.nus.edu").isNusDomain());
         assertTrue(new Email("prof@duke-nus.edu.sg").isNusDomain());
+        assertTrue(new Email("user@se.duke-nus.edu.sg").isNusDomain());
     }
 
     @Test
