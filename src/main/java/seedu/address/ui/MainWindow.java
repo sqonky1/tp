@@ -186,8 +186,8 @@ public class MainWindow extends UiPart<Stage> {
     private boolean handleHelpUrl(String url) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setConnectTimeout(2000);
-            connection.setReadTimeout(2000);
+            connection.setConnectTimeout(1000);
+            connection.setReadTimeout(1000);
             connection.setRequestMethod("HEAD");
             connection.connect();
             connection.disconnect();
