@@ -88,6 +88,7 @@ Emails should be of the format `local-part@domain` and adhere to the following c
 * Must end with a domain label at least 2 characters long
 * Each domain label must start and end with alphanumeric characters
 * Each domain label must consist of alphanumeric characters, separated only by hyphens, if any
+* Special characters must be separated by alphanumeric characters (e.g. `a.+b` is invalid)
 
 **Examples:**<br/>
 
