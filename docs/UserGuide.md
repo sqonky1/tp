@@ -21,7 +21,8 @@ CampusBridge is a desktop app for **NUS students** to organise and manage academ
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBridge-v1.6.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+
+![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the user guide in the browser.<br>
    Some example commands you can try:
@@ -164,12 +165,14 @@ Alternatively, press `F1` or `fn + F1` to open the user guide.
 * If `COMMAND` is not a recognised command name, an error is shown listing all valid commands.
 * If more than one word is provided (e.g. `help add clear`), an invalid command format error is shown.
 
-Examples:
+**Supported commands:** `help`, `add`, `edit`, `delete`, `untag`, `cleartag`, `list`, `sort`, `find`, `clear`, `exit`
+
+**Examples:**
 * `help` — shows available commands in the result box and opens the user guide in the browser.
 * `help add` — shows the usage message for `add` in the result box and opens the user guide at the **Adding a person** section.
 * `help sort` — shows the usage message for `sort` in the result box and opens the user guide at the **Sorting persons** section.
 
-Supported commands: `help`, `add`, `edit`, `delete`, `untag`, `cleartag`, `list`, `sort`, `find`, `clear`, `exit`
+![result for 'help edit'](images/helpedit.png)
 
 ### Adding a person : `add`
 
@@ -244,9 +247,12 @@ Edits an existing person in the address book.
 * Updated names may contain only letters, numbers, spaces, and these symbols: `(` `)` `.` `-` `,` `'`. <br>
   Other special characters are not supported. In particular, `/` is not accepted because it may be interpreted as command syntax. If needed, replace it with a supported symbol instead, e.g. `D/O` as `D-O`.
 
+
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
 If the updated email is not an [NUS domain](#email-validation), a warning message will be shown. The contact will still be updated.
 </div>
+
+![result for 'edit 1 n/James e/JamesLee@gmail.com p/82901234 h/jamesLEE'](images/editemailwarning.png)
 
 **Examples:**
 *  `edit 1 p/9123 4567 e/johndoe@u.nus.edu`<br/>
@@ -273,7 +279,8 @@ Deletes the specified person from the address book.
   delete 2
   ```
   Deletes the 2nd person in the address book.
-  ![result for 'delete 2'](images/deleteSuccessResult.png)
+
+![result for 'delete 2'](images/deleteSuccessResult.png)
 
 * ```
   find n/Betsy
@@ -317,10 +324,12 @@ Adds the `tutor` role tag, `cs2103` course tag and `helpful` general tag to the 
 
 * `tag 3 tc/cs2101 tg/friends`<br/>
 Adds the `friends` general tag to the 3rd person in the displayed list and shows `cs2101` course tag already exists.
+
 ![result for 'tag 3 tc/cs2101 tg/friends'](images/tagPartialSuccessResult.png)
 
 * `tag 3 tc/cs2103 tc/CS2103`<br/>
 Adds the `cs2103` course tag to the 3rd person in the displayed list. The duplicate `CS2103` is ignored, and the first occurrence's casing (`cs2103`) is preserved.
+
 ![result for 'tag 3 tc/cs2103 tc/CS2103'](images/tagFirstOccurrencePriorityResult.png)
 
 ### Untagging a person : `untag`
@@ -360,6 +369,7 @@ Removes the `tutor` role tag, `cs2103` course tag and `classmates` general tag f
 
 * `untag 3 tc/cs2101 tc/cs2103`<br/>
 Removes both `cs2101` and `cs2103` course tags from the 3rd person in the list.
+
 ![result for 'untag 3 tc/cs2101 tc/cs2103'](images/untagSuccessResult.png)
 
 ### Clearing all tags of a specific type : `cleartag`
@@ -394,13 +404,17 @@ Clears all general tags from the 1st person in the displayed list.
 
 * `cleartag 2 tr/`<br/>
 Clears all role tags from the 2nd person in the displayed list.
+
 ![result for 'cleartag 2 tr/'](images/cleartagSuccessResult.png)
 
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
 
-**Format:** `list`
+**Format:** `list`<br/>
+
+![result for 'list'](images/listresult.png)
+
 
 Alternatively, press `F2` or `fn + F2` to list all contacts.
 
@@ -443,7 +457,7 @@ Resets the list to its default order.
 The sort order stays active until you explicitly reset it (e.g. with `sort o/none` or `list`). Data commands (`add`, `edit`, `delete`, `tag`, `untag`, `cleartag`) do not reset the sort order.
 </div>
 
-### Locating persons by name/email/tag : `find`
+### Locating persons by name / email / tag : `find`
 
 Finds persons whose names, emails, or tags match the given keywords.
 
@@ -489,6 +503,7 @@ Returns all persons whose names **match** `John` (with fuzzy matching support).
 
 * `find n/jon`<br/>
 Returns all persons whose names **match** `jon` (with fuzzy matching support).
+
 ![result for 'find jon'](images/findJonResult.png)
 
 * `find n/alice david`<br/>
@@ -511,6 +526,7 @@ Returns persons whose name **matches** `alex` **and** email **contains** `nus` *
 
 * `find n/alex david`<br/>
 Returns persons whose name **matches** `alex` **or** `david`.
+
 ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Undoing the last action : `undo`
@@ -552,11 +568,17 @@ You can repeatedly use `undo` to step backwards through your previous changes.
   undo
   ```
   Restores the previously deleted person.
+
   ![Initial list before `delete 1`](images/Undo-Initial-List.png)
+
   Initial list before `delete 1`.
+
   ![List after `delete 1`](images/Undo-Deletion.png)
+
   List after `delete 1`.
+
   ![List after `undo`](images/Undo-Undo.png)
+
   List after `undo`, with the deleted person restored.
 * ```
   edit 1 n/Alex Tan
