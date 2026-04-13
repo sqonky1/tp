@@ -953,14 +953,14 @@ testers are expected to do more *exploratory* testing.
 
 1. Invalid delete commands
 
-  1. Test case: `delete`<br>
-     Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+   1. Test case: `delete`<br>
+      Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
 
-  1. Test case: `delete abc`<br>
-     Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
+   1. Test case: `delete abc`<br>
+      Expected: No person deleted. Error details shown in the status message indicating invalid command format and command usage.
 
-  1. Test case: `delete 100` (where 100 is larger than list size)<br>
-     Expected: No person deleted. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
+   1. Test case: `delete 100` (where 100 is larger than list size)<br>
+      Expected: No person deleted. Error details shown in the status message indicating no person exists at that index and tip to use `list` command.
 
 ### Tagging a person
 

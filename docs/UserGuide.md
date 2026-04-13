@@ -246,17 +246,16 @@ Deletes the specified person from the address book.
   * The index **must be a positive integer** 1, 2, 3, …​
 
 **Examples:**
-* Delete by index:
-  * ```
-    list
-    delete 2
-    ```
-    Deletes the 2nd person in the address book.
-  * ```
-    find n/Betsy
-    delete 1
-    ```
-    Deletes the 1st person in the results of the `find` command.
+* ```
+  list
+  delete 2
+  ```
+  Deletes the 2nd person in the address book.
+* ```
+  find n/Betsy
+  delete 1
+  ```
+  Deletes the 1st person in the results of the `find` command.
 
 ### Tagging a person : `tag`
 
