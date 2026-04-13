@@ -170,9 +170,10 @@ Alternatively, press `F1` or `fn + F1` to open the user guide.
 **Examples:**
 * `help` — shows available commands in the result box and opens the user guide in the browser.
 * `help add` — shows the usage message for `add` in the result box and opens the user guide at the **Adding a person** section.
-* `help sort` — shows the usage message for `sort` in the result box and opens the user guide at the **Sorting persons** section.
 
 ![result for 'help add'](images/helpadd.png)
+
+* `help sort` — shows the usage message for `sort` in the result box and opens the user guide at the **Sorting persons** section.
 
 ### Adding a person : `add`
 
