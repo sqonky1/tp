@@ -1445,17 +1445,79 @@ testers are expected to do more *exploratory* testing.
 
 Team size: 6
 
-We identified 5 planned enhancements in total, including several currently unfixable limitations and bugs.
+We identified 12 planned enhancements in total, including several currently unfixable limitations and bugs.
 
 1. Improve copy usability<br>
-   Copying currently requires two clicks because of the existing UI design, which presents information as a panel of cards and fields. Users must first select the card, then select the specific field to copy. A possible future improvement would be to redesign the UI structure so that copying can be done more efficiently.
+   Currently, copying requires two clicks because of the existing UI design, which presents information as a panel of cards and fields. Users must first select the card, then select the specific field to copy. This interrupts the keyboard-centric workflow that CampusBridge is designed for, forcing users to switch from CLI to mouse interaction. We plan to implement a CLI-based copy command that allows users to copy contact information directly from the command line. The command would support copying a specific field (e.g. copy 1 e/ to copy the email of the first contact, copy 1 n/ to copy the name) or copying all visible information of a contact (e.g., copy 1 all). The copied content would be placed into the system clipboard, ready to be pasted elsewhere. This enhancement preserves the CLI-first philosophy of CampusBridge, allowing fast typists to extract contact information without ever touching the mouse.
 
 2. Reduce noise in fuzzy search results<br>
    The current `find` command uses fuzzy search, which can return irrelevant matches. For example, if both *Robert* and *Hubert* exist in the address book, searching for either name may return both entries. A future enhancement would be to prioritise exact matches whenever both exact and fuzzy matches are available.
 
-3. Handle edge cases involving special characters in search<br>
-   The `find` command may behave unexpectedly when search keywords contain special characters. This is more noticeable in some name queries such as `find n/ale\x`. Email and tag searches do not currently provide additional handling for such cases. A future enhancement could introduce clearer validation rules and more consistent handling of special characters across name, email, and tag searches.
+3. Improve handling of special characters in `find` command.<br>
+   Currently, if a special character appears in at least one of the name keywords, case-insensitive substring matching is applied to all keywords, and fuzzy matching is disabled. While this behavior is documented, it may not be intuitive to users. A planned enhancement is to introduce clearer feedback or validation to inform users when special characters affect the matching behavior. Additionally, we aim to explore more flexible handling of special characters in the 3 search fields to better align with user expectations and improve UI.
 
 4. Allow spaces and selected special characters in tags<br>
-   Currently, tags do not support spaces or special characters. We plan to enhance flexibility by allowing spaces and commonly used characters such as hyphens and underscores, making tags more expressive and practical.
+   Currently, tags only support alphanumeric characters (A-Z, a-z, 0-9). This forces users to combine multiple words into a single string (e.g., StudyGroup instead of Study Group) or omit common separators like hyphens and underscores entirely. As a result, tags become less readable, less intuitive to use, and fail to accommodate real-world naming conventions such as cs2103-tutorial-group or study group monday. We plan to enhance tag flexibility by allowing spaces and commonly used separator characters including hyphens (-), underscores (_), and potentially periods (.). For example, after this enhancement, tag 1 tg/study group monday would add a single general tag "study group monday". The existing alphanumeric-only constraint would be relaxed while maintaining tag name uniqueness within each tag type and preserving case-insensitive matching. This makes tags more expressive, practical, and aligned with how users naturally think about categorizing their academic contacts.
+
+5. More inclusive regex for international names
+   Currently, names only allow letters, numbers, spaces, and these symbols: ( ) . - , '. However, in the real word context, names actually contain accented Latin characters (e.g. José) or non-Latin characters (e.g. 日本語). This limits inclusivity for NUS's diverse international students. We plan to improve the current name validation regex such that it includes a pattern that accepts: Any letter character from any language (Unicode Letter category). This directly addresses the real-world diversity of NUS students and professors names while maintaining the application's data integrity and usability.
+
+6. Allow forward slash (/) characters in names
+  Currently, names only allow letters, numbers, spaces, and these symbols: ( ) . - , '. The validation regex explicitly rejects / because it conflicts with the CLI's prefix-based command syntax (e.g. n/NAME, e/EMAIL). This prevents users from accurately entering real names that contain slashes, such as "D/O" (Daughter of) commonly used in official names like "Priya D/O Anandarajah", "S/O" (Son of) similarly common in formal identification, "A/B" for alternative name formats, or abbreviations like "R/C" and "W/O". This creates friction for users who prefer to maintain accurate official contact records. We plan to implement a context-aware parsing strategy that distinguishes between the command's prefix delimiter (a forward slash immediately following a valid prefix like n/, e/, or tg/) and a literal forward slash that appears within a parameter value such as inside a name. For example, after this enhancement, add n/Priya D/O Anandarajah e/priya@u.nus.edu would successfully add the contact with the name "Priya D/O Anandarajah". This enhancement preserves the CLI's prefix-based syntax while removing an unnecessary restriction on real-world name formats that NUS students encounter daily in official records and identification.
+
+7. Support finding and sorting for telegram handles
+   Currently, the `find` and `sort` commands do not support searching or sorting by Telegram handles. This limits the usability of the application for NUS Students who rely on Telegram handles as a primary means of contact. A planned enhancement is to extend the `find` command to allow searching for persons by their Telegram handles. Similarly, the `sort` command will be enhanced to support sorting by Telegram handles.
+
+8. Add country code support for phone numbers
+   The current phone number field does not support country codes, and furthermore, the + character is not allowed in the phone number field. This means users have no way to store international contact numbers with their country code, even informally (e.g., typing +6591234567 will be rejected). We plan to add an optional country code prefix field (e.g., cc/) that can be specified alongside the phone number when adding or editing a contact. <br/>
+    For example:<br/>
+   `add n/John Doe p/91234567 cc/+65 e/john@u.nus.edu`<br/>
+   `edit 1 p/91234567 cc/+44`<br/>
+   If no country code is provided, the field will be left blank and the phone number will be displayed as-is. If a country code is provided, it will be displayed together with the phone number (e.g., +65 91234567).
+
+9. Auto-refresh the contact list to show all contacts after an add command is executed
+   Currently, if a find command returns 0 results and the user subsequently adds a new contact, the displayed list remains empty and does not show the newly added contact. The user has to manually type list to see the updated contact list. This can mislead users into thinking the add command failed.<br/>
+    For example:<br/>
+    `find n/random` - displays 0 persons<br/>
+    `add n/newperson e/newperson@u.nus.edu p/91234567` -  list still shows 0 persons<br/>
+    `list` - newperson appears now<br/>
+    We plan to make the add command automatically reset the displayed list to show all contacts upon successful execution, regardless of what filter was previously applied. This way, the newly added contact will always be visible immediately after adding.
+
+10. Expand and verify the list of accepted NUS email domains to reduce false positives and false negatives
+    The current NUS domain warning system uses the following hardcoded list of accepted NUS email domains that suppress the warning:<br/>
+
+    | Email domain         | Behavior                                   |
+    |----------------------|--------------------------------------------|
+    | `@u.nus.edu`         | No warning                                 |
+    | `@*.nus.edu`         | No warning                                 |
+    | `@nus.edu.sg`        | No warning                                 |
+    | `@*.nus.edu.sg`      | No warning                                 |
+    | `@duke-nus.edu.sg`   | No warning                                 |
+    | `@*.duke-nus.edu.sg` | No warning                                 |
+    | `@yale-nus.edu.sg`   | No warning                                 |
+    | `@*.yale-nus.edu.sg` | No warning                                 |
+    | Other domains        | Warning shown (but contact is still added) |
+
+    This hardcoded list may be incomplete, causing:<br/>
+    False positives: Legitimate NUS-affiliated emails not on this list (e.g., from partner institutions or departments) incorrectly trigger the warning.<br/>
+    False negatives: Non-NUS emails matching a subdomain pattern may be silently accepted without warning.<br/>
+    We plan to liaise with NUS IT to obtain a comprehensive and authoritative list of all official NUS email domains and update the accepted domain list accordingly.
+
+11. Add a maximum length restriction for tags
+    Currently, the app does not impose a maximum length restriction on tags. In the real world, the purpose of tags is to help users quickly categorise and find specific contacts, so tags are naturally meant to be short. While storing a very long tag does not crash the app, corrupt data, or make the app unusable, it does defeat the purpose of tags. We plan to impose a reasonable maximum character limit on tags (e.g., 30 characters) and show an error message if the limit is exceeded. For example:<br/>
+    ```
+     add n/John Doe e/john@u.nus.edu t/thistagiswaytoolongandexceedsthelimit 
+     Error: Tag names should not exceed 30 characters.
+    ```
+
+12. 
+
+
+
+
+
+
+
+
+
 
