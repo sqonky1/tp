@@ -1512,13 +1512,3 @@ We identified 12 planned enhancements in total, including several currently unfi
 
 12. Enforce alphanumeric requirement in name validation
     Currently, the `add` and `edit` commands accept names that consist entirely of special characters such as ... or (((, since the name validation only requires at least one character from the full allowed set (letters, numbers, and ( ) . - , '), rather than specifically requiring at least one letter or number. This means inputs like --- pass validation and are saved as contact names, which is unintended and inconsistent with what the error message tells the user. A future enhancement would be to tighten the validation regex so that at least one alphanumeric character is required, while still allowing names like Prof. O'Brien or Li, Wei-Ming that legitimately combine letters with special characters.
-
-
-
-
-
-
-
-
-
-
