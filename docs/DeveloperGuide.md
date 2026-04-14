@@ -1459,31 +1459,27 @@ We identified 12 planned enhancements in total, including several currently unfi
 4. Allow spaces and selected special characters in tags<br>
    Currently, tags only support alphanumeric characters (A-Z, a-z, 0-9). This forces users to combine multiple words into a single string (e.g., StudyGroup instead of Study Group) or omit common separators like hyphens and underscores entirely. As a result, tags become less readable, less intuitive to use, and fail to accommodate real-world naming conventions such as cs2103-tutorial-group or study group monday. We plan to enhance tag flexibility by allowing spaces and commonly used separator characters including hyphens (-), underscores (_), and potentially periods (.). For example, after this enhancement, `tag 1 tg/study group monday` would add a single general tag "study group monday". The existing alphanumeric-only constraint would be relaxed while maintaining tag name uniqueness within each tag type and preserving case-insensitive matching. This makes tags more expressive, practical, and aligned with how users naturally think about categorizing their academic contacts.
 
-5. More inclusive regex for international names
-   Currently, names only allow letters, numbers, spaces, and these symbols: `( ) . - , '`. However, in the real word context, names actually contain accented Latin characters (e.g. José) or non-Latin characters (e.g. 日本語). This limits inclusivity for NUS's diverse international students. We plan to improve the current name validation regex such that it includes a pattern that accepts: Any letter character from any language (Unicode Letter category). This directly addresses the real-world diversity of NUS students and professors names while maintaining the application's data integrity and usability.
+5. More inclusive regex for international names<br>
+   Currently, names only allow letters, numbers, spaces, and these symbols: `(`, `)`, `.`, `-`, `,`, `'`. However, in the real-world context, names actually contain accented Latin characters (e.g. José) or non-Latin characters (e.g. Chinese characters). This limits inclusivity for NUS's diverse international students. We plan to improve the current name validation regex to accept any letter character from any language (Unicode Letter category). This directly addresses the real-world diversity of NUS students' and professors' names while maintaining the application's data integrity and usability.
 
-6. Allow forward slash (/) characters in names
-  Currently, names only allow letters, numbers, spaces, and these symbols: `( ) . - , '`. The validation regex explicitly rejects / because it conflicts with the CLI's prefix-based command syntax (e.g. `n/NAME`, `e/EMAIL`). This prevents users from accurately entering real names that contain slashes, such as "D/O" (Daughter of) commonly used in official names like "Priya D/O Anandarajah", "S/O" (Son of) similarly common in formal identification, "A/B" for alternative name formats, or abbreviations like "R/C" and "W/O". This creates friction for users who prefer to maintain accurate official contact records. We plan to implement a context-aware parsing strategy that distinguishes between the command's prefix delimiter (a forward slash immediately following a valid prefix like `n/`, `e/`, or `tg/`) and a literal forward slash that appears within a parameter value such as inside a name. For example, after this enhancement, `add n/Priya D/O Anandarajah e/priya@u.nus.edu` would successfully add the contact with the name "Priya D/O Anandarajah". This enhancement preserves the CLI's prefix-based syntax while removing an unnecessary restriction on real-world name formats that NUS students encounter daily in official records and identification.
+6. Allow forward slash (`/`) characters in names<br>
+   Currently, names only allow letters, numbers, spaces, and these symbols: `(`, `)`, `.`, `-`, `,`, `'`. The validation regex explicitly rejects `/`, so users cannot enter real names containing slash-based formats such as "D/O", "S/O", or "W/O". This creates friction for users who want to record names as they appear in official documents. We plan to relax name validation to allow `/` where appropriate. As our CLI uses slash-based prefixes (e.g. `n/`, `e/`), we will ensure the parser continues to distinguish actual command prefixes from slashes that are part of a name. For example, after this enhancement, `add n/Priya D/O Anandarajah e/priya@u.nus.edu` should be accepted.
 
-7. Support finding and sorting for telegram handles
+7. Support finding and sorting for telegram handles<br>
    Currently, the `find` and `sort` commands do not support searching or sorting by Telegram handles. This limits the usability of the application for NUS Students who rely on Telegram handles as a primary means of contact. A planned enhancement is to extend the `find` command to allow searching for persons by their Telegram handles. Similarly, the `sort` command will be enhanced to support sorting by Telegram handles.
 
-8. Add country code support for phone numbers
-   The current phone number field does not support country codes, and furthermore, the + character is not allowed in the phone number field. This means users have no way to store international contact numbers with their country code, even informally (e.g., typing +6591234567 will be rejected). We plan to add an optional country code prefix field (e.g., cc/) that can be specified alongside the phone number when adding or editing a contact. <br/>
-    For example:<br/>
-   `add n/John Doe p/91234567 cc/+65 e/john@u.nus.edu`<br/>
-   `edit 1 p/91234567 cc/+44`<br/>
-   If no country code is provided, the field will be left blank and the phone number will be displayed as-is. If a country code is provided, it will be displayed together with the phone number (e.g., +65 91234567).
+8. Allow phone numbers to include an optional leading `+` country code<br>
+   Currently, phone numbers only allow digits and spaces, so numbers written in common international formats such as `+65 91234567` are rejected. This makes it difficult for users to store overseas or international contacts in a familiar format. We plan to relax phone number validation to allow an optional leading `+` followed by digits and spaces. For example, `add n/John Doe p/+65 91234567 e/john@u.nus.edu` would be accepted. This improves support for international contacts without changing the existing command structure.
 
-9. Auto-refresh the contact list to show all contacts after an add command is executed
-   Currently, if a find command returns 0 results and the user subsequently adds a new contact, the displayed list remains empty and does not show the newly added contact. The user has to manually type list to see the updated contact list. This can mislead users into thinking the add command failed.<br/>
+9. Auto-refresh the contact list to show all contacts after an add command is executed<br>
+   Currently, if a `find` command returns 0 results and the user subsequently adds a new contact, the displayed list remains empty and does not show the newly added contact if the contact does not match the applied search conditions. The user has to manually type `list` to see the updated contact list. This can mislead users into thinking the add command failed.<br/>
     For example:<br/>
     `find n/random` - displays 0 persons<br/>
     `add n/newperson e/newperson@u.nus.edu p/91234567` -  list still shows 0 persons<br/>
     `list` - newperson appears now<br/>
-    We plan to make the add command automatically reset the displayed list to show all contacts upon successful execution, regardless of what filter was previously applied. This way, the newly added contact will always be visible immediately after adding.
+    We plan to make the add command automatically reset the displayed list to show all contacts upon successful execution, regardless of what search term was previously applied. This way, the newly added contact will always be visible immediately after adding.
 
-10. Expand and verify the list of accepted NUS email domains to reduce false positives and false negatives
+10. Expand and verify the list of accepted NUS email domains to reduce false positives and false negatives<br>
     The current NUS domain warning system uses the following hardcoded list of accepted NUS email domains that suppress the warning:<br/>
 
     | Email domain         | Behavior                                   |
@@ -1503,7 +1499,7 @@ We identified 12 planned enhancements in total, including several currently unfi
     False negatives: Non-NUS emails matching a subdomain pattern may be silently accepted without warning.<br/>
     We plan to liaise with NUS IT to obtain a comprehensive and authoritative list of all official NUS email domains and update the accepted domain list accordingly.
 
-11. Add a maximum length restriction for tags
+11. Add a maximum length restriction for tags<br>
     Currently, the app does not impose a maximum length restriction on tags. In the real world, the purpose of tags is to help users quickly categorise and find specific contacts, so tags are naturally meant to be short. While storing a very long tag does not crash the app, corrupt data, or make the app unusable, it does defeat the purpose of tags. We plan to impose a reasonable maximum character limit on tags (e.g., 30 characters) and show an error message if the limit is exceeded. For example:<br/>
     ```
      add n/John Doe e/john@u.nus.edu t/thistagiswaytoolongandexceedsthelimit 
